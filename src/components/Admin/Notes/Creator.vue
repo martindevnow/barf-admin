@@ -2,8 +2,8 @@
     <form @keydown="errors.clear($event.target.name)"
           @submit.prevent=""
     >
-        <div class="row">
-            <h1>Existing Notes</h1>
+        <div class="row" v-if="targeted.model">
+            <h3>Existing Notes</h3>
             <div class="col-sm-12" v-if="targeted.model.comment"></div>
             <div class="col-sm-12" v-for="note in targeted.model.notes">
                 {{ note.content }}

@@ -81,6 +81,7 @@
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
 
     import AdminMealSelector from '../Meals/MealSelector.vue';
+    import * as planActions from "../../../vuex/modules/plans/actionTypes";
 
     export default {
         components: {
@@ -119,7 +120,7 @@
                 })[0];
             },
             deleteReplacement(id) {
-                this.$store.dispatch(planActions.DELETE_MEAL_REPLACEMENT,
+                this.$store.dispatch('plans/' + planActions.DELETE_MEAL_REPLACEMENT,
                     id
                 ).then(response => {
                     alert('Removed');

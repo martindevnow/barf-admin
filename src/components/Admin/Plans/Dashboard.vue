@@ -50,7 +50,7 @@
                 <td>${{ plan.weekly_cost }}</td>
                 <td>
                     <button class="btn btn-default btn-xs"
-                            @click="createNote({ model: plan, type: 'plan' })"
+                            @click="openNoteCreatorModal({ model: plan, type: 'plan' })"
                     >
                         + Note
                     </button>
@@ -87,6 +87,7 @@
         <admin-common-modal v-if="notesShow.creator"
                             @close="closeNoteCreatorModal()"
         >
+            <p slot="header" v-if="! mode">Notes</p>
             <admin-notes-creator @saved="closeNoteCreatorModal()"
                                  @updated="closeNoteCreatorModal()"
                                  @cancelled="closeNoteCreatorModal()"
@@ -181,9 +182,6 @@
             closeNoteCreatorModal() {
                 this.$store.dispatch('notes/' + noteActions.CANCEL)
             },
-            createNote(dto) {
-                this.$store.dispatch('notes/' + noteActions.CREATE, dto);
-            }
         },
         computed: {
             ...mapState('plans', [

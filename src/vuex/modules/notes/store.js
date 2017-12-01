@@ -3,7 +3,7 @@ import mutations from './mutations';
 
 const state = {
     collection: [],
-    targeted: null,
+    targeted: {},
     show: {
         creator: false,
     }

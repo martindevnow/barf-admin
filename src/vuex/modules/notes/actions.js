@@ -3,8 +3,8 @@ import * as mutations from './mutationTypes';
 
 export default {
     [actions.CREATE] ({commit}, targetModel) {
-        commit(mutations.SET_TARGET_MODEL, targetModel);
-        commit(mutations.CREATE_MODE);
+        commit(mutations.CREATE_MODE, targetModel);
+        // commit(mutations.SET_TARGET_MODEL, targetModel);
     },
 
     [actions.SAVE] ({commit}, formData) {
