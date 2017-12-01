@@ -153,13 +153,23 @@ import Datepicker from 'vuejs-datepicker';
 import swal from 'sweetalert2';
 import moment from 'moment';
 import * as orderActions from '../../../vuex/modules/orders/actionTypes';
+import AdminCommonModal from '../Common/Modal.vue';
+import AdminPaymentLogger from './PaymentLogger.vue';
+import AdminPackedLogger from './PackedLogger.vue';
+import AdminShippedLogger from './ShippedLogger.vue';
+import AdminOrderCanceller from './OrderCanceller.vue';
 
 export default {
     mixins: [
         isSortable
     ],
     components: {
-        Datepicker
+        Datepicker,
+        AdminCommonModal,
+        AdminPaymentLogger,
+        AdminPackedLogger,
+        AdminShippedLogger,
+        AdminOrderCanceller,
     },
     data() {
         let columns = [
@@ -276,6 +286,8 @@ export default {
                     });
 
                 });
+            }).catch(cancellation => {
+                swal('Cancelled');
             });
         },
         simpleDate(dateData) {

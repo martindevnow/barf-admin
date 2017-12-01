@@ -119,8 +119,14 @@
     import { mapGetters, mapState, mapActions } from 'vuex';
     import isSortable from '../../../mixins/isSortable';
     import * as packageActions from '../../../vuex/modules/packages/actionTypes';
+    import AdminPackagesCreator from '../Packages/Creator.vue';
+    import AdminMealPlanEditor from '../Packages/MealPlanEditor.vue';
 
     export default {
+        components: {
+            AdminMealPlanEditor,
+            AdminPackagesCreator,
+        },
         mixins: [
             isSortable,
         ],

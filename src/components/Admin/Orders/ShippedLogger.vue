@@ -100,8 +100,12 @@ import hasErrors from '../../../mixins/hasErrors';
 import * as courierActions from "../../../vuex/modules/couriers/actionTypes";
 import * as packageActions from "../../../vuex/modules/packages/actionTypes";
 import * as orderActions from "../../../vuex/modules/orders/actionTypes";
+import AdminPackageSelector from '../Packages/PackageSelector.vue';
 
 export default {
+    components: {
+        AdminPackageSelector
+    },
     mixins: [
         hasErrors
     ],

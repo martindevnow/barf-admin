@@ -80,8 +80,12 @@
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
     import * as packageActions from "../../../vuex/modules/packages/actionTypes";
     import * as packageMutations from "../../../vuex/modules/packages/mutationTypes";
+    import AdminMealSelector from '../Meals/MealSelector.vue';
 
     export default {
+        components: {
+            AdminMealSelector
+        },
         mixins: [
             hasErrors
         ],

@@ -81,8 +81,12 @@
     import { mapGetters, mapState, mapActions } from 'vuex';
     import isSortable from '../../../mixins/isSortable';
     import * as petActions from "../../../vuex/modules/pets/actionTypes";
+    import AdminPetsCreator from '../Pets/Creator.vue';
 
     export default {
+        components: {
+            AdminPetsCreator
+        },
         mixins: [
             isSortable,
         ],

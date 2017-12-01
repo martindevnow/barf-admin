@@ -90,8 +90,12 @@
     import { mapGetters, mapState, mapActions } from 'vuex';
     import isSortable from '../../../mixins/isSortable';
     import * as userActions from '../../../vuex/modules/users/actionTypes';
+    import AdminUsersCreator from '../Users/Creator.vue';
 
     export default {
+        components: {
+            AdminUsersCreator,
+        },
         mixins: [
             isSortable,
         ],

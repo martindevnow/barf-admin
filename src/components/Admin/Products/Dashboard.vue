@@ -80,6 +80,8 @@ import { mapGetters, mapState, mapActions } from 'vuex';
 import isSortable from '../../../mixins/isSortable';
 import * as productActions from "../../../vuex/modules/products/actionTypes";
 
+import AdminProductsCreator from '../Products/Creator.vue';
+
 export default {
     mixins: [
         isSortable,

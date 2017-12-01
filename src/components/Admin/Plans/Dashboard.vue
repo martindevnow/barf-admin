@@ -116,7 +116,16 @@
     import * as planActions from '../../../vuex/modules/plans/actionTypes';
     import * as noteActions from "../../../vuex/modules/notes/actionTypes";
 
+    import AdminPlansCreator from '../Plans/Creator.vue';
+    import AdminNotesCreator from '../Notes/Creator.vue';
+    import AdminPlansMealReplacement from '../Plans/MealReplacement.vue';
+
     export default {
+        components: {
+            AdminPlansCreator,
+            AdminNotesCreator,
+            AdminPlansMealReplacement,
+        },
         mixins: [
             isSortable
         ],

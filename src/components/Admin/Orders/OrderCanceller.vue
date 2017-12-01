@@ -8,8 +8,12 @@
 <script>
     import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
     import * as orderActions from "../../../vuex/modules/orders/actionTypes";
+    import AdminNotesCreator from '../Notes/Creator.vue';
 
     export default {
+        components: {
+
+        },
         data() {
             return {};
         },

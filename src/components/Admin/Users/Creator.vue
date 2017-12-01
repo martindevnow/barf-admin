@@ -192,97 +192,100 @@
     import * as userActions from '../../../vuex/modules/users/actionTypes';
     import * as userMutations from '../../../vuex/modules/users/mutationTypes';
     import * as addressActions from "../../../vuex/modules/addresses/actionTypes";
+    import AdminAddressCreator from '../Addresses/Creator.vue';
 
-export default {
-    mixins: [
-        hasErrors
-    ],
-    components: {},
-    props: ['showAddresses'],
-    data() {
-        return {
-            addAddress: false,
-            form: {
-                name: '',
-                email: '',
-                password: '',
-                first_name: null,
-                last_name: null,
-                phone_number: null,
-            }
-        };
-    },
-    methods: {
-        save() {
-            let vm = this;
-            this.$store.dispatch('users/' + userActions.SAVE,
-                this.form
-            ).then(response => {
-                vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
-            });
+    export default {
+        components: {
+            AdminAddressCreator,
         },
-        update() {
-            let vm = this;
-            this.$store.dispatch('users/' + userActions.UPDATE,
-                this.form
-            ).then(response => {
-                vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
-            });
-        },
-        attachAddress(address) {
-            let vm = this;
-            this.$store.dispatch('users/' + userActions.ATTACH_ADDRESS,
-                address.id
-            ).then(response => {
-                vm.addAddress = false;
-            }).catch(error => {
-                alert('error');
-            });
-        },
-        updateUserAddress(address) {
-            this.$store.commit('users/' + userMutations.UPDATE_ADDRESS_ON_USER, address);
-            this.addAddress = false;
-        },
-        populateFormFromModel(model) {
-            for (let prop in this.form) {
-                if (this.form.hasOwnProperty(prop)) {
-                    this.form[prop] = model[prop];
+        mixins: [
+            hasErrors
+        ],
+        props: ['showAddresses'],
+        data() {
+            return {
+                addAddress: false,
+                form: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    first_name: null,
+                    last_name: null,
+                    phone_number: null,
                 }
+            };
+        },
+        methods: {
+            save() {
+                let vm = this;
+                this.$store.dispatch('users/' + userActions.SAVE,
+                    this.form
+                ).then(response => {
+                    vm.$emit('saved');
+                }).catch(error => {
+                    vm.errors.record(error.response.data.errors);
+                });
+            },
+            update() {
+                let vm = this;
+                this.$store.dispatch('users/' + userActions.UPDATE,
+                    this.form
+                ).then(response => {
+                    vm.$emit('saved');
+                }).catch(error => {
+                    vm.errors.record(error.response.data.errors);
+                });
+            },
+            attachAddress(address) {
+                let vm = this;
+                this.$store.dispatch('users/' + userActions.ATTACH_ADDRESS,
+                    address.id
+                ).then(response => {
+                    vm.addAddress = false;
+                }).catch(error => {
+                    alert('error');
+                });
+            },
+            updateUserAddress(address) {
+                this.$store.commit('users/' + userMutations.UPDATE_ADDRESS_ON_USER, address);
+                this.addAddress = false;
+            },
+            populateFormFromModel(model) {
+                for (let prop in this.form) {
+                    if (this.form.hasOwnProperty(prop)) {
+                        this.form[prop] = model[prop];
+                    }
+                }
+                this.form.password = '';
+            },
+            editAddress(address) {
+                this.addAddress = true;
+                this.$store.dispatch('addresses/' + addressActions.EDIT, address);
+            },
+            deleteAddress(address) {
+                swal('error', 'You shouldnt do that...', 'error');
             }
-            this.form.password = '';
         },
-        editAddress(address) {
-            this.addAddress = true;
-            this.$store.dispatch('addresses/' + addressActions.EDIT, address);
+        computed: {
+            ...mapState('users', [
+                'collection',
+                'mode',
+                'selected',
+                'show',
+            ]),
         },
-        deleteAddress(address) {
-            swal('error', 'You shouldnt do that...', 'error');
-        }
-    },
-    computed: {
-        ...mapState('users', [
-            'collection',
-            'mode',
-            'selected',
-            'show',
-        ]),
-    },
-    mounted() {
-        if (this.mode == 'EDIT') {
-            this.populateFormFromModel(this.selected);
-        }
-    },
-    watch: {
-        selected(newSelected) {
-            if (newSelected)
-                this.populateFormFromModel(newSelected);
+        mounted() {
+            if (this.mode == 'EDIT') {
+                this.populateFormFromModel(this.selected);
+            }
+        },
+        watch: {
+            selected(newSelected) {
+                if (newSelected)
+                    this.populateFormFromModel(newSelected);
+            }
         }
     }
-}
 </script>
 
 <style>

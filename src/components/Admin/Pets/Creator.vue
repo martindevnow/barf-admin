@@ -167,6 +167,7 @@ import Datepicker from 'vuejs-datepicker';
 import { BasicSelect } from 'vue-search-select'
 import * as userActions from "../../../vuex/modules/users/actionTypes";
 import * as petActions from "../../../vuex/modules/pets/actionTypes";
+import AdminUserSelector from '../Users/UserSelector.vue';
 
 export default {
     mixins: [
@@ -174,6 +175,7 @@ export default {
     ],
     components: {
         Datepicker,
+        AdminUserSelector,
     },
     data() {
         return {

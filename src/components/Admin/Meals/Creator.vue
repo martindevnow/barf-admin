@@ -133,7 +133,15 @@ import * as mealActions from '../../../vuex/modules/meats/actionTypes';
 import * as mutations from '../../../vuex/modules/meats/mutationTypes';
 import * as toppingActions from "../../../vuex/modules/toppings/actionTypes";
 
+import AdminToppingSelector from '../Toppings/ToppingSelector.vue';
+import AdminMeatSelector from '../Meats/MeatSelector.vue';
+
+
 export default {
+    components: {
+        AdminToppingSelector,
+        AdminMeatSelector,
+    },
     mixins: [
         hasErrors
     ],

@@ -80,7 +80,12 @@
     import hasErrors from '../../../mixins/hasErrors';
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
 
+    import AdminMealSelector from '../Meals/MealSelector.vue';
+
     export default {
+        components: {
+            AdminMealSelector,
+        },
         mixins: [
             hasErrors
         ],

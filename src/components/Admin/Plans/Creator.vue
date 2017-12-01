@@ -185,12 +185,19 @@ import * as packageActions from '../../../vuex/modules/packages/actionTypes';
 import * as petActions from '../../../vuex/modules/pets/actionTypes';
 import * as planActions from "../../../vuex/modules/plans/actionTypes";
 
+import AdminAddressSelector from '../Addresses/AddressSelector.vue';
+import AdminPackageSelector from '../Packages/PackageSelector.vue';
+import AdminPetSelector from '../Pets/PetSelector.vue';
+
 export default {
     mixins: [
         hasErrors
     ],
     components: {
         Datepicker,
+        AdminAddressSelector,
+        AdminPackageSelector,
+        AdminPetSelector,
     },
     data() {
         return {
