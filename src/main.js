@@ -7,7 +7,7 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 window.axios = require('axios');
 
-axios.defaults.baseURL = 'http://bb2.lan/';
+axios.defaults.baseURL = 'http://barf.dev/';
 
 
 /**

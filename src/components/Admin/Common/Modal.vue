@@ -39,17 +39,16 @@
     import { mapState } from 'vuex';
 
     export default {
-        props: [],
         data() {
             return {};
         },
         mounted() {
             let vm = this;
-            document.addEventListener("keydown", (e) => {
-                if (e.keyCode == 27) {
-                    vm.$emit('close');
-                }
-            });
+//            document.addEventListener("keydown", (e) => {
+//                if (e.keyCode == 27) {
+//                    vm.$emit('close');
+//                }
+//            });
         }
     }
 </script>
