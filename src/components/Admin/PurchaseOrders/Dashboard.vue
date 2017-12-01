@@ -88,11 +88,13 @@ import { mapGetters, mapState, mapActions } from 'vuex';
 import isSortable from '../../../mixins/isSortable';
 import * as purchaseOrderActions from "../../../vuex/modules/purchase-orders/actionTypes";
 
+import AdminCommonModal from '../Common/Modal.vue';
 import AdminOrderedLogger from '../PurchaseOrders/OrderedLogger.vue';
 import AdminReceivedLogger from '../PurchaseOrders/ReceivedLogger.vue';
 
 export default {
     components: {
+        AdminCommonModal,
         AdminOrderedLogger,
         AdminReceivedLogger,
     },

@@ -85,8 +85,14 @@
     import isSortable from '../../../mixins/isSortable';
     import * as mealActions from '../../../vuex/modules/meats/actionTypes';
     import * as mealMutations from '../../../vuex/modules/meats/mutationTypes';
+    import AdminCommonModal from '../Common/Modal.vue';
+    import AdminMealsCreator from '../Meals/Creator.vue';
 
     export default {
+        components: {
+            AdminCommonModal,
+            AdminMealsCreator,
+        },
         mixins: [
             isSortable,
         ],

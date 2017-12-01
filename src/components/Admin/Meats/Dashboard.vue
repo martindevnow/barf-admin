@@ -76,8 +76,14 @@
 import { mapGetters, mapState, mapActions } from 'vuex';
 import isSortable from '../../../mixins/isSortable';
 import * as meatActions from '../../../vuex/modules/meats/actionTypes';
+import AdminCommonModal from '../Common/Modal.vue';
+import AdminMeatsCreator from '../Meats/Creator.vue';
 
 export default {
+    components: {
+        AdminCommonModal,
+        AdminMeatsCreator,
+    },
     mixins: [
         isSortable,
     ],

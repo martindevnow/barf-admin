@@ -116,12 +116,14 @@
     import * as planActions from '../../../vuex/modules/plans/actionTypes';
     import * as noteActions from "../../../vuex/modules/notes/actionTypes";
 
+    import AdminCommonModal from '../Common/Modal.vue';
     import AdminPlansCreator from '../Plans/Creator.vue';
     import AdminNotesCreator from '../Notes/Creator.vue';
     import AdminPlansMealReplacement from '../Plans/MealReplacement.vue';
 
     export default {
         components: {
+            AdminCommonModal,
             AdminPlansCreator,
             AdminNotesCreator,
             AdminPlansMealReplacement,

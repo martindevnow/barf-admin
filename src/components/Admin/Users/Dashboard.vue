@@ -90,10 +90,13 @@
     import { mapGetters, mapState, mapActions } from 'vuex';
     import isSortable from '../../../mixins/isSortable';
     import * as userActions from '../../../vuex/modules/users/actionTypes';
+
+    import AdminCommonModal from '../Common/Modal.vue';
     import AdminUsersCreator from '../Users/Creator.vue';
 
     export default {
         components: {
+            AdminCommonModal,
             AdminUsersCreator,
         },
         mixins: [
