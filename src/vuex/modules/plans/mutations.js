@@ -74,4 +74,13 @@ export default {
         state.show.mealReplacementModal = false;
     },
 
+    [mutations.ADD_NOTE_TO_PLAN] (state, formData) {
+        state.collection = state.collection.map(plan => {
+            if (plan.id === formData.modelId) {
+                plan.notes.push(formData.response.data);
+            }
+            return plan;
+        });
+    },
+
 };

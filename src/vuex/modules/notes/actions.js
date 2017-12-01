@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import * as planMutations from "../plans/mutationTypes";
 
 export default {
     [actions.CREATE] ({commit}, targetModel) {
@@ -12,6 +13,11 @@ export default {
             axios.post('/admin/api/notes',
                 formData
             ).then(response => {
+                // TODO: Add the note to the relevant model
+                if (formData.modelName === 'plan') {
+                    commit('plans/' + planMutations.ADD_NOTE_TO_PLAN,
+                        { ...formData, response }, {root: true});
+                }
                 resolve(response);
             }).catch(error => {
                 reject(error);

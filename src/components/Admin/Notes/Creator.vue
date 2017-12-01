@@ -4,7 +4,7 @@
     >
         <div class="row" v-if="targeted.model">
             <h3>Existing Notes</h3>
-            <div class="col-sm-12" v-if="targeted.model.comment"></div>
+            <div class="col-sm-12" v-if="!! targeted.model.comment"></div>
             <div class="col-sm-12" v-for="note in targeted.model.notes">
                 {{ note.content }}
                 <button class="btn btn-xs btn-danger"
