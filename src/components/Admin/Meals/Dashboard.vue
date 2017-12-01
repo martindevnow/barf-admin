@@ -1,0 +1,145 @@
+<template>
+    <div>
+        <table class="table table-bordered table-responsive table-striped">
+            <thead>
+            <tr>
+                <th v-bind:colspan="numColumns + 1">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                                <input type="text"
+                                       class="form-control"
+                                       v-model="sortable.filterKey"
+                                />
+                                <span class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <button class="btn btn-primary"
+                                    @click="create()"
+                            >
+                                New
+                            </button>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th v-for="key in columns"
+                    @click="sortBy(key)"
+                    :class="{ active: sortable.sortKey == key }">
+                    {{ key | capitalize }}
+                    <span class="fa" :class="sortOrders[key] > 0 ? 'fa-sort-asc' : 'fa-sort-desc'">
+                  </span>
+                </th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="meal in filteredData(collection)">
+                <td>{{ meal.id }}</td>
+                <td>{{ meal.label }}</td>
+                <td>{{ meal.code }}</td>
+                <td>
+                    {{ meal.meats.length ? meal.meats.map(meat => meat.type + ' (' + meat.variety + ')').join(', ') : '' }}
+                </td>
+                <td>
+                    {{ meal.toppings.length ? meal.toppings.map(topping => topping.label).join(', ') : '' }}
+                </td>
+                <td>{{ meal.meal_value }}</td>
+                <td>${{ meal.costPerLb().toFixed(2) }}</td>
+
+                <td>
+                    <button class="btn btn-primary btn-xs"
+                            @click="edit(meal)"
+                    >
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger btn-xs">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <admin-common-modal v-if="show.creator"
+                            @close="closeCreator()"
+        >
+            <p slot="header" v-if="! mode">Add a Meal</p>
+            <p slot="header" v-if="mode == 'EDIT' && selected">Edit Meal: {{ selected.label }}</p>
+            <admin-meals-creator @saved="closeCreator()"
+                                 @updated="closeCreator()"
+                                 @cancelled="closeCreator()"
+                               slot="body"
+            ></admin-meals-creator>
+        </admin-common-modal>
+
+    </div>
+</template>
+
+<script>
+    import { mapGetters, mapState, mapActions } from 'vuex';
+    import isSortable from '../../../mixins/isSortable';
+    import * as mealActions from '../../../vuex/modules/meats/actionTypes';
+    import * as mealMutations from '../../../vuex/modules/meats/mutationTypes';
+
+    export default {
+        mixins: [
+            isSortable,
+        ],
+        data() {
+            let columns = [
+                'id',
+                'label',
+                'code',
+                'meats',
+                'toppings',
+                'meal_value',
+                'costPerLb',
+            ];
+            let numColumns = columns.length;
+            let sortOrders = {};
+            columns.forEach(function(key) {
+                sortOrders[key] = 1;
+            });
+
+            return {
+                columns: columns,
+                numColumns: numColumns,
+                sortOrders: sortOrders
+            }
+        },
+        mounted() {
+            this.fetchAll();
+        },
+        methods: {
+            fetchAll() {
+                this.$store.dispatch('meals/' + mealActions.FETCH_ALL);
+            },
+            create() {
+                this.$store.dispatch('meals/' + mealActions.CREATE);
+            },
+            closeCreator() {
+                this.$store.dispatch('meals/' + mealActions.CANCEL)
+            },
+            edit(model) {
+                this.$store.dispatch('meals/' + mealActions.EDIT, model);
+            },
+        },
+        computed: {
+            ...mapState('meals', [
+                'collection',
+                'show',
+                'selected',
+                'mode'
+            ])
+        }
+    }
+</script>
+
+<style>
+
+</style>
