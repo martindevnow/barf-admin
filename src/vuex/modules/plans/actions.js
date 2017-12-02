@@ -85,10 +85,11 @@ export default {
         });
     },
 
-    [actions.DELETE_MEAL_REPLACEMENT] ({commit}, mr_id) {
+    [actions.DELETE_MEAL_REPLACEMENT] ({commit}, data) {
         return new Promise((resolve, reject) => {
-            axios.delete('/admin/api/mealReplacements/' + mr_id
+            axios.delete('/admin/api/mealReplacements/' + data.mr_id
             ).then(response => {
+                commit(mutations.REMOVE_REPLACEMENT_FROM_PLAN, data);
                 resolve(response);
             }).catch(error => {
                 reject(error);

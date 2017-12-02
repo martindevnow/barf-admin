@@ -2,6 +2,9 @@ import * as mutations from './mutationTypes';
 
 export default {
     [mutations.POPULATE_COLLECTION] (state, data) {
+
+        // TODO: access the packages getter to find the relevant package...
+        // so we don't rely on the plan being this god object
         state.collection = data.map(plan => {
             let pet_name = plan.pet.name + ' (' + plan.pet_weight + ' lb)';
             let customer_name = plan.customer.name;
@@ -87,6 +90,17 @@ export default {
         state.collection = state.collection.map(plan => {
             if (plan.id === data.plan_id) {
                 plan.meal_replacements.push(data);
+            }
+            return plan;
+        })
+    },
+
+    [mutations.REMOVE_REPLACEMENT_FROM_PLAN] (state, {plan_id, mr_id}) {
+        state.collection = state.collection.map(plan => {
+            if (plan.id === plan_id) {
+                plan.meal_replacements = plan.meal_replacements.filter(repl => {
+                    return repl.id !== mr_id;
+                });
             }
             return plan;
         })

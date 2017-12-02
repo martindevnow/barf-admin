@@ -7,10 +7,11 @@
             <div class="col-sm-6">
                 <h3>{{ selected.package.label }} Bento</h3>
                 <!--<div class="row">-->
-                    <button class="btn btn-block btn-xs" disabled
+                    <button v-for="meal in selected.package.meals"
+                            class="btn btn-block btn-xs" disabled
                             :class="{ 'btn-warning': isReplaced(meal),
                              'btn-default': !isReplaced(meal) }"
-                            v-for="meal in selected.package.meals">
+                    >
                         {{ meal.label }} - {{ meal.pivot.calendar_code }}
                     </button>
                 <!--</div>-->
@@ -18,9 +19,12 @@
             <div class="col-sm-6">
                 <h3>Customized for {{ selected.pet.name }}</h3>
                 <!--<div class="row">-->
-                    <button class="btn btn-block btn-xs btn-default" disabled
+                    <button v-for="meal in customMeals"
+                            class="btn btn-block btn-xs btn-default" disabled
+                            :class="{ 'btn-success': meal.subbed,
+                                'btn-default': ! meal.subbed }"
 
-                            v-for="meal in selected.meals">
+                    >
                         {{ meal.label }} - {{ meal.pivot.calendar_code }}
                     </button>
                 <!--</div>-->
@@ -30,11 +34,23 @@
         <div class="row">
             <div class="col-sm-12">
                 <h3>Replacements</h3>
-                <div class="row">
-                    <div class="col-sm-12" v-for="repl in selected.meal_replacements">
-                        {{ getMealById(repl.removed_meal_id).label }} => {{ getMealById(repl.added_meal_id).label }}
+                <div class="row" v-for="repl in selected.meal_replacements">
+                    <div class="col-sm-5">
+                        <button class="btn btn-default btn-xs btn-block" disabled>
+                            {{ getMealById(repl.removed_meal_id).label }}
+                        </button>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-xs btn-block" disabled>=></button>
+                    </div>
+                    <div class="col-sm-5">
+                        <button class="btn btn-default btn-xs btn-block" disabled>
+                            {{ getMealById(repl.added_meal_id).label }}
+                        </button>
+                    </div>
+                    <div class="col-sm-1">
                         <button class="btn btn-xs btn-danger"
-                                @click="deleteReplacement(repl.id)"
+                                @click="deleteReplacement(repl)"
                         >
                             <i class="fa fa-times"></i>
                         </button>
@@ -101,11 +117,12 @@
                     removed_meal: {},
                     added_meal: {},
                 },
+                customMeals: null,
             };
         },
         methods: {
             fetchAll() {
-                this.$store.dispatch('meals/' + mealActions.FETCH_ALL);
+                return this.$store.dispatch('meals/' + mealActions.FETCH_ALL);
             },
             save() {
                 let vm = this;
@@ -114,20 +131,19 @@
                     added_meal_id: vm.form.added_meal.id,
                 }).then(response => {
                     console.log(response);
+                    vm.loadCustomMenu();
+
                     vm.$emit('saved');
                 }).catch(error => {
                     console.log(error);
                 });
             },
-            getMealById(meal_id) {
-                return this.collection.filter(meal => {
-                    return meal.id === meal_id;
-                })[0];
-            },
-            deleteReplacement(id) {
-                this.$store.dispatch('plans/' + planActions.DELETE_MEAL_REPLACEMENT,
-                    id
-                ).then(response => {
+            deleteReplacement(meal_replacement) {
+                this.$store.dispatch('plans/' + planActions.DELETE_MEAL_REPLACEMENT, {
+                    mr_id: meal_replacement.id,
+                    plan_id: meal_replacement.plan_id,
+                }).then(response => {
+                    vm.loadCustomMenu();
                     alert('Removed');
                 }).catch(error => {
                     alert('Error');
@@ -143,14 +159,27 @@
                     return repl.removed_meal_id == meal.id
                 }).length;
             },
-//            isSubstituted(meal) {
-//                if (! this.selected.meal_replacements.length)
-//                    return false;
-//
-//                return this.selected.meal_replacements.filter(repl => {
-//                    return repl.added_meal_id == meal.id
-//                }).length;
-//            }
+            loadCustomMenu() {
+                let vm = this;
+                this.customMeals = this.getPackageById(this.selected.package_id).meals;
+
+                if (! this.selected.meal_replacements.length)
+                    return meals;
+
+                this.selected.meal_replacements.forEach(repl => {
+                    vm.customMeals = vm.customMeals.map(meal => {
+                        if (meal.id === repl.removed_meal_id) {
+                            let newMeal = vm.getMealById(repl.added_meal_id);
+                            newMeal.subbed = true;
+                            newMeal.pivot = { ...meal.pivot };
+                            return newMeal;
+                        }
+
+                        return meal;
+                    });
+                });
+            }
+
         },
         computed: {
             ...mapState('plans', [
@@ -159,10 +188,21 @@
             ]),
             ...mapState('meals', [
                 'collection'
-            ])
+            ]),
+            ...mapGetters('packages', [
+                'getPackageById',
+            ]),
+            ...mapGetters('meals', [
+                'getMealById',
+            ]),
+
         },
         mounted() {
-            this.fetchAll();
+            let vm = this;
+            this.fetchAll().then(() => {
+                vm.loadCustomMenu();
+            });
+
         }
     }
 </script>

@@ -103,9 +103,7 @@
         <admin-common-modal v-if="show.mealReplacementModal"
                             @close="closeMealReplacementModal()"
         >
-            <admin-plans-meal-replacement @saved="closeMealReplacementModal()"
-                                          @updated="closeMealReplacementModal()"
-                                          @cancelled="closeMealReplacementModal()"
+            <admin-plans-meal-replacement @cancelled="closeMealReplacementModal()"
                                           slot="body"
             >
             </admin-plans-meal-replacement>
