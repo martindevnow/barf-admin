@@ -5,26 +5,31 @@
 
         <div class="row">
             <div class="col-sm-6">
-                <h1>{{ selected.package.label }} Bento</h1>
-                <div class="row">
-                    <div class="col-sm-12" v-for="meal in selected.package.meals">
+                <h3>{{ selected.package.label }} Bento</h3>
+                <!--<div class="row">-->
+                    <button class="btn btn-block btn-xs" disabled
+                            :class="{ 'btn-warning': isReplaced(meal),
+                             'btn-default': !isReplaced(meal) }"
+                            v-for="meal in selected.package.meals">
                         {{ meal.label }} - {{ meal.pivot.calendar_code }}
-                    </div>
-                </div>
+                    </button>
+                <!--</div>-->
             </div>
             <div class="col-sm-6">
-                <h1>Customized for {{ selected.pet.name }}</h1>
-                <div class="row">
-                    <div class="col-sm-12" v-for="meal in selected.meals">
+                <h3>Customized for {{ selected.pet.name }}</h3>
+                <!--<div class="row">-->
+                    <button class="btn btn-block btn-xs btn-default" disabled
+
+                            v-for="meal in selected.meals">
                         {{ meal.label }} - {{ meal.pivot.calendar_code }}
-                    </div>
-                </div>
+                    </button>
+                <!--</div>-->
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <h1>Replacements</h1>
+                <h3>Replacements</h3>
                 <div class="row">
                     <div class="col-sm-12" v-for="repl in selected.meal_replacements">
                         {{ getMealById(repl.removed_meal_id).label }} => {{ getMealById(repl.added_meal_id).label }}
@@ -42,12 +47,12 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <h2>Meal to Remove</h2>
+                    <h3>Meal to Remove</h3>
                     <admin-meal-selector v-model="form.removed_meal"></admin-meal-selector>
                 </div>
             </div>
             <div class="col-sm-6">
-                <h2>Meal to Add</h2>
+                <h3>Meal to Add</h3>
                 <admin-meal-selector v-model="form.added_meal"></admin-meal-selector>
             </div>
         </div>
@@ -127,7 +132,25 @@
                 }).catch(error => {
                     alert('Error');
                 });
-            }
+            },
+            isReplaced(meal) {
+                if (! this.selected.meal_replacements.length) {
+                    console.log('no meal replacements');
+                    return false;
+                }
+
+                return this.selected.meal_replacements.filter(repl => {
+                    return repl.removed_meal_id == meal.id
+                }).length;
+            },
+//            isSubstituted(meal) {
+//                if (! this.selected.meal_replacements.length)
+//                    return false;
+//
+//                return this.selected.meal_replacements.filter(repl => {
+//                    return repl.added_meal_id == meal.id
+//                }).length;
+//            }
         },
         computed: {
             ...mapState('plans', [

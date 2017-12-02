@@ -77,6 +77,7 @@ export default {
                 formData
             ).then(response => {
                 // TODO: Add the meal replacement to the plan, so it is updated properly...
+                commit(mutations.ADD_REPLACEMENT_TO_PLAN, response.data);
                 resolve(response);
             }).catch(error => {
                 reject(error);

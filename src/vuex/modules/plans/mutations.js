@@ -83,4 +83,12 @@ export default {
         });
     },
 
+    [mutations.ADD_REPLACEMENT_TO_PLAN] (state, data) {
+        state.collection = state.collection.map(plan => {
+            if (plan.id === data.plan_id) {
+                plan.meal_replacements.push(data);
+            }
+            return plan;
+        })
+    }
 };
