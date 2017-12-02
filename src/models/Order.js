@@ -35,6 +35,7 @@ export const loadOrderFromData = function(data) {
     order.picked        = data.picked;
     order.shipped       = data.shipped;
     order.delivered     = data.delivered;
+    order.cancelled     = data.cancelled;
 
     // Status (int)
     order.weeks_packed      = data.weeks_packed;
