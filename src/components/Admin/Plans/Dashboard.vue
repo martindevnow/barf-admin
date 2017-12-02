@@ -39,7 +39,10 @@
             </thead>
 
             <tbody>
-            <tr v-for="plan in filteredData(collection)" :key="plan.id">
+            <tr v-for="plan in filteredData(collection)"
+                :key="plan.id"
+                :class="{ 'danger': ! plan.active }"
+            >
                 <td>{{ plan.id }}</td>
                 <td>{{ plan.customer_name }}</td>
                 <td>{{ plan.pet_name }}</td>
@@ -64,8 +67,10 @@
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs">
-                        <i class="fa fa-trash"></i>
+                    <button class="btn btn-danger btn-xs"
+                            @click="deactivate(plan)"
+                    >
+                        <i class="fa fa-times"></i>
                     </button>
                 </td>
             </tr>
@@ -182,6 +187,46 @@
             closeNoteCreatorModal() {
                 this.$store.dispatch('notes/' + noteActions.CANCEL)
             },
+            deactivate(plan) {
+                let vm = this;
+                swal({
+                    title: 'Are you sure?',
+                    text: `Are you sure you wish to cancel ${plan.customer.name}'s plan?`,
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Terminate',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Undo'
+                }).then((result) => {
+                    if (! result.value)
+                        return;
+
+                    swal({
+                        title: 'Cancel Orders?',
+                        text: `Should their pending orders be cancelled?`,
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Yes',
+                        cancelButtonColor: '#d33',
+                        cancelButtonText: 'No'
+
+                    }).then((result) => {
+                        let cancel_orders = !! result.value;
+                        vm.$store.dispatch('plans/' + planActions.CANCEL_PLAN, {
+                            plan_id: plan.id,
+                            cancel_orders
+                        }).then(response => {
+                            swal('Success', 'That plan has been cancelled', 'success')
+                        }).catch(error => {
+                            swal('Failed', 'The plan could not be cancelled', 'error');
+                        });
+                    });
+
+
+                })
+            }
         },
         computed: {
             ...mapState('plans', [

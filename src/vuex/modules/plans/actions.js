@@ -48,6 +48,10 @@ export default {
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
+                if (formData.cancel_orders) {
+                    // TODO: Apply this across the Orders/Collection state
+                    console.log('TODO: Apply this across the Orders/Collection state');
+                }
                 resolve(response);
             }).catch(error => {
                 reject(error);
@@ -93,4 +97,17 @@ export default {
             });
         });
     },
+
+    [actions.CANCEL_PLAN] ({commit}, formData) {
+        return new Promise((resolve, reject) => {
+            axios.post('/admin/api/plans/' + formData.plan_id + '/cancel',
+                formData,
+            ).then(response => {
+                commit(mutations.UPDATE_IN_COLLECTION, response.data);
+                resolve(response);
+            }).catch(error => {
+                reject(error);
+            });
+        });
+    }
 };

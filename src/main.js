@@ -7,7 +7,8 @@ import axios from 'axios';
 Vue.config.productionTip = false;
 window.axios = require('axios');
 
-axios.defaults.baseURL = 'http://barf.dev/';
+console.log(process.env.API_BASE);
+axios.defaults.baseURL = process.env.API_BASE + '/';
 
 
 /**
