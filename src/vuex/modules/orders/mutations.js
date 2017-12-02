@@ -15,10 +15,12 @@ export default {
     },
 
     [mutations.UPDATE_IN_COLLECTION] (state, payload) {
-        state.selected = loadOrderFromData({ ...state.selected, ...payload });
+        // TODO: This used to update the selected opject too....
+        // If that is still expected behaviour for any action calling this method,
+        // then it needs to be refactored...
         state.collection = state.collection.map(model => {
-            if (model.id == state.selected.id)
-                return { ...state.selected };
+            if (model.id === payload.id)
+                return loadOrderFromData({ ...model, ...payload});
             return model;
         });
     },

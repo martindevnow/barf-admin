@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import * as orderMutations from "../orders/mutationTypes";
 
 export default {
     [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -48,10 +49,6 @@ export default {
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
-                if (formData.cancel_orders) {
-                    // TODO: Apply this across the Orders/Collection state
-                    console.log('TODO: Apply this across the Orders/Collection state');
-                }
                 resolve(response);
             }).catch(error => {
                 reject(error);
@@ -104,6 +101,13 @@ export default {
                 formData,
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
+                if (formData.cancel_orders) {
+                    response.data.orders
+                        .filter(ord => ord.cancelled)
+                        .forEach(ord => {
+                            commit('orders/' + orderMutations.UPDATE_IN_COLLECTION, ord, { root: true });
+                    });
+                }
                 resolve(response);
             }).catch(error => {
                 reject(error);
