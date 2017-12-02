@@ -75,6 +75,7 @@ export default {
             axios.post('/admin/api/plans/' + state.selected.id + '/replaceMeal',
                 formData
             ).then(response => {
+                // TODO: Add the meal replacement to the plan, so it is updated properly...
                 resolve(response);
             }).catch(error => {
                 reject(error);
