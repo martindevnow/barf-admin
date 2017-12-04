@@ -7,8 +7,13 @@ import OrdersDashboard from '@/components/Admin/Orders/Dashboard.vue'
 import PackagesDashboard from '@/components/Admin/Packages/Dashboard.vue'
 import PetsDashboard from '@/components/Admin/Pets/Dashboard.vue'
 import PlansDashboard from '@/components/Admin/Plans/Dashboard.vue'
+
+import ProductsPage from '@/views/Products.vue';
 import ProductsDashboard from '@/components/Admin/Products/Dashboard.vue'
+import ProductsCreator from '@/components/Admin/Products/Creator.vue';
+
 import PurchaseOrdersDashboard from '@/components/Admin/PurchaseOrders/Dashboard.vue'
+import PurchaseOrdersPage from '@/views/PurchaseOrders.vue';
 import UsersDashboard from '@/components/Admin/Users/Dashboard.vue'
 
 Vue.use(Router)
@@ -53,12 +58,24 @@ export default new Router({
     {
       path: '/products',
       name: 'Products',
-      component: ProductsDashboard
+      component: ProductsDashboard,
+    },
+    {
+      path: '/products/:id/edit',
+      name: 'ProductEdit',
+        component: ProductsPage,
+        children: [
+            {
+                path: '',
+                name: 'ProductEdit',
+                component: ProductsCreator,
+            }
+        ]
     },
     {
       path: '/purchase-orders',
       name: 'PurchaseOrders',
-      component: PurchaseOrdersDashboard
+      component: PurchaseOrdersPage
     },
     {
       path: '/users',
