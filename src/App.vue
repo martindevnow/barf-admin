@@ -2,15 +2,15 @@
   <div id="app">
     <ul>
       <li><router-link :to="'/'">Home</router-link></li>
-      <li><router-link :to="'meals'">Meals</router-link></li>
-      <li><router-link :to="'meats'">Meats</router-link></li>
-      <li><router-link :to="'orders'">Orders</router-link></li>
-      <li><router-link :to="'packages'">Packages</router-link></li>
-      <li><router-link :to="'pets'">Pets</router-link></li>
-      <li><router-link :to="'plans'">Plans</router-link></li>
-      <li><router-link :to="'products'">Products</router-link></li>
-      <li><router-link :to="'purchase-orders'">POs</router-link></li>
-      <li><router-link :to="'users'">Users</router-link></li>
+      <li><router-link :to="'/meals'">Meals</router-link></li>
+      <li><router-link :to="'/meats'">Meats</router-link></li>
+      <li><router-link :to="'/orders'">Orders</router-link></li>
+      <li><router-link :to="'/packages'">Packages</router-link></li>
+      <li><router-link :to="'/pets'">Pets</router-link></li>
+      <li><router-link :to="'/plans'">Plans</router-link></li>
+      <li><router-link :to="'/products'">Products</router-link></li>
+      <li><router-link :to="'/purchase-orders'">POs</router-link></li>
+      <li><router-link :to="'/users'">Users</router-link></li>
     </ul>
     <router-view/>
   </div>
