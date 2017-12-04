@@ -128,7 +128,7 @@ export default {
         },
         editProduct(model) {
             this.$store.dispatch('products/' + productActions.EDIT, model);
-            this.$router.push({ name: 'ProductEdit', params: { id: model.id }});
+            this.$router.push({ name: 'ProductsCreateEdit', params: { id: model.id }});
         },
     },
     computed: {

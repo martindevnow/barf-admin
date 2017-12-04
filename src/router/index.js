@@ -9,6 +9,7 @@ import PetsDashboard from '@/components/Admin/Pets/Dashboard.vue'
 import PlansDashboard from '@/components/Admin/Plans/Dashboard.vue'
 
 import ProductsPage from '@/views/Products.vue';
+import ProductsCreateEditPage from '@/views/Products/CreateEdit.vue';
 import ProductsDashboard from '@/components/Admin/Products/Dashboard.vue'
 import ProductsCreator from '@/components/Admin/Products/Creator.vue';
 
@@ -62,13 +63,13 @@ export default new Router({
     },
     {
       path: '/products/:id/edit',
-      name: 'ProductEdit',
+      // name: 'ProductsCreateEdit',
         component: ProductsPage,
         children: [
             {
                 path: '',
-                name: 'ProductEdit',
-                component: ProductsCreator,
+                name: 'ProductsCreateEdit',
+                component: ProductsCreateEditPage,
             }
         ]
     },
