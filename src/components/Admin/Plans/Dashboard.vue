@@ -78,17 +78,17 @@
         </table>
 
 
-        <admin-common-modal v-if="show.creator"
-                            @close="closePlanCreatorModal()"
-        >
-            <p slot="header" v-if="! mode">Add a Plan</p>
-            <p slot="header" v-if="mode == 'EDIT'">Edit Plan: {{ selected.customer.name }} - {{ selected.pet.name }}</p>
-            <admin-plans-creator @saved="closePlanCreatorModal()"
-                                 @updated="closePlanCreatorModal()"
-                                 @cancelled="closePlanCreatorModal()"
-                                 slot="body"
-            ></admin-plans-creator>
-        </admin-common-modal>
+        <!--<admin-common-modal v-if="show.creator"-->
+                            <!--@close="closePlanCreatorModal()"-->
+        <!--&gt;-->
+            <!--<p slot="header" v-if="! mode">Add a Plan</p>-->
+            <!--<p slot="header" v-if="mode == 'EDIT'">Edit Plan: {{ selected.customer.name }} - {{ selected.pet.name }}</p>-->
+            <!--<admin-plans-creator @saved="closePlanCreatorModal()"-->
+                                 <!--@updated="closePlanCreatorModal()"-->
+                                 <!--@cancelled="closePlanCreatorModal()"-->
+                                 <!--slot="body"-->
+            <!--&gt;</admin-plans-creator>-->
+        <!--</admin-common-modal>-->
         <admin-common-modal v-if="notesShow.creator"
                             @close="closeNoteCreatorModal()"
         >
@@ -165,13 +165,15 @@
                 this.$store.dispatch('packages/' + packageActions.FETCH_ALL);
             },
             openPlanCreatorModal() {
-                this.$store.dispatch('plans/' + planActions.CREATE)
+                this.$store.dispatch('plans/' + planActions.CREATE);
+                this.$router.push({ name: 'PlansCreate'});
             },
             closePlanCreatorModal() {
                 this.$store.dispatch('plans/' + planActions.CANCEL)
             },
             edit(plan) {
                 this.$store.dispatch('plans/' + planActions.EDIT, plan);
+                this.$router.push({ name: 'PlansEdit', params: {id: plan.id} });
             },
             openMealReplacementModal(plan) {
                 this.$store.dispatch('plans/' + planActions.OPEN_MEAL_REPLACEMENT_CREATOR, plan)

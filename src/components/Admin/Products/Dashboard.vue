@@ -60,17 +60,17 @@
             </tbody>
         </table>
 
-        <admin-common-modal v-if="show.creator"
-                            @close="closeProductCreatorModal()"
-        >
-            <p slot="header" v-if="! mode">Add a Product</p>
-            <p slot="header" v-if="mode == 'EDIT' && !! selected">Edit Product: {{ selected.name }}</p>
-            <admin-products-creator @saved="closeProductCreatorModal()"
-                                    @updated="closeProductCreatorModal()"
-                                    @cancelled="closeProductCreatorModal()"
-                                    slot="body"
-            ></admin-products-creator>
-        </admin-common-modal>
+        <!--<admin-common-modal v-if="show.creator"-->
+                            <!--@close="closeProductCreatorModal()"-->
+        <!--&gt;-->
+            <!--<p slot="header" v-if="! mode">Add a Product</p>-->
+            <!--<p slot="header" v-if="mode == 'EDIT' && !! selected">Edit Product: {{ selected.name }}</p>-->
+            <!--<admin-products-creator @saved="closeProductCreatorModal()"-->
+                                    <!--@updated="closeProductCreatorModal()"-->
+                                    <!--@cancelled="closeProductCreatorModal()"-->
+                                    <!--slot="body"-->
+            <!--&gt;</admin-products-creator>-->
+        <!--</admin-common-modal>-->
 
     </div>
 </template>
@@ -122,13 +122,14 @@ export default {
         },
         openProductCreatorModal() {
             this.$store.dispatch('products/' + productActions.CREATE);
+            this.$router.push({ name: 'ProductsCreate'});
         },
-        closeProductCreatorModal() {
-            this.$store.dispatch('products/' + productActions.CANCEL);
-        },
+//        closeProductCreatorModal() {
+//            this.$store.dispatch('products/' + productActions.CANCEL);
+//        },
         editProduct(model) {
             this.$store.dispatch('products/' + productActions.EDIT, model);
-            this.$router.push({ name: 'ProductsCreateEdit', params: { id: model.id }});
+            this.$router.push({ name: 'ProductsEdit', params: { id: model.id }});
         },
     },
     computed: {

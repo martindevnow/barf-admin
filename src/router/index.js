@@ -6,7 +6,11 @@ import MeatsDashboard from '@/components/Admin/Meats/Dashboard.vue'
 import OrdersDashboard from '@/components/Admin/Orders/Dashboard.vue'
 import PackagesDashboard from '@/components/Admin/Packages/Dashboard.vue'
 import PetsDashboard from '@/components/Admin/Pets/Dashboard.vue'
+
+import PlansPage from '@/views/Plans.vue';
+import PlansCreateEditPage from '@/views/Plans/CreateEdit.vue';
 import PlansDashboard from '@/components/Admin/Plans/Dashboard.vue'
+import PlansCreator from '@/components/Admin/Plans/Creator.vue';
 
 import ProductsPage from '@/views/Products.vue';
 import ProductsCreateEditPage from '@/views/Products/CreateEdit.vue';
@@ -57,18 +61,40 @@ export default new Router({
       component: PlansDashboard
     },
     {
+      path: '/plans/create',
+      name: 'PlansCreate',
+      component: PlansCreateEditPage
+    },
+      {
+          path: '/plans/:id/edit',
+          // name: 'PlansEdit',
+          component: PlansPage,
+          children: [
+              {
+                  path: '',
+                  name: 'PlansEdit',
+                  component: PlansCreateEditPage,
+              }
+          ]
+      },
+    {
       path: '/products',
       name: 'Products',
       component: ProductsDashboard,
     },
     {
+      path: '/peroducts/create',
+      name: 'ProductsCreate',
+      component: ProductsCreateEditPage,
+    },
+    {
       path: '/products/:id/edit',
-      // name: 'ProductsCreateEdit',
+      // name: 'ProductsEdit',
         component: ProductsPage,
         children: [
             {
                 path: '',
-                name: 'ProductsCreateEdit',
+                name: 'ProductsEdit',
                 component: ProductsCreateEditPage,
             }
         ]
