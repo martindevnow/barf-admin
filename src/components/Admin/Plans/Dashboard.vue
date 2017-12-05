@@ -177,6 +177,7 @@
             },
             openMealReplacementModal(plan) {
                 this.$store.dispatch('plans/' + planActions.OPEN_MEAL_REPLACEMENT_CREATOR, plan)
+                this.$router.push({ name: 'PlansMealReplacements' });
             },
             closeMealReplacementModal() {
                 this.$store.dispatch('plans/' + planActions.CLOSE_MEAL_REPLACEMENT_CREATOR)

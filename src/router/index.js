@@ -1,25 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HomeDashboard from '@/components/Admin/Dashboard/Dashboard.vue'
-import MealsDashboard from '@/components/Admin/Meals/Dashboard.vue'
-import MeatsDashboard from '@/components/Admin/Meats/Dashboard.vue'
-import OrdersDashboard from '@/components/Admin/Orders/Dashboard.vue'
-import PackagesDashboard from '@/components/Admin/Packages/Dashboard.vue'
-import PetsDashboard from '@/components/Admin/Pets/Dashboard.vue'
+import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
+import MealsDashboard from '../components/Admin/Meals/Dashboard.vue'
+import MeatsDashboard from '../components/Admin/Meats/Dashboard.vue'
+import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
+import PackagesDashboard from '../components/Admin/Packages/Dashboard.vue'
+import PetsDashboard from '../components/Admin/Pets/Dashboard.vue'
 
-import PlansPage from '@/views/Plans.vue';
-import PlansCreateEditPage from '@/views/Plans/CreateEdit.vue';
-import PlansDashboard from '@/components/Admin/Plans/Dashboard.vue'
-import PlansCreator from '@/components/Admin/Plans/Creator.vue';
 
-import ProductsPage from '@/views/Products.vue';
-import ProductsCreateEditPage from '@/views/Products/CreateEdit.vue';
-import ProductsDashboard from '@/components/Admin/Products/Dashboard.vue'
-import ProductsCreator from '@/components/Admin/Products/Creator.vue';
+import PlansPage from '../views/Plans.vue';
+import PlansCreateEditPage from '../views/Plans/CreateEditPage.vue';
+import PlansMealReplacementPage from '../views/Plans/MealReplacementsPage.vue';
+import PlansDashboard from '../components/Admin/Plans/Dashboard.vue'
 
-import PurchaseOrdersDashboard from '@/components/Admin/PurchaseOrders/Dashboard.vue'
-import PurchaseOrdersPage from '@/views/PurchaseOrders.vue';
-import UsersDashboard from '@/components/Admin/Users/Dashboard.vue'
+import ProductsPage from '../views/Products.vue';
+import ProductsCreateEditPage from '../views/Products/CreateEditPage.vue';
+import ProductsDashboard from '../components/Admin/Products/Dashboard.vue'
+
+
+import PurchaseOrdersDashboard from '../components/Admin/PurchaseOrders/Dashboard.vue'
+import PurchaseOrdersPage from '../views/PurchaseOrders.vue';
+import UsersDashboard from '../components/Admin/Users/Dashboard.vue'
 
 Vue.use(Router)
 
@@ -65,17 +66,22 @@ export default new Router({
       name: 'PlansCreate',
       component: PlansCreateEditPage
     },
+    {
+      path: '/plans/:id/edit',
+      // name: 'PlansEdit',
+      component: PlansPage,
+      children: [
+          {
+              path: '',
+              name: 'PlansEdit',
+              component: PlansCreateEditPage,
+          }
+      ]
+    },
       {
-          path: '/plans/:id/edit',
-          // name: 'PlansEdit',
-          component: PlansPage,
-          children: [
-              {
-                  path: '',
-                  name: 'PlansEdit',
-                  component: PlansCreateEditPage,
-              }
-          ]
+          path: '/plans/:id/mealReplacements',
+          name: 'PlansMealReplacements',
+          component: PlansMealReplacementPage,
       },
     {
       path: '/products',
