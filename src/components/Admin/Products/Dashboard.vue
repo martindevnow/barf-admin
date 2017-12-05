@@ -122,14 +122,14 @@ export default {
         },
         openProductCreatorModal() {
             this.$store.dispatch('products/' + productActions.CREATE);
-            this.$router.push({ name: 'ProductsCreate'});
+            this.$router.push({ name: 'ProductCreate'});
         },
 //        closeProductCreatorModal() {
 //            this.$store.dispatch('products/' + productActions.CANCEL);
 //        },
         editProduct(model) {
             this.$store.dispatch('products/' + productActions.EDIT, model);
-            this.$router.push({ name: 'ProductsEdit', params: { id: model.id }});
+            this.$router.push({ name: 'ProductEdit', params: { id: model.id }});
         },
     },
     computed: {
