@@ -1,8 +1,8 @@
 <template>
     <div>
-        <admin-plans-creator @saved="closePlanCreatorModal()"
-                                @updated="closePlanCreatorModal()"
-                                @cancelled="closePlanCreatorModal()"
+        <admin-plans-creator @saved="cancel()"
+                                @updated="cancel()"
+                                @cancelled="cancel()"
         ></admin-plans-creator>
     </div>
 </template>
@@ -18,7 +18,7 @@
             return {};
         },
         methods: {
-            closePlanCreatorModal() {
+            cancel() {
                 this.$store.dispatch('plans/' + planActions.CANCEL);
                 this.$router.push({ name: 'Plans' });
             }

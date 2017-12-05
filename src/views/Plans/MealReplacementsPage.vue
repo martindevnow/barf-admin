@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Replace meals in this pet's meal plan</h1>
-        <admin-plans-meal-replacement @cancelled="closeMealReplacementModal()"
+        <admin-plans-meal-replacement @cancelled="cancel()"
                                       slot="body"
         >
         </admin-plans-meal-replacement>
@@ -19,7 +19,7 @@
             return {};
         },
         methods: {
-            closeMealReplacementModal() {
+            cancel() {
                 this.$store.dispatch('plans/' + planActions.CLOSE_MEAL_REPLACEMENT_CREATOR);
                 this.$router.go(-1);
             },

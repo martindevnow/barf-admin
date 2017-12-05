@@ -1,8 +1,8 @@
 <template>
     <div>
-        <admin-products-creator @saved="closeProductCreatorModal()"
-                                @updated="closeProductCreatorModal()"
-                                @cancelled="closeProductCreatorModal()"
+        <admin-products-creator @saved="cancel()"
+                                @updated="cancel()"
+                                @cancelled="cancel()"
         ></admin-products-creator>
     </div>
 </template>
@@ -18,7 +18,7 @@ export default {
         return {};
     },
     methods: {
-        closeProductCreatorModal() {
+        cancel() {
             this.$store.dispatch('products/' + productActions.CANCEL);
             this.$router.push({ name: 'Products' });
         }
