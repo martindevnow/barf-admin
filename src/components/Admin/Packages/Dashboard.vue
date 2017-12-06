@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-xs-6">
                             <button class="btn btn-primary"
-                                    @click="openPackageCreatorModal()"
+                                    @click="create()"
                             >
                                 New
                             </button>
@@ -71,7 +71,7 @@
                 <td>{{ model.level }}</td>
                 <td>
                     <button class="btn btn-primary btn-xs"
-                            @click="openMealPlanEditorModal(model)"
+                            @click="editMealPlan(model)"
                     >
                         Meals
                     </button>
@@ -89,29 +89,6 @@
             </tr>
             </tbody>
         </table>
-
-        <admin-common-modal v-if="show.creator"
-                            @close="closePackageCreatorModal()"
-        >
-            <p slot="header" v-if="! mode">Add a Package</p>
-            <p slot="header" v-if="mode == 'EDIT'">Edit Package: {{ selected.label }}</p>
-            <admin-packages-creator @saved="closePackageCreatorModal()"
-                                    @updated="closePackageCreatorModal()"
-                                    @cancelled="closePackageCreatorModal()"
-                                    slot="body"
-            ></admin-packages-creator>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.mealPlanEditor"
-                            @close="closeMealPlanEditorModal()"
-        >
-            <p slot="header">Edit Meal Plan for {{ selected.label }} Bento</p>
-            <admin-meal-plan-editor @saved="closeMealPlanEditorModal()"
-                                    @updated="closeMealPlanEditorModal()"
-                                    @cancelled="closeMealPlanEditorModal()"
-                                    slot="body"
-            ></admin-meal-plan-editor>
-        </admin-common-modal>
     </div>
 </template>
 
@@ -162,20 +139,19 @@
             fetchAll() {
                 this.$store.dispatch('packages/' + packageActions.FETCH_ALL);
             },
-            openPackageCreatorModal() {
+            create() {
                 this.$store.dispatch('packages/' + packageActions.CREATE);
+                this.$router.push({ name: 'PackageCreate'});
             },
-            closePackageCreatorModal() {
-                this.$store.dispatch('packages/' + packageActions.CANCEL);
-            },
-            openMealPlanEditorModal(model) {
+
+            editMealPlan(model) {
                 this.$store.dispatch('packages/' + packageActions.OPEN_MEAL_PLAN_EDITOR, model);
+                this.$router.push({ name: 'PackageMealPlanEdit', params: {id: model.id} });
             },
-            closeMealPlanEditorModal() {
-                this.$store.dispatch('packages/' + packageActions.CLOSE_MEAL_PLAN_EDITOR);
-            },
+
             edit(model) {
                 this.$store.dispatch('packages/' + packageActions.EDIT, model);
+                this.$router.push({ name: 'PackageEdit', params: {id: model.id} });
             },
             boolIconClass(val) {
                 if (val)

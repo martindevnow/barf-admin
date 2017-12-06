@@ -65,18 +65,6 @@
             </tbody>
         </table>
 
-        <admin-common-modal v-if="show.creator"
-                            @close="closeCreator()"
-        >
-            <p slot="header" v-if="! mode">Add a Meal</p>
-            <p slot="header" v-if="mode == 'EDIT' && selected">Edit Meal: {{ selected.label }}</p>
-            <admin-meals-creator @saved="closeCreator()"
-                                 @updated="closeCreator()"
-                                 @cancelled="closeCreator()"
-                               slot="body"
-            ></admin-meals-creator>
-        </admin-common-modal>
-
     </div>
 </template>
 
@@ -127,12 +115,11 @@
             },
             create() {
                 this.$store.dispatch('meals/' + mealActions.CREATE);
-            },
-            closeCreator() {
-                this.$store.dispatch('meals/' + mealActions.CANCEL)
+                this.$router.push({ name: 'MealCreate' });
             },
             edit(model) {
                 this.$store.dispatch('meals/' + mealActions.EDIT, model);
+                this.$router.push({ name: 'MealEdit', params: { id: model.id } });
             },
         },
         computed: {

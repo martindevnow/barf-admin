@@ -76,7 +76,7 @@ export default {
             axios.post('/api/login', {email: this.email, password: this.password})
                 .then(function(response) {
                     eventBus.$emit('user-logged-in', response.data.user);
-                    window.location = ('/quote/details/' + vm.cart_hash);
+//                    window.location = ('/quote/details/' + vm.cart_hash);
                 })
                 .catch(function(error) {
                     console.log(error);

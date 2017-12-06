@@ -1,22 +1,28 @@
+// Import the App
 import Vue from 'vue'
+
+// Import Routing
 import Router from 'vue-router'
-import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
-import MealsDashboard from '../components/Admin/Meals/Dashboard.vue'
 
+// Route Riles
+import mealRoutes from './meal-routes';
 import meatRoutes from './meat-routes';
-
-import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
-import PackagesDashboard from '../components/Admin/Packages/Dashboard.vue'
-import PetsDashboard from '../components/Admin/Pets/Dashboard.vue'
-
+import packageRoutes from './package-routes';
+import petRoutes from './pet-routes';
 import planRoutes from './plan-routes';
 import productRoutes from './product-routes';
+import userRoutes from './user-routes';
 
-import PurchaseOrdersDashboard from '../components/Admin/PurchaseOrders/Dashboard.vue'
+// Other Components
+import LoginForm from '../components/Auth/LoginForm.vue';
+
+import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
+import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
 import PurchaseOrdersPage from '../views/PurchaseOrders.vue';
 import UsersDashboard from '../components/Admin/Users/Dashboard.vue'
 
-Vue.use(Router)
+// Add the router to the App
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -25,28 +31,25 @@ export default new Router({
       name: 'Home',
       component: HomeDashboard
     },
-    {
-      path: '/meals',
-      name: 'Meals',
-      component: MealsDashboard
-    },
+      {
+        path: '/login',
+          name: 'Login',
+          component: LoginForm,
+      },
+
+      { ...mealRoutes },
 
       { ...meatRoutes },
+
     {
       path: '/orders',
       name: 'Orders',
       component: OrdersDashboard
     },
-    {
-      path: '/packages',
-      name: 'Packages',
-      component: PackagesDashboard
-    },
-    {
-      path: '/pets',
-      name: 'Pets',
-      component: PetsDashboard
-    },
+
+      { ...packageRoutes },
+
+      { ...petRoutes },
 
       { ...planRoutes },
 
@@ -57,10 +60,7 @@ export default new Router({
       name: 'PurchaseOrders',
       component: PurchaseOrdersPage
     },
-    {
-      path: '/users',
-      name: 'Users',
-      component: UsersDashboard
-    },
+      { ...userRoutes },
+
   ]
 })
