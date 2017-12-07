@@ -123,7 +123,7 @@
             </div>
             <div class="col-sm-6">
                 <label>&nbsp;</label>
-                <button class="btn btn-default btn-block"
+                <button class="btn btn-outline-danger btn-block"
                         @click="$emit('cancelled')"
                 >
                     Cancel
@@ -138,7 +138,7 @@
             <div class="col-sm-12">
                 <div class="row" v-for="address in selected.addresses">
                     <div class="col-xs-10">
-                        <button class="btn btn-default btn-block"
+                        <button class="btn btn-outline-danger btn-block"
                                 @click="editAddress(address)"
                         >
                             <i class="fa fa-pencil"></i>

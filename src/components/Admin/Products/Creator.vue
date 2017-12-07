@@ -133,7 +133,7 @@
             </div>
             <div class="col-sm-6">
                 <label>&nbsp;</label>
-                <button class="btn btn-default btn-block"
+                <button class="btn btn-outline-danger btn-block"
                         @click="$emit('cancelled')"
                 >
                     Cancel

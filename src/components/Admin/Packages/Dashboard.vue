@@ -42,7 +42,7 @@
                 <td>{{ model.label }}</td>
                 <td>{{ model.code }}</td>
                 <td>
-                    <button class="btn btn-circle btn-xs"
+                    <button class="btn btn-circle btn-sm"
                             :class="boolBtnClass(model.active)"
                     >
                         <i class="fa"
@@ -51,7 +51,7 @@
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-circle btn-xs"
+                    <button class="btn btn-circle btn-sm"
                             :class="boolBtnClass(model.public)"
                     >
                         <i class="fa"
@@ -60,7 +60,7 @@
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-circle btn-xs"
+                    <button class="btn btn-circle btn-sm"
                             :class="boolBtnClass(model.customization)"
                     >
                         <i class="fa"
@@ -70,19 +70,19 @@
                 </td>
                 <td>{{ model.level }}</td>
                 <td>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="editMealPlan(model)"
                     >
                         Meals
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="edit(model)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs">
+                    <button class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>

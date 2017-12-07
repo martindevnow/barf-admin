@@ -48,7 +48,7 @@
                 <td>{{ order.plan.weeks_of_food_per_shipment }}</td>
                 <td v-if="orderBeingEdited != order.id">
                     {{ order.deliver_by }}
-                    <button class="btn btn-xs btn-default"
+                    <button class="btn btn-sm btn-outline-danger"
                             @click="orderBeingEdited = order.id"
                     >
                         <i class="fa fa-pencil"></i>
@@ -69,7 +69,7 @@
                 </td>
                 <td v-if="! order.cancelled">
                     <button @click="openPaymentModal(order)"
-                            class="btn btn-xs"
+                            class="btn btn-sm"
                             :class="{
                         'btn-danger': ! order.paid,
                         'btn-success': order.paid
@@ -78,7 +78,7 @@
                         Paid
                     </button>
                     <button @click="openPackedModal(order)"
-                            class="btn btn-xs"
+                            class="btn btn-sm"
                             :class="{
                         'btn-danger': ! order.packed,
                         'btn-success': order.packed
@@ -87,7 +87,7 @@
                         Packed
                     </button>
                     <button @click="openShippedModal(order)"
-                            class="btn btn-xs"
+                            class="btn btn-sm"
                             :class="{
                         'btn-danger': ! order.shipped,
                         'btn-success': order.shipped
@@ -97,7 +97,7 @@
                     </button>
                     <button v-if="! order.shipped"
                             @click="openCancellationModal(order)"
-                            class="btn btn-xs btn-warning"
+                            class="btn btn-sm btn-warning"
                     >
                         Cancel
                     </button>

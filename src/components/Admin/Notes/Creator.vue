@@ -7,7 +7,7 @@
             <div class="col-sm-12" v-if="!! targeted.model.comment"></div>
             <div class="col-sm-12" v-for="note in targeted.model.notes">
                 {{ note.content }}
-                <button class="btn btn-xs btn-danger"
+                <button class="btn btn-sm btn-danger"
                         @click="deleteNote(note.id)"
                 >
                     <i class="fa fa-times"></i>
@@ -41,7 +41,7 @@
             </div>
             <div class="col-sm-6">
                 <label>&nbsp;</label>
-                <button class="btn btn-default btn-block"
+                <button class="btn btn-outline-danger btn-block"
                         @click="$emit('cancelled')"
                 >
                     Cancel

@@ -37,7 +37,7 @@
                 <td>${{ purchaseOrder.total_cost.toFixed(2) }}</td>
                 <td>
                     <button @click="openOrderedModal(purchaseOrder)"
-                            class="btn btn-xs"
+                            class="btn btn-sm"
                             :class="{
                             'btn-danger': ! purchaseOrder.ordered,
                             'btn-success': purchaseOrder.ordered
@@ -46,7 +46,7 @@
                         Ordered
                     </button>
                     <button @click="openReceivedModal(purchaseOrder)"
-                            class="btn btn-xs"
+                            class="btn btn-sm"
                             :class="{
                             'btn-danger': ! purchaseOrder.received,
                             'btn-success': purchaseOrder.received

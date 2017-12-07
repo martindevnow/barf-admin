@@ -8,9 +8,9 @@
                 <h3>{{ selected.package.label }} Bento</h3>
                 <!--<div class="row">-->
                     <button v-for="meal in selected.package.meals"
-                            class="btn btn-block btn-xs" disabled
+                            class="btn btn-block btn-sm" disabled
                             :class="{ 'btn-warning': isReplaced(meal),
-                             'btn-default': !isReplaced(meal) }"
+                             'btn-outline-danger': !isReplaced(meal) }"
                     >
                         {{ meal.label }} - {{ meal.pivot.calendar_code }}
                     </button>
@@ -20,9 +20,9 @@
                 <h3>Customized for {{ selected.pet.name }}</h3>
                 <!--<div class="row">-->
                     <button v-for="meal in customMeals"
-                            class="btn btn-block btn-xs btn-default" disabled
+                            class="btn btn-block btn-sm btn-outline-danger" disabled
                             :class="{ 'btn-success': meal.subbed,
-                                'btn-default': ! meal.subbed }"
+                                'btn-outline-danger': ! meal.subbed }"
 
                     >
                         {{ meal.label }} - {{ meal.pivot.calendar_code }}
@@ -36,20 +36,20 @@
                 <h3>Replacements</h3>
                 <div class="row" v-for="repl in selected.meal_replacements">
                     <div class="col-sm-5">
-                        <button class="btn btn-default btn-xs btn-block" disabled>
+                        <button class="btn btn-outline-danger btn-sm btn-block" disabled>
                             {{ getMealById(repl.removed_meal_id).label }}
                         </button>
                     </div>
                     <div class="col-sm-1">
-                        <button class="btn btn-xs btn-block" disabled>=></button>
+                        <button class="btn btn-sm btn-block" disabled>=></button>
                     </div>
                     <div class="col-sm-5">
-                        <button class="btn btn-default btn-xs btn-block" disabled>
+                        <button class="btn btn-outline-danger btn-sm btn-block" disabled>
                             {{ getMealById(repl.added_meal_id).label }}
                         </button>
                     </div>
                     <div class="col-sm-1">
-                        <button class="btn btn-xs btn-danger"
+                        <button class="btn btn-sm btn-danger"
                                 @click="deleteReplacement(repl)"
                         >
                             <i class="fa fa-times"></i>
@@ -85,7 +85,7 @@
             </div>
             <div class="col-sm-6">
                 <label>&nbsp;</label>
-                <button class="btn btn-default btn-block"
+                <button class="btn btn-outline-danger btn-block"
                         @click="$emit('cancelled')"
                 >
                     Cancel

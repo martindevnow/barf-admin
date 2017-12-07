@@ -49,7 +49,7 @@
                 </button>
             </div>
             <div class="col-sm-6">
-                <button class="btn btn-default btn-block"
+                <button class="btn btn-outline-danger btn-block"
                         @click="$emit('cancelled')"
                 >
                     Cancel

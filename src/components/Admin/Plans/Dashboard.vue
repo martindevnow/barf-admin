@@ -52,22 +52,22 @@
                 <td>{{ plan.weeks_of_food }} / {{ plan.weeks_per_shipment }}</td>
                 <td>${{ plan.weekly_cost }}</td>
                 <td>
-                    <button class="btn btn-default btn-xs"
+                    <button class="btn btn-outline-danger btn-sm"
                             @click="openNoteCreatorModal({ model: plan, type: 'plan' })"
                     >
                         + Note
                     </button>
-                    <button class="btn btn-xs btn-primary"
+                    <button class="btn btn-sm btn-primary"
                             @click="openMealReplacementModal(plan)"
                     >
                         Replace Meal
                     </button>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="edit(plan)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs"
+                    <button class="btn btn-danger btn-sm"
                             @click="deactivate(plan)"
                     >
                         <i class="fa fa-times"></i>

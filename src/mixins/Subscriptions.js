@@ -108,7 +108,7 @@ export default {
                 addresses: [],
             },
             selectedClass: 'btn-primary',
-            defaultClass: 'btn-default',
+            defaultClass: 'btn-outline-danger',
         }
     },
     mounted() {},
