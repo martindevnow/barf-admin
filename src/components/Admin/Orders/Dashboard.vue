@@ -43,9 +43,9 @@
                 <td>{{ order.pet_breed_customer }}</td>
                 <td>{{ order.meal_size }} x {{ order.daily_meals }}</td>
                 <td>
-                    {{ order.plan.package.label }}
+                    {{ order.package_label }}
                 </td>
-                <td>{{ order.plan.weeks_of_food_per_shipment }}</td>
+                <td>{{ order.weeks_of_food }}</td>
                 <td v-if="orderBeingEdited != order.id">
                     {{ order.deliver_by }}
                     <button class="btn btn-sm btn-outline-danger"
