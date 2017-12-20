@@ -1,3 +1,4 @@
+import {resetAuth} from "../models/Auth";
 export default {
     isAuthenticated (state, payload) {
         state.auth.isAuthenticated = payload.isAuthenticated
@@ -9,5 +10,8 @@ export default {
     },
     authUser (state, payload) {
         state.auth.user = {...payload};
+    },
+    logout (state) {
+        state.auth = resetAuth();
     }
 }
