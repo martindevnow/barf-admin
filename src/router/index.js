@@ -15,52 +15,57 @@ import userRoutes from './user-routes';
 
 // Other Components
 import LoginForm from '../components/Auth/LoginForm.vue';
+import LogoutPage from '../components/Auth/LoginForm.vue';
 
 import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
 import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
 import PurchaseOrdersPage from '../views/PurchaseOrders.vue';
-import UsersDashboard from '../components/Admin/Users/Dashboard.vue'
 
 // Add the router to the App
 Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: HomeDashboard
-    },
-      {
-        path: '/login',
-          name: 'Login',
-          component: LoginForm,
-      },
+    routes: [
 
-      { ...mealRoutes },
+        {
+            path: '/',
+            name: 'Home',
+            component: HomeDashboard
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: LoginForm,
+        },
+        {
+            path: '/logout',
+            name: 'Logout',
+            component: LogoutPage,
+        },
 
-      { ...meatRoutes },
+        { ...mealRoutes },
 
-    {
-      path: '/orders',
-      name: 'Orders',
-      component: OrdersDashboard
-    },
+        { ...meatRoutes },
 
-      { ...packageRoutes },
+        {
+            path: '/orders',
+            name: 'Orders',
+            component: OrdersDashboard
+        },
 
-      { ...petRoutes },
+        { ...packageRoutes },
 
-      { ...planRoutes },
+        { ...petRoutes },
 
-      { ...productRoutes },
+        { ...planRoutes },
 
-    {
-      path: '/purchase-orders',
-      name: 'PurchaseOrders',
-      component: PurchaseOrdersPage
-    },
-      { ...userRoutes },
+        { ...productRoutes },
 
-  ]
+        {
+            path: '/purchase-orders',
+            name: 'PurchaseOrders',
+            component: PurchaseOrdersPage
+        },
+        { ...userRoutes },
+    ]
 })

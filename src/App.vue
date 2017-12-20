@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <ul>
+    <ul v-if="auth.isAuthenticated">
       <li><router-link :to="'/'">Home</router-link></li>
       <li><router-link :to="'/meals'">Meals</router-link></li>
       <li><router-link :to="'/meats'">Meats</router-link></li>
@@ -11,14 +11,24 @@
       <li><router-link :to="'/products'">Products</router-link></li>
       <li><router-link :to="'/purchase-orders'">POs</router-link></li>
       <li><router-link :to="'/users'">Users</router-link></li>
+      <li><router-link :to="'/logout'">Logout</router-link></li>
+    </ul>
+    <ul v-if="! auth.isAuthenticated">
+      <li><router-link :to="'/login'">Login</router-link></li>
     </ul>
     <router-view/>
   </div>
 </template>
 
 <script>
+    import {mapState} from "vuex";
 export default {
-  name: 'app'
+    name: 'app',
+    computed: {
+        ...mapState([
+            'auth'
+        ]),
+    },
 }
 </script>
 
