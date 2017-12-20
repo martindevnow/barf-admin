@@ -12,9 +12,6 @@
     export default {
         data() {
             return {
-                toppings: [],
-                address: {},
-                token: '',
             };
         },
         computed: {
@@ -23,14 +20,6 @@
             ]),
         },
         methods: {
-            login() {
-                let username = 'benm@barfbento.com';
-                let password = '123456';
-                let user = {
-                    username, password,
-                };
-                this.$store.dispatch('login', {user});
-            },
         }
     }
 </script>
