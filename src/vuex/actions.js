@@ -1,8 +1,10 @@
 import {VueAuthenticate} from "vue-authenticate";
 import axios from "axios";
 
+const baseUrl = process.env.API_BASE + '/';
+
 const vueAuth = new VueAuthenticate(axios, {
-    baseUrl: 'http://bb-api.dev', // Your API domain
+    baseUrl: baseUrl, // Your API domain
     clientId: '4',
     loginUrl: '/oauth/token',
     redirectUri: 'http://localhost:8080/auth/callback', // Your client app URL
@@ -18,7 +20,7 @@ const vueAuth = new VueAuthenticate(axios, {
                 'client_secret': 'W8yRSIlnH0hST6sPVaqBXDnhHFIP70WtIFMOJcxH',
                 'scope':    '',
             };
-            if (config.url === "http://bb-api.dev/oauth/token") {
+            if (config.url === baseUrl + "oauth/token") {
                 config.data = {...config.data, ...loginFields};
             }
             return config

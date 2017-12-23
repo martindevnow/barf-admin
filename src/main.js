@@ -10,10 +10,11 @@ Vue.config.productionTip = false;
 window.axios = require('axios');
 
 console.log(process.env.API_BASE);
-axios.defaults.baseURL = process.env.API_BASE + '/';
+const baseUrl = process.env.API_BASE + '/';
+axios.defaults.baseURL = baseUrl;
 
 export const vueAuth = new VueAuthenticate(axios, {
-    baseUrl: 'http://bb-api.dev', // Your API domain
+    baseUrl: baseUrl, // Your API domain
     clientId: '4',
     loginUrl: '/oauth/token',
     redirectUri: 'http://localhost:8080/auth/callback', // Your client app URL
@@ -22,7 +23,7 @@ export const vueAuth = new VueAuthenticate(axios, {
 
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, {
-    baseUrl: 'http://bb-api.dev', // Your API domain
+    baseUrl: baseUrl, // Your API domain
     clientId: '4',
     loginUrl: '/oauth/token',
     redirectUri: 'http://localhost:8080/auth/callback', // Your client app URL
@@ -36,7 +37,7 @@ Vue.use(VueAuthenticate, {
                 'client_secret': 'W8yRSIlnH0hST6sPVaqBXDnhHFIP70WtIFMOJcxH',
                 'scope':    '',
             };
-            if (config.url === "http://bb-api.dev/oauth/token") {
+            if (config.url === baseUrl + "oauth/token") {
                 config.data = {...config.data, ...loginFields};
             }
             return config
