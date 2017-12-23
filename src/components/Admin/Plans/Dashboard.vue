@@ -52,22 +52,22 @@
                 <td>{{ plan.weeks_of_food }} / {{ plan.weeks_per_shipment }}</td>
                 <td>${{ plan.weekly_cost }}</td>
                 <td>
-                    <button class="btn btn-default btn-xs"
+                    <button class="btn btn-outline-danger btn-sm"
                             @click="openNoteCreatorModal({ model: plan, type: 'plan' })"
                     >
                         + Note
                     </button>
-                    <button class="btn btn-xs btn-primary"
+                    <button class="btn btn-sm btn-primary"
                             @click="openMealReplacementModal(plan)"
                     >
                         Replace Meal
                     </button>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="edit(plan)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs"
+                    <button class="btn btn-danger btn-sm"
                             @click="deactivate(plan)"
                     >
                         <i class="fa fa-times"></i>
@@ -77,18 +77,6 @@
             </tbody>
         </table>
 
-
-        <admin-common-modal v-if="show.creator"
-                            @close="closePlanCreatorModal()"
-        >
-            <p slot="header" v-if="! mode">Add a Plan</p>
-            <p slot="header" v-if="mode == 'EDIT'">Edit Plan: {{ selected.customer.name }} - {{ selected.pet.name }}</p>
-            <admin-plans-creator @saved="closePlanCreatorModal()"
-                                 @updated="closePlanCreatorModal()"
-                                 @cancelled="closePlanCreatorModal()"
-                                 slot="body"
-            ></admin-plans-creator>
-        </admin-common-modal>
         <admin-common-modal v-if="notesShow.creator"
                             @close="closeNoteCreatorModal()"
         >
@@ -99,14 +87,6 @@
                                  slot="body"
             >
             </admin-notes-creator>
-        </admin-common-modal>
-        <admin-common-modal v-if="show.mealReplacementModal"
-                            @close="closeMealReplacementModal()"
-        >
-            <admin-plans-meal-replacement @cancelled="closeMealReplacementModal()"
-                                          slot="body"
-            >
-            </admin-plans-meal-replacement>
         </admin-common-modal>
     </div>
 </template>
@@ -165,19 +145,16 @@
                 this.$store.dispatch('packages/' + packageActions.FETCH_ALL);
             },
             openPlanCreatorModal() {
-                this.$store.dispatch('plans/' + planActions.CREATE)
-            },
-            closePlanCreatorModal() {
-                this.$store.dispatch('plans/' + planActions.CANCEL)
+                this.$store.dispatch('plans/' + planActions.CREATE);
+                this.$router.push({ name: 'PlanCreate'});
             },
             edit(plan) {
                 this.$store.dispatch('plans/' + planActions.EDIT, plan);
+                this.$router.push({ name: 'PlanEdit', params: {id: plan.id} });
             },
             openMealReplacementModal(plan) {
                 this.$store.dispatch('plans/' + planActions.OPEN_MEAL_REPLACEMENT_CREATOR, plan)
-            },
-            closeMealReplacementModal() {
-                this.$store.dispatch('plans/' + planActions.CLOSE_MEAL_REPLACEMENT_CREATOR)
+                this.$router.push({ name: 'PlanMealReplacements', params: {id: plan.id} });
             },
             openNoteCreatorModal(dto) {
                 this.$store.dispatch('notes/' + noteActions.CREATE, dto)

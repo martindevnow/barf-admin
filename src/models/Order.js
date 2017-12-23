@@ -15,12 +15,16 @@ export const loadOrderFromData = function(data) {
     order.packed_package_id     = data.packed_package_id;
     order.shipped_package_id    = data.shipped_package_id;
 
-    order.plan      = data.plan ? loadPlanFromData(data.plan) : null;
-    order.customer  = data.customer ? loadUserFromData(data.customer) : null;
-    order.deliveryAddress = data.deliveryAddress ? loadAddressFromData(data.deliveryAddress) : null;
+    /*
+     * Don't want to use this any more.. JSON object from API is too big
+     * These can be loaded in by the getter...
+     */
+    order.plan              = data.plan             ? loadPlanFromData(data.plan) : null;
+    order.customer          = data.customer         ? loadUserFromData(data.customer) : null;
+    order.deliveryAddress   = data.deliveryAddress  ? loadAddressFromData(data.deliveryAddress) : null;
 
     // Due Date
-    order.deliver_by             = data.deliver_by;
+    order.deliver_by    = data.deliver_by;
 
     // $
     order.subtotal      = data.subtotal;
@@ -46,10 +50,10 @@ export const loadOrderFromData = function(data) {
     order.delivered_at      = data.delivered_at;
 
     // Calculated
-    order.meal_size             = (data.plan.pet_weight * data.plan.pet_activity_level / data.plan.pet.daily_meals * 454 / 100).toFixed(0);
-    order.daily_meals           = data.plan.pet.daily_meals;
-    order.package_label         = data.plan.package.label;
-    order.pet_breed_customer    = data.plan.pet.name + ' (' + data.plan.pet.breed + ') - ' + data.customer.name;
+    order.meal_size             = (data.pet_weight * data.pet_activity_level / data.pet_daily_meals * 454 / 100).toFixed(0);
+    order.daily_meals           = data.pet_daily_meals;
+    order.package_label         = data.package_label;
+    order.pet_breed_customer    = data.pet_name + ' (' + data.pet_breed + ') - ' + data.customer_name;
     order.deliver_by            = data.deliver_by.slice(0,10);
 
     return order;

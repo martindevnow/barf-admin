@@ -44,12 +44,12 @@
                 <td>{{ meat.code }}</td>
                 <td>${{ meat.cost_per_lb.toFixed(2) }}</td>
                 <td>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="edit(meat)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs">
+                    <button class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
@@ -57,17 +57,17 @@
             </tbody>
         </table>
 
-        <admin-common-modal v-if="show.creator"
-                            @close="closeCreator()"
-        >
-            <p slot="header" v-if="! mode">Add a Meat</p>
-            <p slot="header" v-if="mode == 'EDIT' && selected">Edit Meat: {{ selected.type }} {{ selected.variety }}</p>
-            <admin-meats-creator @saved="closeCreator()"
-                                 @updated="closeCreator()"
-                                 @cancelled="closeCreator()"
-                                 slot="body"
-            ></admin-meats-creator>
-        </admin-common-modal>
+        <!--<admin-common-modal v-if="show.creator"-->
+                            <!--@close="closeCreator()"-->
+        <!--&gt;-->
+            <!--<p slot="header" v-if="! mode">Add a Meat</p>-->
+            <!--<p slot="header" v-if="mode == 'EDIT' && selected">Edit Meat: {{ selected.type }} {{ selected.variety }}</p>-->
+            <!--<admin-meats-creator @saved="closeCreator()"-->
+                                 <!--@updated="closeCreator()"-->
+                                 <!--@cancelled="closeCreator()"-->
+                                 <!--slot="body"-->
+            <!--&gt;</admin-meats-creator>-->
+        <!--</admin-common-modal>-->
 
     </div>
 </template>
@@ -112,12 +112,11 @@ export default {
     methods: {
         create() {
             this.$store.dispatch('meats/' + meatActions.CREATE);
-        },
-        closeCreator() {
-            this.$store.dispatch('meats/' + meatActions.CANCEL)
+            this.$router.push({ name: 'MeatCreate' });
         },
         edit(model) {
             this.$store.dispatch('meats/' + meatActions.EDIT, model);
+            this.$router.push({ name: 'MeatEdit', params: { id: model.id } });
         },
         fetchAll() {
             this.$store.dispatch('meats/' + meatActions.FETCH_ALL);

@@ -36,7 +36,7 @@
 
             <button @click.prevent="register()"
                     type="submit"
-                    class="btn btn-block btn-default"
+                    class="btn btn-block btn-outline-danger"
             >
                 Register
             </button>

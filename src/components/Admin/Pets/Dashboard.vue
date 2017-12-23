@@ -18,7 +18,7 @@
                         </div>
                         <div class="col-xs-6">
                             <button class="btn btn-primary"
-                                    @click="openPetCreatorModal()"
+                                    @click="create()"
                             >
                                 New
                             </button>
@@ -50,30 +50,18 @@
                 <td>{{ pet.daily_meals }}</td>
                 <td>{{ getActivePlanCount(pet) }}</td>
                 <td>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="edit(pet)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs">
+                    <button class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
             </tr>
             </tbody>
         </table>
-
-        <admin-common-modal v-if="show.creator"
-                            @close="closePetCreatorModal()"
-        >
-            <p slot="header" v-if="! mode">Add a Pet</p>
-            <p slot="header" v-if="mode == 'EDIT'">Edit Pet: {{ selected.name }}</p>
-            <admin-pets-creator @saved="closePetCreatorModal()"
-                                @updated="closePetCreatorModal()"
-                                @cancelled="closePetCreatorModal()"
-                                slot="body"
-            ></admin-pets-creator>
-        </admin-common-modal>
     </div>
 </template>
 
@@ -123,14 +111,13 @@
             fetchAll() {
                 this.$store.dispatch('pets/' + petActions.FETCH_ALL);
             },
-            openPetCreatorModal() {
+            create() {
                 this.$store.dispatch('pets/' + petActions.CREATE);
-            },
-            closePetCreatorModal() {
-                this.$store.dispatch('pets/' + petActions.CANCEL);
+                this.$router.push({ name: 'PetCreate' });
             },
             edit(model) {
-                this.$store.dispatch('pets/' + petActions.EDIT, model)
+                this.$store.dispatch('pets/' + petActions.EDIT, model);
+                this.$router.push({ name: 'PetEdit', params: { id: model.id } });
             },
             getActivePlanCount(pet) {
                 return pet.plans.length ? pet.plans.filter((plan) => plan.active == 1).length : 0;

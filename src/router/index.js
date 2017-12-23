@@ -1,69 +1,71 @@
+// Import the App
 import Vue from 'vue'
-import Router from 'vue-router'
-import HomeDashboard from '@/components/Admin/Dashboard/Dashboard.vue'
-import MealsDashboard from '@/components/Admin/Meals/Dashboard.vue'
-import MeatsDashboard from '@/components/Admin/Meats/Dashboard.vue'
-import OrdersDashboard from '@/components/Admin/Orders/Dashboard.vue'
-import PackagesDashboard from '@/components/Admin/Packages/Dashboard.vue'
-import PetsDashboard from '@/components/Admin/Pets/Dashboard.vue'
-import PlansDashboard from '@/components/Admin/Plans/Dashboard.vue'
-import ProductsDashboard from '@/components/Admin/Products/Dashboard.vue'
-import PurchaseOrdersDashboard from '@/components/Admin/PurchaseOrders/Dashboard.vue'
-import UsersDashboard from '@/components/Admin/Users/Dashboard.vue'
 
-Vue.use(Router)
+// Import Routing
+import Router from 'vue-router'
+
+// Route Riles
+import mealRoutes from './meal-routes';
+import meatRoutes from './meat-routes';
+import packageRoutes from './package-routes';
+import petRoutes from './pet-routes';
+import planRoutes from './plan-routes';
+import productRoutes from './product-routes';
+import userRoutes from './user-routes';
+
+// Other Components
+import LoginForm from '../components/Auth/LoginForm.vue';
+import LogoutPage from '../components/Auth/LoginForm.vue';
+
+import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
+import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
+import PurchaseOrdersPage from '../views/PurchaseOrders.vue';
+
+// Add the router to the App
+Vue.use(Router);
 
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: HomeDashboard
-    },
-    {
-      path: '/meals',
-      name: 'Meals',
-      component: MealsDashboard
-    },
-    {
-      path: '/meats',
-      name: 'Meats',
-      component: MeatsDashboard
-    },
-    {
-      path: '/orders',
-      name: 'Orders',
-      component: OrdersDashboard
-    },
-    {
-      path: '/packages',
-      name: 'Packages',
-      component: PackagesDashboard
-    },
-    {
-      path: '/pets',
-      name: 'Pets',
-      component: PetsDashboard
-    },
-    {
-      path: '/plans',
-      name: 'Plans',
-      component: PlansDashboard
-    },
-    {
-      path: '/products',
-      name: 'Products',
-      component: ProductsDashboard
-    },
-    {
-      path: '/purchase-orders',
-      name: 'PurchaseOrders',
-      component: PurchaseOrdersDashboard
-    },
-    {
-      path: '/users',
-      name: 'Users',
-      component: UsersDashboard
-    },
-  ]
+    routes: [
+
+        {
+            path: '/',
+            name: 'Home',
+            component: HomeDashboard
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: LoginForm,
+        },
+        {
+            path: '/logout',
+            name: 'Logout',
+            component: LogoutPage,
+        },
+
+        { ...mealRoutes },
+
+        { ...meatRoutes },
+
+        {
+            path: '/orders',
+            name: 'Orders',
+            component: OrdersDashboard
+        },
+
+        { ...packageRoutes },
+
+        { ...petRoutes },
+
+        { ...planRoutes },
+
+        { ...productRoutes },
+
+        {
+            path: '/purchase-orders',
+            name: 'PurchaseOrders',
+            component: PurchaseOrdersPage
+        },
+        { ...userRoutes },
+    ]
 })

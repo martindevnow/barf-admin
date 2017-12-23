@@ -7,8 +7,8 @@
                 <th>Wks/Shipment</th>
                 <th>
                     Wks to Order
-                    <button class="btn btn-xs btn-primary" @click="defaultPlansToOrder()">Default</button>
-                    <button class="btn btn-xs btn-warning" @click="clearPlansToOrder()">Clear</button>
+                    <button class="btn btn-sm btn-primary" @click="defaultPlansToOrder()">Default</button>
+                    <button class="btn btn-sm btn-warning" @click="clearPlansToOrder()">Clear</button>
                 </th>
             </tr>
             </thead>

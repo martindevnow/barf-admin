@@ -52,6 +52,7 @@
 <script>
 import eventBus from '../../events/eventBus';
 import swal from 'sweetalert2'
+import {mapState} from "vuex";
 
 export default {
     props: ['cart_hash'],
@@ -65,6 +66,11 @@ export default {
             showForm: true,
         }
     },
+    computed: {
+        ...mapState([
+            'auth'
+        ]),
+    },
     methods: {
         loadUser(user) {
             this.user = user;
@@ -73,26 +79,16 @@ export default {
         login() {
             this.loading = true;
             let vm = this;
-            axios.post('/api/login', {email: this.email, password: this.password})
-                .then(function(response) {
-                    eventBus.$emit('user-logged-in', response.data.user);
-                    window.location = ('/quote/details/' + vm.cart_hash);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                    swal('Unable to Login...');
-                });
+            let user = {
+                username: this.email,
+                password: this.password,
+            };
+            this.$store.dispatch('login', {user}).then(response => {
+                vm.$router.push('/');
+            });
             this.loading = false;
         },
     },
-    mounted() {
-    },
-    created() {
-        eventBus.$on('user-logged-in', this.loadUser);
-    },
-    beforeDestroy() {
-        eventBus.$off('user-logged-in', this.loadUser);
-    }
 }
 </script>
 

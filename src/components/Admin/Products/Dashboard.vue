@@ -47,12 +47,12 @@
                 <td>${{ product.price.toFixed(2) }}</td>
                 <td>{{ product.ingredients }}</td>
                 <td>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="editProduct(product)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs">
+                    <button class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
@@ -60,17 +60,17 @@
             </tbody>
         </table>
 
-        <admin-common-modal v-if="show.creator"
-                            @close="closeProductCreatorModal()"
-        >
-            <p slot="header" v-if="! mode">Add a Product</p>
-            <p slot="header" v-if="mode == 'EDIT' && !! selected">Edit Product: {{ selected.name }}</p>
-            <admin-products-creator @saved="closeProductCreatorModal()"
-                                    @updated="closeProductCreatorModal()"
-                                    @cancelled="closeProductCreatorModal()"
-                                    slot="body"
-            ></admin-products-creator>
-        </admin-common-modal>
+        <!--<admin-common-modal v-if="show.creator"-->
+                            <!--@close="closeProductCreatorModal()"-->
+        <!--&gt;-->
+            <!--<p slot="header" v-if="! mode">Add a Product</p>-->
+            <!--<p slot="header" v-if="mode == 'EDIT' && !! selected">Edit Product: {{ selected.name }}</p>-->
+            <!--<admin-products-creator @saved="closeProductCreatorModal()"-->
+                                    <!--@updated="closeProductCreatorModal()"-->
+                                    <!--@cancelled="closeProductCreatorModal()"-->
+                                    <!--slot="body"-->
+            <!--&gt;</admin-products-creator>-->
+        <!--</admin-common-modal>-->
 
     </div>
 </template>
@@ -122,12 +122,14 @@ export default {
         },
         openProductCreatorModal() {
             this.$store.dispatch('products/' + productActions.CREATE);
+            this.$router.push({ name: 'ProductCreate'});
         },
-        closeProductCreatorModal() {
-            this.$store.dispatch('products/' + productActions.CANCEL);
-        },
+//        closeProductCreatorModal() {
+//            this.$store.dispatch('products/' + productActions.CANCEL);
+//        },
         editProduct(model) {
             this.$store.dispatch('products/' + productActions.EDIT, model);
+            this.$router.push({ name: 'ProductEdit', params: { id: model.id }});
         },
     },
     computed: {

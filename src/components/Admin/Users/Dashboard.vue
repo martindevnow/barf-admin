@@ -1,20 +1,5 @@
 <template>
     <div>
-        <div class="" v-if="show.creator">
-            <div class="row">
-
-                <div class="col-sm-12">
-                    <h1>User</h1>
-                    <admin-users-creator @saved="closeCreator()"
-                                         @cancelled="closeCreator()"
-                                         slot="body"
-                                         :showAddresses="mode == 'EDIT'"
-                    ></admin-users-creator>
-                </div>
-            </div>
-        </div>
-
-
         <table class="table table-bordered table-responsive table-striped">
             <thead>
             <tr>
@@ -58,31 +43,18 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.getPets() }}</td>
                 <td>
-                    <button class="btn btn-primary btn-xs"
+                    <button class="btn btn-primary btn-sm"
                             @click="edit(user)"
                     >
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger btn-xs">
+                    <button class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i>
                     </button>
                 </td>
             </tr>
             </tbody>
         </table>
-
-        <admin-common-modal v-if="show.creator && false"
-                            @close="closeCreator()"
-        >
-            <p slot="header" v-if="! mode">Add a User</p>
-            <p slot="header" v-if="mode == 'EDIT' && selected">Edit User: {{ selected.name }}</p>
-            <admin-users-creator @saved="closeCreator()"
-                                 @updated="closeCreator()"
-                                 @cancelled="closeCreator()"
-                                 slot="body"
-                                 :showAddresses="mode == 'EDIT'"
-            ></admin-users-creator>
-        </admin-common-modal>
     </div>
 </template>
 
@@ -126,16 +98,15 @@
         },
         methods: {
             fetchAll() {
-                this.$store.dispatch('users/' + userActions.FETCH_ALL)
+                this.$store.dispatch('users/' + userActions.FETCH_ALL);
             },
             create() {
                 this.$store.dispatch('users/' + userActions.CREATE);
-            },
-            closeCreator() {
-                this.$store.dispatch('users/' + userActions.CANCEL)
+                this.$router.push({ name: 'UserCreate' });
             },
             edit(model) {
                 this.$store.dispatch('users/' + userActions.EDIT, model);
+                this.$router.push({ name: 'UserEdit', params: { id: model.id } });
             }
         },
         computed: {
