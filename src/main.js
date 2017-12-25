@@ -34,7 +34,7 @@ Vue.use(VueAuthenticate, {
             let loginFields = {
                 'grant_type': 'password',
                 'client_id': '4',
-                'client_secret': 'W8yRSIlnH0hST6sPVaqBXDnhHFIP70WtIFMOJcxH',
+                'client_secret': 'x6IF4L3AYVEc6zoLBk2kUAOthwuCrYNckD8JhhaQ',
                 'scope':    '',
             };
             if (config.url === baseUrl + "oauth/token") {
