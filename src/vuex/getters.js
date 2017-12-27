@@ -1,6 +1,3 @@
-import {VueAuthenticate} from "vue-authenticate";
-import {vueAuth} from '../main';
-
-export const isAuthenticated = () => {
-    return vueAuth.isAuthenticated()
+export const isAuthenticated = (state) => {
+    return state.auth.isAuthenticated;
 };

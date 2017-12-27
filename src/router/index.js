@@ -15,7 +15,7 @@ import userRoutes from './user-routes';
 
 // Other Components
 import LoginForm from '../components/Auth/LoginForm.vue';
-import LogoutPage from '../components/Auth/LoginForm.vue';
+import LogoutPage from '../views/LogoutPage.vue';
 
 import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
 import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
