@@ -11,7 +11,23 @@ export default {
     authUser (state, payload) {
         state.auth.user = {...payload};
     },
-    logout (state) {
+    persistUser(state, app) {
+        console.log('persisting user...');
+        console.log(state.auth);
+        app.$ls.set('auth', state.auth);
+    },
+    logout (state, app) {
         state.auth = resetAuth();
-    }
+        app.$ls.remove('auth');
+    },
+    loadUser (state, app) {
+        let auth = app.$ls.get('auth', null);
+        console.log('loading user...');
+        console.log({auth});
+        if (auth) {
+            state.auth = auth;
+        }
+        axios.defaults.headers.common['Authorization'] =
+            auth.token_type + ' ' + auth.access_token;
+    },
 }

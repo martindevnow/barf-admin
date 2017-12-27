@@ -25,6 +25,10 @@
         <button class="btn btn-primary"
                 @click="calculate()"
         >Calculate</button>
+        <button class="btn btn-warning"
+                @click="clearOrder()"
+        >Clear</button>
+
 
         <table class="table table-bordered table-striped">
             <tbody>
@@ -168,7 +172,8 @@
                     return meal;
                 });
             },
-            addMeatToOrder(meat_id, meat_weight_g) {
+            addMeatToOrder(meat_id, meat_weight_g, num_weeks = 1) {
+                console.log({meat_id, meat_weight_g, num_weeks});
                 this.meatsToOrder = this.meatsToOrder.map(meat => {
                     if (meat.id === meat_id) {
                         meat.weightToOrder = (meat.weightToOrder ? meat.weightToOrder : 0)
@@ -188,23 +193,30 @@
                 this.populatePlansToOrder();
             },
             calculate() {
+                this.clearOrder();
                 let vm = this;
                 let orderingPlans = this.plansToOrder.filter(plan => plan.weeksToOrder);
                 orderingPlans.forEach(plan => {
                     plan.meals.forEach(meal => {
                         meal.meats.forEach(meat => {
-                            let meat_weight = vm.getMealSize(plan.pet_weight, plan.pet_activity_level);
+                            let meal_weight = vm.getMealSize(plan.pet_weight, plan.pet_activity_level);
                             if (plan.pet.daily_meals == 3) {
                                 if (vm.isBreakfast(meal)) {
-                                    meat_weight = meat_weight * 2 / 3 * 2; //
+                                    meal_weight = meal_weight * 2 / 3 * 2; //
                                 } else {
-                                    meat_weight = meat_weight * 2 / 3; //   1/2 ->  2/2 -> 2/6 -> 1/3
+                                    meal_weight = meal_weight * 2 / 3; //   1/2 ->  2/2 -> 2/6 -> 1/3
                                 }
                             }
-                            vm.addMeatToOrder(meat.id, meat_weight);
+                            let meat_weight = meal_weight / meal.meats.length;
+                            vm.addMeatToOrder(meat.id, meat_weight, plan.weeksToOrder);
                         });
                     });
                 });
+            },
+            clearOrder() {
+                this.clearPackagesToOrder();
+                this.clearMealsToOrder();
+                this.clearMeatsToOrder();
             }
         },
         computed: {

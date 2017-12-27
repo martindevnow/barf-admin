@@ -22,14 +22,18 @@
 
 <script>
     import {mapState} from "vuex";
-export default {
-    name: 'app',
-    computed: {
-        ...mapState([
-            'auth'
-        ]),
-    },
-}
+    export default {
+        name: 'app',
+        computed: {
+            ...mapState([
+                'auth'
+            ]),
+        },
+        created() {
+          console.log('App created');
+          this.$store.commit('loadUser', this);
+        }
+    }
 </script>
 
 <style>

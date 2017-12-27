@@ -9,20 +9,24 @@ export default {
             context.commit('isAuthenticated', {
                 isAuthenticated: true,
             });
-            context.dispatch('fetchAuthenticatedUser');
-        })
+            context.dispatch('fetchAuthenticatedUser', payload.app);
+        });
     },
-    fetchAuthenticatedUser (context, payload) {
+    fetchAuthenticatedUser (context, app) {
         axios.get('/api/user').then(response => {
             context.commit('authUser', response.data);
+            context.commit('persistUser', app);
         }).catch(error => {
             console.log(error);
         })
     },
-    logout (context) {
+    logout (context, app) {
         return new Promise((resolve, reject) => {
-            context.commit('logout');
+            context.commit('logout', app);
             resolve();
         });
+    },
+    loadUserFromLocalStorage(context, app) {
+        context.commit('loadUser', app);
     }
 }

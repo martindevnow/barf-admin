@@ -83,7 +83,7 @@ export default {
                 username: this.email,
                 password: this.password,
             };
-            this.$store.dispatch('login', {user}).then(response => {
+            this.$store.dispatch('login', {user, app: this}).then(response => {
                 vm.$router.push('/');
             });
             this.loading = false;
