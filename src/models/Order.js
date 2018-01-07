@@ -50,10 +50,10 @@ export const loadOrderFromData = function(data) {
     order.delivered_at      = data.delivered_at;
 
     // Calculated
-    order.meal_size             = (data.pet_weight * data.pet_activity_level / data.pet_daily_meals * 454 / 100).toFixed(0);
-    order.daily_meals           = data.pet_daily_meals;
+    order.meal_size             = (data.plan.pet_weight * data.plan.pet_activity_level / data.plan.pet.daily_meals * 454 / 100).toFixed(0);
+    order.daily_meals           = data.plan.pet.daily_meals;
     order.package_label         = data.package_label;
-    order.pet_breed_customer    = data.pet_name + ' (' + data.pet_breed + ') - ' + data.customer_name;
+    order.pet_breed_customer    = data.plan.pet.name + ' (' + data.plan.pet.breed + ') - ' + data.customer.name;
     order.deliver_by            = data.deliver_by.slice(0,10);
 
     return order;

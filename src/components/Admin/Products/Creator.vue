@@ -111,6 +111,24 @@
                     <span class="help-block">{{ errors.get('ingredients') }}</span>
                 </div>
             </div>
+            <div class="col-sm-6">
+            <div class="form-group"
+                 :class="{ 'has-error': errors.has('active') }"
+            >
+              <label>Status</label>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox"
+                         class="checkbox style-0"
+                         name="active"
+                         id="active"
+                         v-model="form.active">
+                  <span>Active</span>
+                </label>
+              </div>
+              <span class="help-block">{{ errors.get('active') }}</span>
+            </div>
+            </div>
         </div>
 
         <div class="row">
@@ -167,6 +185,7 @@ export default {
                 sku: '',
                 ingredients: '',
                 price: '',
+                active: '',
             },
         };
     },
@@ -202,6 +221,7 @@ export default {
             this.form.sku = product.sku;
             this.form.ingredients = product.ingredients;
             this.form.price = product.price;
+            this.form.active = product.active;
         },
     },
     computed: {

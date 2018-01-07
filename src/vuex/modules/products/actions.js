@@ -24,10 +24,11 @@ export default {
         commit(mutations.CREATE_MODE);
     },
 
-    [actions.SAVE] ({commit}, formData) {
+    [actions.SAVE] ({commit, rootState}, formData) {
         return new Promise((resolve, reject) => {
             axios.post('/admin/api/products',
                 formData
+                // , {'Authorization': rootState.auth.token_type + ' ' + rootState.auth.access_token}
             ).then(response => {
                 commit(mutations.ADD_TO_COLLECTION, response.data);
                 resolve(response);
@@ -43,10 +44,11 @@ export default {
         commit(mutations.EDIT_MODE);
     },
 
-    [actions.UPDATE] ({commit, state}, formData) {
+    [actions.UPDATE] ({commit, state, rootState}, formData) {
         return new Promise((resolve, reject) => {
             axios.patch('/admin/api/products/' + state.selected.id,
                 formData
+              //, {'Authorization': rootState.auth.token_type + ' ' + rootState.auth.access_token}
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
                 resolve(response);
