@@ -4,7 +4,7 @@ import MeatsCreateEditPage from '../views/Meats/CreateEditPage.vue';
 import MeatsDashboard from '../components/Admin/Meats/Dashboard.vue';
 
 export default {
-    path: '/meats',
+    path: 'meats',
     component: MeatsPage,
     children: [
         {

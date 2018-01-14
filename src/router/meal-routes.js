@@ -4,7 +4,7 @@ import MealsCreateEditPage from '../views/Meals/CreateEditPage.vue';
 import MealsDashboard from '../components/Admin/Meals/Dashboard.vue';
 
 export default {
-    path: '/meals',
+    path: 'meals',
     component: MealsPage,
     children: [
         {

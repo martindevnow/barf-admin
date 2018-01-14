@@ -1,52 +1,52 @@
 <template>
-    <div>
-        <div class="overlay" v-show="loading">
-            <div id="loading-img"></div>
-        </div>
-        <form v-show="showForm">
-
-            <h3>Existing User</h3>
-
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email"
-                       v-model="email"
-                       class="form-control"
-                       id="email"
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="email">Password:</label>
-                <input type="password"
-                       v-model="password"
-                       class="form-control"
-                       id="password"
-                >
-            </div>
-
-            <button @click.prevent="login()"
-                    type="submit"
-                    class="btn btn-block btn-primary"
-            >
-                Login
-            </button>
-
-
-        </form>
-        <form v-show="! showForm">
-            <div class="form-group">
-                <label for="users_email_address">Continue as...:</label>
-                <input type="email"
-                       class="form-control"
-                       id="users_email_address"
-                       v-model="email"
-                       disabled
-                >
-            </div>
-        </form>
-
+<div class="container">
+    <div class="overlay" v-show="loading">
+        <div id="loading-img"></div>
     </div>
+
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+        <form lpformnum="1" v-show="showForm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input class="form-control" 
+                    id="exampleInputEmail1" 
+                    type="email" 
+                    v-model="email"
+                    aria-describedby="emailHelp" 
+                    placeholder="Enter email" 
+                    autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input class="form-control" 
+                    id="exampleInputPassword1" 
+                    type="password" 
+                    v-model="password"
+                    placeholder="Password" 
+                    autocomplete="off">
+          </div>
+          <div class="form-group">
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Remember Password</label>
+            </div>
+          </div>
+          <a class="btn btn-primary btn-block" 
+                @click.prevent="login()">Login</a>
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" href="register.html">Register an Account</a>
+          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        
+
+
 </template>
 
 <script>

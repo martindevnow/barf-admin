@@ -4,7 +4,7 @@ import PetsCreateEditPage from '../views/Pets/CreateEditPage.vue';
 import PetsDashboard from '../components/Admin/Pets/Dashboard.vue';
 
 export default {
-    path: '/pets',
+    path: 'pets',
     component: PetsPage,
     children: [
         {

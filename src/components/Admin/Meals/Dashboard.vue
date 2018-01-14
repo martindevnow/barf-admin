@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content-body">
         <table class="table table-bordered table-responsive table-striped">
             <thead>
             <tr>
@@ -134,5 +134,7 @@
 </script>
 
 <style>
-
+.content-body {
+    padding: 1rem;
+}
 </style>

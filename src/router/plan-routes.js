@@ -5,7 +5,7 @@ import PlansMealReplacementPage from '../views/Plans/MealReplacementsPage.vue';
 import PlansDashboard from '../components/Admin/Plans/Dashboard.vue';
 
 export default {
-    path: '/plans',
+    path: 'plans',
     component: PlansPage,
     children: [
         {
