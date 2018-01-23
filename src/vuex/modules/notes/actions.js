@@ -1,6 +1,7 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
 import * as planMutations from "../plans/mutationTypes";
+import http from '../../../http';
 
 export default {
     [actions.CREATE] ({commit}, targetModel) {
@@ -10,7 +11,7 @@ export default {
 
     [actions.SAVE] ({commit}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/notes',
+            http.post('/admin/api/notes',
                 formData
             ).then(response => {
                 // TODO: Add the note to the relevant model
@@ -27,7 +28,7 @@ export default {
 
     [actions.DELETE] ({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.delete('/admin/api/notes/' + id)
+            http.delete('/admin/api/notes/' + id)
             .then(response => {
                 resolve(response);
             }).catch(error => {

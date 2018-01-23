@@ -1,10 +1,9 @@
-import axios from "axios";
+import http from '../http';
 import { vueAuth, vueAuthTokenBody } from '../auth/vue-auth';
 
 export default {
     login (context, payload) {
-        console.log('logging in...');
-        axios.post(vueAuth.tokenUrl, {...payload.user, ...vueAuthTokenBody}).then(response => {
+        http.post(vueAuth.tokenUrl, {...payload.user, ...vueAuthTokenBody}).then(response => {
             context.commit('tokenData', response.data);
             context.commit('isAuthenticated', {
                 isAuthenticated: true,
@@ -13,11 +12,11 @@ export default {
         });
     },
     fetchAuthenticatedUser (context, app) {
-        axios.get('/api/user').then(response => {
+        http.get('/admin/api/user').then(response => {
             context.commit('authUser', response.data);
             context.commit('persistUser', app);
         }).catch(error => {
-            console.log(error);
+            console.log(errorr);
         })
     },
     logout (context, app) {

@@ -31,7 +31,6 @@
         },
         created() {
           console.log('App created');
-          this.$store.commit('loadUser', this);
         }
     }
 </script>
