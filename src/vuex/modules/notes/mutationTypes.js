@@ -6,5 +6,6 @@ export const UPDATE_IN_COLLECTION = 'UPDATE';
 export const CREATE_MODE = 'CREATE_MODE';
 export const EDIT_MODE = 'EDIT_MODE';
 export const CLEAR_MODE = 'CLEAR_MODE';
+export const CLEAR_COLLECTION = 'CLEAR_COLLECTION';
 export const SET_TARGET_MODEL = 'SET_TARGET_MODEL';
 export const UNSET_TARGET_MODEL = 'SET_TARGET_MODEL';

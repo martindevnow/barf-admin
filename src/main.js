@@ -2,8 +2,8 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import store from './vuex/store';
-// import axios from 'axios';
-import VueLocalStorage from 'vue-localstorage'
+import VueLocalStorage from 'vue-localstorage';
+import Vuetify from 'vuetify';
 
 Vue.config.productionTip = false;
 window.axios = require('axios');
@@ -14,6 +14,27 @@ window.axios = require('axios');
 Vue.use(VueLocalStorage, {
     name: 'ls',
     createComputed: true //created computed members from your variable declarations
+});
+
+Vue.use(Vuetify, {
+  // defaultTheme: {
+  //   primary: '#1976D2',
+  //   secondary: '#424242',
+  //   accent: '#82B1FF',
+  //   error: '#FF5252',
+  //   info: '#2196F3',
+  //   success: '#4CAF50',
+  //   warning: '#FFC107'
+  // },
+  theme: {
+    primary: '#d2291e',
+    secondary: '#424242',
+    accent: '#82B1FF',
+    error: '#FF5252',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FFC107'
+  }
 });
 
 /* eslint-disable no-new */
