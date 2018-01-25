@@ -17,7 +17,6 @@
       <span class="white--text">Copyright &copy; 2018 BARFBento</span>
     </v-footer>
   </v-app>
-
 </template>
 
 <script>

@@ -4,12 +4,19 @@ import * as mutations from "./modules/products/mutationTypes";
 
 export default {
   login (context, payload) {
-    http.post(vueAuth.tokenUrl, {...payload.user, ...vueAuthTokenBody}).then(response => {
-      context.commit('tokenData', response.data);
-      context.commit('isAuthenticated', {
-        isAuthenticated: true,
-      });
-      context.dispatch('fetchAuthenticatedUser', payload.app);
+    return new Promise((resolve, reject) => {
+      http.post(vueAuth.tokenUrl, {...payload.user, ...vueAuthTokenBody})
+        .then(response => {
+          context.commit('tokenData', response.data);
+          context.commit('isAuthenticated', {
+            isAuthenticated: true,
+          });
+          context.dispatch('fetchAuthenticatedUser', payload.app);
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   },
   fetchAuthenticatedUser (context) {
@@ -31,7 +38,7 @@ export default {
       context.commit('orders/' + mutations.CLEAR_COLLECTION, null, {root: true});
       context.commit('packages/' + mutations.CLEAR_COLLECTION, null, {root: true});
       context.commit('products/' + mutations.CLEAR_COLLECTION, null, {root: true});
-      context.commit('purchase-orders/' + mutations.CLEAR_COLLECTION, null, {root: true});
+      context.commit('purchaseOrders/' + mutations.CLEAR_COLLECTION, null, {root: true});
       context.commit('toppings/' + mutations.CLEAR_COLLECTION, null, {root: true});
       context.commit('users/' + mutations.CLEAR_COLLECTION, null, {root: true});
       resolve();
