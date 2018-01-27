@@ -35,12 +35,12 @@ export default new Router({
       component: HomeDashboard
     },
     {
-      path: 'login',
+      path: '/login',
       name: 'Login',
       component: LoginForm,
     },
     {
-      path: 'logout',
+      path: '/logout',
       name: 'Logout',
       component: LogoutPage,
     },
@@ -68,6 +68,7 @@ export default new Router({
       name: 'PurchaseOrders',
       component: PurchaseOrdersPage
     },
+
     {...userRoutes},
   ]
 })
