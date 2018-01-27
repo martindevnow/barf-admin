@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import http from '../../../http';
 
 export default {
     [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -7,7 +8,7 @@ export default {
             if (!force && state.collection.length)
                 return resolve(state.collection);
 
-            axios.get('/admin/api/users')
+            http.get('/admin/api/users')
                 .then(response => {
                     commit(mutations.POPULATE_COLLECTION, response.data);
                     resolve(response);
@@ -26,7 +27,7 @@ export default {
 
     [actions.SAVE] ({commit}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/users',
+            http.post('/admin/api/users',
                 formData
             ).then(response => {
                 commit(mutations.ADD_TO_COLLECTION, response.data);
@@ -44,7 +45,7 @@ export default {
 
     [actions.UPDATE] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.put('/admin/api/users/' + state.selected.id,
+            http.put('/admin/api/users/' + state.selected.id,
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
@@ -65,7 +66,7 @@ export default {
 
     [actions.ATTACH_ADDRESS] ({commit, state}, address_id) {
         return new Promise((resolve, reject) => {
-            axios.put('/admin/api/users/' + state.selected.id + '/attachAddress',
+            http.put('/admin/api/users/' + state.selected.id + '/attachAddress',
                 {address_id: address_id}
             ).then(response => {
                 commit(mutations.ATTACH_ADDRESS_TO_USER, response.data);

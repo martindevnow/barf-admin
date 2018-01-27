@@ -9,7 +9,7 @@ const vueAuth = {
     clientId:       clientId,
     loginUrl:       '/oauth/token',
     tokenName:      'access_token',
-    tokenUrl:       baseUrl + '/oauth/token',
+    tokenUrl:       baseUrl + 'oauth/token',
 };
 
 const vueAuthTokenBody = {

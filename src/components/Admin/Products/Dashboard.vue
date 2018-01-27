@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="table table-bordered table-responsive table-striped">
+        <table class="table table-bordered table-responsive">
             <thead>
             <tr>
                 <th v-bind:colspan="numColumns + 1">
@@ -38,7 +38,9 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="product in filteredData(collection)">
+            <tr v-for="product in filteredData(collection)"
+                :class="{'in-active': ! product.active }"
+            >
                 <td>{{ product.name }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.description_long }}</td>
@@ -59,18 +61,6 @@
             </tr>
             </tbody>
         </table>
-
-        <!--<admin-common-modal v-if="show.creator"-->
-                            <!--@close="closeProductCreatorModal()"-->
-        <!--&gt;-->
-            <!--<p slot="header" v-if="! mode">Add a Product</p>-->
-            <!--<p slot="header" v-if="mode == 'EDIT' && !! selected">Edit Product: {{ selected.name }}</p>-->
-            <!--<admin-products-creator @saved="closeProductCreatorModal()"-->
-                                    <!--@updated="closeProductCreatorModal()"-->
-                                    <!--@cancelled="closeProductCreatorModal()"-->
-                                    <!--slot="body"-->
-            <!--&gt;</admin-products-creator>-->
-        <!--</admin-common-modal>-->
 
     </div>
 </template>
@@ -124,9 +114,6 @@ export default {
             this.$store.dispatch('products/' + productActions.CREATE);
             this.$router.push({ name: 'ProductCreate'});
         },
-//        closeProductCreatorModal() {
-//            this.$store.dispatch('products/' + productActions.CANCEL);
-//        },
         editProduct(model) {
             this.$store.dispatch('products/' + productActions.EDIT, model);
             this.$router.push({ name: 'ProductEdit', params: { id: model.id }});
@@ -143,6 +130,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .in-active {
+    background-color: orange;
+  }
 </style>

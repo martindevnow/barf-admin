@@ -4,11 +4,7 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  //BARF_API_BASE: '"http://barf-api.localhost"',
-  //BARF_API_SECRET: '"x6IF4L3AYVEc6zoLBk2kUAOthwuCrYNckD8JhhaQ"',
-  //BARF_API_CLIENT_ID: '"4"',
-
   BARF_API_BASE: '"http://bb2.localhost"',
-  BARF_API_SECRET: '"NP7KfNoTdCVdlP3HsLBZcCHzDCwrXasheVVAJYIO"',
+  BARF_API_SECRET: '"IbsEPaoVsixS33fE5GO0NEjY04YJw9ZYEgdaz2AC"',
   BARF_API_CLIENT_ID: '"2"',
 });

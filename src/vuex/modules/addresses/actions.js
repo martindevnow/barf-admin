@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import http from '../../../http';
 
 export default {
     [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -7,7 +8,7 @@ export default {
             if (! force && state.collection.length)
                 return resolve(state.collection);
 
-            axios.get('/admin/api/addresses')
+            http.get('/admin/api/addresses')
                 .then(response => {
                     commit(mutations.POPULATE_COLLECTION, response.data);
                     resolve(response);
@@ -26,7 +27,7 @@ export default {
 
     [actions.SAVE] ({commit}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/addresses',
+            http.post('/admin/api/addresses',
                 formData
             ).then(response => {
                 commit(mutations.ADD_TO_COLLECTION, response.data);
@@ -45,7 +46,7 @@ export default {
 
     [actions.UPDATE] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.patch('/admin/api/addresses/' + state.selected.id,
+            http.patch('/admin/api/addresses/' + state.selected.id,
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
@@ -59,7 +60,7 @@ export default {
 
     [actions.DELETE] ({commit}, model) {
         return new Promise((resolve, reject) => {
-            axios.delete('/admin/api/addresses/' + model.id).then(response => {
+            http.delete('/admin/api/addresses/' + model.id).then(response => {
                 commit('users/removeAddress', model, {root: true});
                 resolve(response);
             }).catch(error => {
