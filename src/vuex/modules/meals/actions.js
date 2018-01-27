@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import http from '../../../http';
 
 export default {
     [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -7,7 +8,7 @@ export default {
             if (! force && state.collection.length)
                 return resolve(state.collection);
 
-            axios.get('/admin/api/meals')
+            http.get('/admin/api/meals')
                 .then(response => {
                     commit(mutations.POPULATE_COLLECTION, response.data);
                     resolve(response);
@@ -26,7 +27,7 @@ export default {
 
     [actions.SAVE] ({commit}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/meals',
+            http.post('/admin/api/meals',
                 formData
             ).then(response => {
                 commit(mutations.ADD_TO_COLLECTION, response.data);
@@ -45,7 +46,7 @@ export default {
 
     [actions.UPDATE] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.patch('/admin/api/meals/' + state.selected.id,
+            http.patch('/admin/api/meals/' + state.selected.id,
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);

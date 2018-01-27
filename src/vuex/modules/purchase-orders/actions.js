@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import http from '../../../http';
 
 export default {
     [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -8,7 +9,7 @@ export default {
             if (!force && state.collection.length)
                 return resolve(state.collection);
 
-            axios.get('/admin/api/purchase-orders')
+            htpp.get('/admin/api/purchase-orders')
                 .then(response => {
                     commit(mutations.POPULATE_COLLECTION, response.data);
                     resolve(response);
@@ -32,7 +33,7 @@ export default {
 
     [actions.SAVE_ORDERED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/purchase-orders/' + state.selected.purchaseOrder.id + '/ordered',
+            htpp.post('/admin/api/purchase-orders/' + state.selected.purchaseOrder.id + '/ordered',
                 formData,
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, { ordered: true });
@@ -55,7 +56,7 @@ export default {
 
     [actions.SAVE_RECEIVED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/purchase-orders/' + state.selected.purchaseOrder.id + '/received',
+            htpp.post('/admin/api/purchase-orders/' + state.selected.purchaseOrder.id + '/received',
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, { received: true });

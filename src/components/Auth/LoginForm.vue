@@ -1,52 +1,43 @@
 <template>
-    <div>
-        <div class="overlay" v-show="loading">
-            <div id="loading-img"></div>
-        </div>
-        <form v-show="showForm">
+      <v-layout row wrap>
+        <v-flex xs12 sm6 offset-sm3 md6 offset-md3>
+          <v-card>
+            <!--<v-toolbar color="red" dark>-->
+              <!--<v-toolbar-title>Login</v-toolbar-title>-->
+            <!--</v-toolbar>-->
+            <v-card-text>
 
-            <h3>Existing User</h3>
+              <v-progress-circular indeterminate color="primary" v-if="loading"></v-progress-circular>
 
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email"
-                       v-model="email"
-                       class="form-control"
-                       id="email"
-                >
-            </div>
+              <form @submit.prevent="login()" :disabled="loading">
+                <span class="title">Login Info</span>
+                <v-text-field
+                  label="Email"
+                  class="mt-2"
+                  v-model="email"
+                  :rules="[() => email.length > 0 || 'This field is required']"
+                  required
+                ></v-text-field>
 
-            <div class="form-group">
-                <label for="email">Password:</label>
-                <input type="password"
-                       v-model="password"
-                       class="form-control"
-                       id="password"
-                >
-            </div>
+                <v-text-field
+                  type="password"
+                  label="Password"
+                  v-model="password"
+                  :rules="[() => password.length > 0 || 'This field is required']"
+                  required
+                ></v-text-field>
+                <small>* indicates required field</small>
+                <div>
+                  <v-btn color="primary" @click.prevent="login()">Login</v-btn>
+                </div>
+              </form>
+            </v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
 
-            <button @click.prevent="login()"
-                    type="submit"
-                    class="btn btn-block btn-primary"
-            >
-                Login
-            </button>
 
 
-        </form>
-        <form v-show="! showForm">
-            <div class="form-group">
-                <label for="users_email_address">Continue as...:</label>
-                <input type="email"
-                       class="form-control"
-                       id="users_email_address"
-                       v-model="email"
-                       disabled
-                >
-            </div>
-        </form>
-
-    </div>
 </template>
 
 <script>
@@ -54,42 +45,42 @@ import eventBus from '../../events/eventBus';
 import swal from 'sweetalert2'
 import {mapState} from "vuex";
 
-export default {
+  export default {
     props: ['cart_hash'],
     data() {
-        return {
-            user: {},
-            loading: false,
-            name: "",
-            email: "",
-            password: "",
-            showForm: true,
-        }
+      return {
+        user: {},
+        loading: false,
+        name: "",
+        email: "",
+        password: "",
+      }
     },
     computed: {
-        ...mapState([
-            'auth'
-        ]),
+      ...mapState([
+        'auth'
+      ]),
     },
     methods: {
-        loadUser(user) {
-            this.user = user;
-            this.showForm = false;
-        },
-        login() {
-            this.loading = true;
-            let vm = this;
-            let user = {
-                username: this.email,
-                password: this.password,
-            };
-            this.$store.dispatch('login', {user, app: this}).then(response => {
-                vm.$router.push('/');
-            });
-            this.loading = false;
-        },
+      loadUser(user) {
+        this.user = user;
+      },
+      login() {
+        this.loading = true;
+        let vm = this;
+        let user = {
+          username: this.email,
+          password: this.password,
+        };
+        this.$store.dispatch('login', {user, app: this}).then(response => {
+          vm.$router.push('/');
+          vm.loading = false;
+        }).catch(error => {
+          vm.loading = false;
+        });
+      },
     },
-}
+  }
 </script>
 
 <style>

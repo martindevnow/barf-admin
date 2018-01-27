@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueLocalStorage from 'vue-localstorage'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
+Vue.use(VueLocalStorage);
 
 import state from './state'
 import mutations from './mutations'
@@ -40,5 +43,12 @@ export default new Vuex.Store({
         purchaseOrders,
         toppings,
         users,
-    }
+    },
+    plugins: [createPersistedState({
+      storage: {
+        getItem: key => Vue.localStorage.get(key),
+        setItem: (key, value) => Vue.localStorage.set(key, value),
+        removeItem: key => Vue.localStorage.remove(key),
+      }
+    })]
 })

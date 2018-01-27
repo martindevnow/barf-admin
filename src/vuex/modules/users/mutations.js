@@ -3,88 +3,89 @@ import * as mutations from './mutationTypes';
 import {loadAddressFromData} from "../../../models/Address";
 
 export default {
-    [mutations.POPULATE_COLLECTION] (state, data) {
-        state.collection = data.map(modelData => loadUserFromData(modelData));
-    },
+  [mutations.POPULATE_COLLECTION] (state, data) {
+    state.collection = data.map(modelData => loadUserFromData(modelData));
+  },
 
-    [mutations.ADD_TO_COLLECTION] (state, modelData) {
-        state.collection.unshift(loadUserFromData(modelData));
-    },
+  [mutations.ADD_TO_COLLECTION] (state, modelData) {
+    state.collection.unshift(loadUserFromData(modelData));
+  },
 
-    [mutations.CREATE_MODE] (state) {
-        state.show.creator = true;
-        state.mode = null;
-    },
+  [mutations.CREATE_MODE] (state) {
+    state.show.creator = true;
+    state.mode = null;
+  },
 
-    [mutations.EDIT_MODE] (state) {
-        state.show.creator = true;
-        state.mode = 'EDIT';
-    },
+  [mutations.EDIT_MODE] (state) {
+    state.show.creator = true;
+    state.mode = 'EDIT';
+  },
 
-    [mutations.CLEAR_MODE] (state) {
-        state.show.creator = false;
-        state.mode = null;
-    },
+  [mutations.CLEAR_MODE] (state) {
+    state.show.creator = false;
+    state.mode = null;
+  },
 
-    [mutations.SELECT] (state, model) {
-        state.selected = model;
-    },
+  [mutations.CLEAR_COLLECTION] (state) {
+    state.collection = [];
+  },
 
-    [mutations.DESELECT] (state) {
-        state.selected = null;
-    },
+  [mutations.SELECT] (state, model) {
+    state.selected = model;
+  },
 
-    [mutations.UPDATE_IN_COLLECTION] (state, payload) {
-        state.collection = state.collection.map(model => {
-            if (model.id === payload.id)
-                return loadUserFromData(payload);
-            return model;
-        });
-    },
+  [mutations.DESELECT] (state) {
+    state.selected = null;
+  },
 
-    [mutations.ATTACH_ADDRESS_TO_USER] (state, payload) {
-        console.log('payload');
-        console.log(payload);
+  [mutations.UPDATE_IN_COLLECTION] (state, payload) {
+    state.collection = state.collection.map(model => {
+      if (model.id === payload.id)
+        return loadUserFromData(payload);
+      return model;
+    });
+  },
 
-        state.collection = state.collection.map(model => {
-            if (model.id === state.selected.id) {
-                model.addresses = [ ...model.addresses, loadAddressFromData(payload) ];
-            }
-            return model;
-        });
-    },
+  [mutations.ATTACH_ADDRESS_TO_USER] (state, payload) {
+    state.collection = state.collection.map(model => {
+      if (model.id === state.selected.id) {
+        model.addresses = [...model.addresses, loadAddressFromData(payload)];
+      }
+      return model;
+    });
+  },
 
-    [mutations.REMOVE_ADDRESS_FROM_USER] (state, payload) {
-        state.collection.map((user) => {
-            let addresses = user.addresses.filter((address) => {
-                if (address.id !== payload.id)
-                    return true;
+  [mutations.REMOVE_ADDRESS_FROM_USER] (state, payload) {
+    state.collection.map((user) => {
+      let addresses = user.addresses.filter((address) => {
+        if (address.id !== payload.id)
+          return true;
 
-            });
-            user.addresses = [...addresses];
-            return user;
-        });
-    },
+      });
+      user.addresses = [...addresses];
+      return user;
+    });
+  },
 
-    [mutations.UPDATE_ADDRESS_ON_USER] (state, updated) {
-        state.collection.map((user) => {
-            if (user.id !== updated.addressable_id)
-                return user;
+  [mutations.UPDATE_ADDRESS_ON_USER] (state, updated) {
+    state.collection.map((user) => {
+      if (user.id !== updated.addressable_id)
+        return user;
 
-            user.addresses = user.addresses.map((address) => {
-                if (address.id !== updated.id)
-                    return address;
+      user.addresses = user.addresses.map((address) => {
+        if (address.id !== updated.id)
+          return address;
 
-                return loadAddressFromData(updated);
-            });
-            return user;
-        });
+        return loadAddressFromData(updated);
+      });
+      return user;
+    });
 
-        state.selected.addresses = state.selected.addresses.map((address) => {
-            if (address.id !== updated.id)
-                return address;
+    state.selected.addresses = state.selected.addresses.map((address) => {
+      if (address.id !== updated.id)
+        return address;
 
-            return loadAddressFromData(updated);
-        });
-    },
+      return loadAddressFromData(updated);
+    });
+  },
 };
