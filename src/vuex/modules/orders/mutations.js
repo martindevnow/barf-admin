@@ -34,6 +34,10 @@ export default {
         })
     },
 
+    [mutations.CLEAR_COLLECTION] (state) {
+      state.collection = [];
+    },
+
     [mutations.SHOW_PAYMENT_LOGGER] (state) {
         state.show.paymentModal = true;
     },

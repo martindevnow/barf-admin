@@ -22,11 +22,17 @@ import HomeDashboard from '../components/Admin/Dashboard/Dashboard.vue'
 import OrdersDashboard from '../components/Admin/Orders/Dashboard.vue'
 import PurchaseOrdersPage from '../views/PurchaseOrders.vue';
 
+<<<<<<< HEAD
 // Main Views
 import AuthLayout from '../layouts/Auth/Layout.vue';
 import DashLayout from '../layouts/Dash/Layout.vue';
+=======
+
+>>>>>>> ba24590c2dbbb31f209c0768c2c27977d81333cb
 // Add the router to the App
-Vue.use(Router);
+Vue.use(Router, {
+  mode: 'history',
+});
 
 import store from '../vuex/store';
 
@@ -43,6 +49,7 @@ function requireAuth(to, from, next) {
 }
 
 export default new Router({
+<<<<<<< HEAD
     mode: 'history',
     routes: [
         {
@@ -112,4 +119,49 @@ export default new Router({
             ]
         }   
     ]
+=======
+  routes: [
+    {
+      path: '',
+      name: 'Home',
+      component: HomeDashboard
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: LoginForm,
+    },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: LogoutPage,
+    },
+
+    {...mealRoutes},
+
+    {...meatRoutes},
+
+    {
+      path: '/orders',
+      name: 'Orders',
+      component: OrdersDashboard
+    },
+
+    {...packageRoutes},
+
+    {...petRoutes},
+
+    {...planRoutes},
+
+    {...productRoutes},
+
+    {
+      path: '/purchase-orders',
+      name: 'PurchaseOrders',
+      component: PurchaseOrdersPage
+    },
+
+    {...userRoutes},
+  ]
+>>>>>>> ba24590c2dbbb31f209c0768c2c27977d81333cb
 })

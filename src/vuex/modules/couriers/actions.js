@@ -1,5 +1,6 @@
 import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
+import http from '../../../http';
 
 export default {
   [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -7,7 +8,7 @@ export default {
           if (! force && state.collection.length)
               return resolve(state.collection);
 
-          axios.get('/admin/api/couriers')
+          http.get('/admin/api/couriers')
               .then(response => {
                   commit(mutations.POPULATE_COLLECTION, response.data);
                   resolve(response);

@@ -2,6 +2,7 @@ import * as actions from './actionTypes';
 import * as mutations from './mutationTypes';
 import * as noteMutations from './../notes/mutationTypes';
 import moment from 'moment';
+import http from '../../../http';
 
 export default {
     [actions.FETCH_ALL] ({commit, state}, force = false) {
@@ -9,7 +10,7 @@ export default {
             if (! force && state.collection.length)
                 return resolve(state.collection);
 
-            axios.get('/admin/api/orders')
+            http.get('/admin/api/orders')
                 .then(response => {
                     commit(mutations.POPULATE_COLLECTION, response.data);
                     resolve(response);
@@ -33,7 +34,7 @@ export default {
 
     [actions.SAVE_PAYMENT] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/orders/' + state.selected.id + '/paid',
+            http.post('/admin/api/orders/' + state.selected.id + '/paid',
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, { paid: true });
@@ -56,7 +57,7 @@ export default {
 
     [actions.SAVE_PACKED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/orders/' + state.selected.id + '/packed',
+            http.post('/admin/api/orders/' + state.selected.id + '/packed',
                 formData,
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {
@@ -93,7 +94,7 @@ export default {
 
     [actions.SAVE_SHIPPED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/orders/' + state.selected.id + '/shipped',
+            http.post('/admin/api/orders/' + state.selected.id + '/shipped',
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {
@@ -133,7 +134,7 @@ export default {
 
     [actions.SAVE_CANCELLED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/orders/' + state.selected.id + '/cancel'
+            http.post('/admin/api/orders/' + state.selected.id + '/cancel'
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {cancelled: true});
                 resolve(response);
@@ -146,7 +147,7 @@ export default {
     [actions.UPDATE_DELIVER_BY] ({commit, state}, {order, formData}) {
         let originalOrder = order;
         return new Promise((resolve, reject) => {
-            axios.post('/admin/api/orders/' + originalOrder.id + '/deliverBy',
+            http.post('/admin/api/orders/' + originalOrder.id + '/deliverBy',
                 formData,
             ).then(response => {
                 if (formData.updateFuture) {
