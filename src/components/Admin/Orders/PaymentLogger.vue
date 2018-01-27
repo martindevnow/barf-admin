@@ -73,7 +73,7 @@
                     <div class="col-sm-6">
                         <label>&nbsp;</label>
                         <button class="btn btn-outline-danger btn-block"
-                                @click="$emit('cancelled')"
+                                @click="close()"
                         >
                             Cancel
                         </button>
@@ -120,11 +120,15 @@ export default {
                 amount_paid: this.amount_paid,
                 received_at: moment(this.received_at).format('YYYY-MM-DD'),
             }).then(response => {
-                vm.$emit('saved');
+                vm.close();
             }).catch(error => {
                 vm.errors.record(error.response.data.errors);
             });
         },
+        close() {
+            this.$store.dispatch('orders/' + orderActions.CLOSE_PAYMENT_LOGGER);
+            this.$router.push({ name: 'Orders' });
+        }
     },
     computed: {
         ...mapState('orders', [

@@ -13,7 +13,7 @@ export default {
     mounted() {
         let vm = this;
         this.$store.dispatch('logout', this).then(response => {
-            vm.$router.push('/auth/login')
+            vm.$router.push('/login')
         });
     }
 

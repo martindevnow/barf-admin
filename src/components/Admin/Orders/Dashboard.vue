@@ -68,39 +68,31 @@
                     </button>
                 </td>
                 <td v-if="! order.cancelled">
-                    <button @click="openPaymentModal(order)"
-                            class="btn btn-sm"
-                            :class="{
-                        'btn-danger': ! order.paid,
-                        'btn-success': order.paid
-                    }"
+                    <v-btn @click="openPaymentModal(order)"
+                           small
+                           :color="order.paid ? 'success' : 'error'"
                     >
                         Paid
-                    </button>
-                    <button @click="openPackedModal(order)"
-                            class="btn btn-sm"
-                            :class="{
-                        'btn-danger': ! order.packed,
-                        'btn-success': order.packed
-                    }"
+                    </v-btn>
+                    <v-btn @click="openPackedModal(order)"
+                            small
+                            :color="order.packed ? 'success' : 'error'"
                     >
                         Packed
-                    </button>
-                    <button @click="openShippedModal(order)"
-                            class="btn btn-sm"
-                            :class="{
-                        'btn-danger': ! order.shipped,
-                        'btn-success': order.shipped
-                    }"
+                    </v-btn>
+                    <v-btn @click="openShippedModal(order)"
+                           small
+                           :color="order.shipped ? 'success' : 'error'"
                     >
                         Shipped
-                    </button>
-                    <button v-if="! order.shipped"
+                    </v-btn>
+                    <v-btn v-if="! order.cancelled"
                             @click="openCancellationModal(order)"
-                            class="btn btn-sm btn-warning"
+                            color="warning"
+                            small
                     >
                         Cancel
-                    </button>
+                    </v-btn>
                 </td>
                 <td v-if="order.cancelled">
                     Cancelled
@@ -110,7 +102,7 @@
         </table>
 
 
-        <admin-common-modal v-if="show.paymentModal">
+        <!-- <admin-common-modal v-if="show.paymentModal">
             <p slot="header">Log a Payment</p>
             <admin-payment-logger @saved="closePaymentModal()"
                                   @cancelled="closePaymentModal()"
@@ -141,7 +133,7 @@
                                     @cancelled="closeCancellationModal()"
                                     slot="body"
             ></admin-orders-canceller>
-        </admin-common-modal>
+        </admin-common-modal> -->
     </div>
 </template>
 
@@ -202,24 +194,19 @@ export default {
         },
         openPaymentModal(order) {
             this.$store.dispatch('orders/' + orderActions.OPEN_PAYMENT_LOGGER, order)
-        },
-        closePaymentModal() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_PAYMENT_LOGGER)
+            this.$router.push({name: 'OrderPaymentLogger', params: {id: order.id}});
         },
         openPackedModal(order) {
             this.$store.dispatch('orders/' + orderActions.OPEN_PACKED_LOGGER, order)
-        },
-        closePackedModal() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_PACKED_LOGGER)
+            this.$router.push({name: 'OrderPackedLogger', params: {id: order.id}});        
         },
         openShippedModal(order) {
             this.$store.dispatch('orders/' + orderActions.OPEN_SHIPPED_LOGGER, order)
-        },
-        closeShippedModal() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_SHIPPED_LOGGER)
+            this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});   
         },
         openCancellationModal(order) {
             this.$store.dispatch('orders/' + orderActions.OPEN_CANCELLED_LOGGER, order)
+            this.$router.push({name: 'OrderCancellationLogger', params: {id: order.id}});
         },
         closeCancellationModal() {
             this.$store.dispatch('orders/' + orderActions.CLOSE_CANCELLED_LOGGER)

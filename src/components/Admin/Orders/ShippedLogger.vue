@@ -80,7 +80,7 @@
             </div>
             <div class="col-sm-6">
                 <button class="btn btn-outline-danger btn-block"
-                        @click="$emit('cancelled')"
+                        @click="close()"
                 >
                     Cancel
                 </button>
@@ -104,14 +104,12 @@ import AdminPackageSelector from '../Packages/PackageSelector.vue';
 
 export default {
     components: {
-        AdminPackageSelector
+        AdminPackageSelector,
+        Datepicker,
     },
     mixins: [
         hasErrors
     ],
-    components: {
-        Datepicker,
-    },
     data() {
         return {
             form: {
@@ -142,11 +140,15 @@ export default {
             this.$store.dispatch('orders/' + orderActions.SAVE_SHIPPED,
                 requestBody
             ).then(response => {
-                vm.$emit('saved');
+                vm.close();
             }).catch(function(error) {
                 vm.errors.record(error.response.data.errors);
             });
         },
+        close() {
+            this.$store.dispatch('orders/' + orderActions.CLOSE_SHIPPED_LOGGER)
+            this.$router.push({name: 'Orders'});
+            }
     },
     computed: {
         ...mapState('orders', [

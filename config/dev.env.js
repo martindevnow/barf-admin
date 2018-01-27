@@ -9,6 +9,6 @@ module.exports = merge(prodEnv, {
   //BARF_API_CLIENT_ID: '"4"',
 
   BARF_API_BASE: '"http://bb2.localhost"',
-  BARF_API_SECRET: '"vwP5wnpeldWuMBB8lNQWhuyvEVCMFBIO0pBrrCaX"',
+  BARF_API_SECRET: '"mHTlWwMvihZsoyNKkoecshvosxJarxb2SjLbNn27"',
   BARF_API_CLIENT_ID: '"2"',
 });

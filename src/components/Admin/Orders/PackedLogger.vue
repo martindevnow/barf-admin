@@ -50,7 +50,7 @@
             </div>
             <div class="col-sm-6">
                 <button class="btn btn-outline-danger btn-block"
-                        @click="$emit('cancelled')"
+                        @click="close()"
                 >
                     Cancel
                 </button>
@@ -92,11 +92,15 @@ export default {
                 weeks_packed:      this.weeks_packed,
                 packed_package_id: this.packed_package.id,
             }).then(response => {
-                vm.$emit('saved')
+                vm.close();
             }).catch(error => {
                 vm.errors.record(error.response.data.errors);
             });
         },
+        close() {
+            this.$store.dispatch('orders/' + orderActions.CLOSE_PACKED_LOGGER)
+            this.$router.push({name: 'Orders'});
+        }
     },
     computed: {
         ...mapState('orders', [
