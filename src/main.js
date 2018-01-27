@@ -7,17 +7,8 @@ import Vuetify from 'vuetify';
 
 Vue.config.productionTip = false;
 
-<<<<<<< HEAD
-/**
- * Axios Stuff
- */
-window.axios = require('axios');
-const baseUrl = process.env.BARF_API_BASE + '/';
-axios.defaults.baseURL = baseUrl;
-=======
 // const baseUrl = process.env.BARF_API_BASE + '/';
 // axios.defaults.baseURL = baseUrl;
->>>>>>> ba24590c2dbbb31f209c0768c2c27977d81333cb
 
 axios.interceptors.response.use(
     response => {
@@ -44,12 +35,6 @@ Vue.use(VueLocalStorage, {
     createComputed: true //created computed members from your variable declarations
 });
 
-<<<<<<< HEAD
-
-/**
- * Main App Instance
- */
-=======
 Vue.use(Vuetify, {
   // defaultTheme: {
   //   primary: '#1976D2',
@@ -71,7 +56,6 @@ Vue.use(Vuetify, {
   }
 });
 
->>>>>>> ba24590c2dbbb31f209c0768c2c27977d81333cb
 /* eslint-disable no-new */
 let app = new Vue({
     el: '#app',
