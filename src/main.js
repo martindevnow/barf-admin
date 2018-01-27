@@ -10,20 +10,20 @@ Vue.config.productionTip = false;
 // const baseUrl = process.env.BARF_API_BASE + '/';
 // axios.defaults.baseURL = baseUrl;
 
-axios.interceptors.response.use(
-    response => {
-        return response;
-    },
-    err => {
-        if (err.response.status === 401) {
-            console.log('401 received...');
-            store.commit('logout', app);
-            router.push('/auth/login');
-        } else {
-            return Promise.reject(err);
-        }
-    }
-);
+// axios.interceptors.response.use(
+//     response => {
+//         return response;
+//     },
+//     err => {
+//         if (err.response.status === 401) {
+//             console.log('401 received...');
+//             store.commit('logout', app);
+//             router.push('/auth/login');
+//         } else {
+//             return Promise.reject(err);
+//         }
+//     }
+// );
 
 
 /**
