@@ -5,7 +5,7 @@ import PackageMealPlanEditorPage from '../views/Packages/MealPlanEditorPage.vue'
 import PackagesDashboard from '../components/Admin/Packages/Dashboard.vue';
 
 export default {
-    path: 'packages',
+    path: '/packages',
     component: PackagesPage,
     children: [
         {

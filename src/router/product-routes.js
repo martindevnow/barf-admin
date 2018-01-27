@@ -4,7 +4,7 @@ import ProductsCreateEditPage from '../views/Products/CreateEditPage.vue';
 import ProductsDashboard from '../components/Admin/Products/Dashboard.vue';
 
 export default {
-    path: 'products',
+    path: '/products',
     component: ProductsPage,
     children: [
         {

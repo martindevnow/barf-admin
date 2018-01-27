@@ -49,7 +49,7 @@
                     {{ meal.toppings.length ? meal.toppings.map(topping => topping.label).join(', ') : '' }}
                 </td>
                 <td>{{ meal.meal_value }}</td>
-                <td>${{ meal.costPerLb().toFixed(2) }}</td>
+                <td>${{ meal.cost_per_lb }}</td>
 
                 <td>
                     <button class="btn btn-primary btn-sm"

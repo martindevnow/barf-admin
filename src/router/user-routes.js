@@ -4,7 +4,7 @@ import UsersCreateEditPage from '../views/Users/CreateEditPage.vue';
 import UsersDashboard from '../components/Admin/Users/Dashboard.vue';
 
 export default {
-    path: 'users',
+    path: '/users',
     component: UsersPage,
     children: [
         {
