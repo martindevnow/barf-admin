@@ -4,6 +4,7 @@ import router from './router';
 import store from './vuex/store';
 import VueLocalStorage from 'vue-localstorage';
 import Vuetify from 'vuetify';
+import LaravelVueValidator from './models/ErrorValidator';
 
 Vue.config.productionTip = false;
 
@@ -55,6 +56,9 @@ Vue.use(Vuetify, {
     warning: '#FFC107'
   }
 });
+
+
+Vue.use(LaravelVueValidator)
 
 /* eslint-disable no-new */
 let app = new Vue({
