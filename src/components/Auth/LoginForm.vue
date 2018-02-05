@@ -25,6 +25,7 @@
                   v-model="password"
                   :rules="[() => password.length > 0 || 'This field is required']"
                   required
+                  @keyup.13="login()"
                 ></v-text-field>
                 <small>* indicates required field</small>
                 <div>
