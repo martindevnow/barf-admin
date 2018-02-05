@@ -109,39 +109,6 @@
             </tbody>
         </table>
 
-
-        <admin-common-modal v-if="show.paymentModal">
-            <p slot="header">Log a Payment</p>
-            <admin-payment-logger @saved="closePaymentModal()"
-                                  @cancelled="closePaymentModal()"
-                                  slot="body"
-            ></admin-payment-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.packedModal">
-            <p slot="header">Log Packing an Order</p>
-            <admin-packed-logger @saved="closePackedModal()"
-                                 @cancelled="closePackedModal()"
-                                 slot="body"
-            ></admin-packed-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.shippedModal">
-            <p slot="header">Log a Shipment</p>
-            <admin-shipped-logger @saved="closeShippedModal()"
-                                  @cancelled="closeShippedModal()"
-                                  slot="body"
-            ></admin-shipped-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.cancellationModal">
-            <p slot="header">Cancel an Order</p>
-            <p slot="body">Reason:</p>
-            <admin-orders-canceller @saved="closeCancellationModal()"
-                                    @cancelled="closeCancellationModal()"
-                                    slot="body"
-            ></admin-orders-canceller>
-        </admin-common-modal>
     </div>
 </template>
 
