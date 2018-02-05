@@ -37,7 +37,10 @@ export default {
             http.post('/admin/api/orders/' + state.selected.id + '/paid',
                 formData
             ).then(response => {
-                commit(mutations.UPDATE_IN_COLLECTION, { paid: true });
+                commit(mutations.UPDATE_IN_COLLECTION, { 
+                    id: state.selected.id,
+                    paid: true 
+                });
                 resolve(response);
             }).catch(error => {
                 reject(error);
@@ -61,6 +64,7 @@ export default {
                 formData,
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {
+                    id: state.selected.id,
                     packed: true,
                     weeks_packed: formData.weeks_packed,
                     packed_package_id: formData.packed_package_id,
@@ -98,6 +102,7 @@ export default {
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {
+                    id: state.selected.id,
                     shipped: true,
                     shipped_at: formData.shipped_at,
                     weeks_shipped: formData.weeks_shipped,
@@ -136,7 +141,10 @@ export default {
         return new Promise((resolve, reject) => {
             http.post('/admin/api/orders/' + state.selected.id + '/cancel'
             ).then(response => {
-                commit(mutations.UPDATE_IN_COLLECTION, {cancelled: true});
+                commit(mutations.UPDATE_IN_COLLECTION, {
+                    id: state.selected.id,
+                    cancelled: true
+                });
                 resolve(response);
             }).catch(error => {
                 reject(error);

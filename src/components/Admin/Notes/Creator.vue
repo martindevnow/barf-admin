@@ -52,53 +52,61 @@
 </template>
 
 <script>
-    import hasErrors from '../../../mixins/hasErrors';
-    import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-    import swal from 'sweetalert2'
-    import * as noteActions from "../../../vuex/modules/notes/actionTypes";
+import hasErrors from "../../../mixins/hasErrors";
+import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import swal from "sweetalert2";
+import * as noteActions from "../../../vuex/modules/notes/actionTypes";
 
-    export default {
-        mixins: [
-            hasErrors
-        ],
-        props: [],
-        data() {
-            return {
-                form: {
-                    content: '',
-                },
-            };
-        },
-        methods: {
-            save() {
-                let vm = this;
-                let modelName = this.targeted.type;
-                let modelId = this.targeted.model.id;
-                this.$store.dispatch('notes/' + noteActions.SAVE, {
-                    ...this.form, modelName, modelId,
-                }).then(response => {
-                    swal('success', 'Saved', 'success');
-                    vm.$emit('saved');
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
-                });
-            },
-            deleteNote(id) {
-                this.$store.dispatch('notes/' + noteActions.DELETE, id)
-                .then(response => {
-                    alert('deleted');
-                }).catch(error => {
-                    console.log(error);
-                    alert('error');
-                });
-            }
-        },
-        computed: {
-            ...mapState('notes', [
-                'targeted',
-            ]),
-        }
+export default {
+  mixins: [hasErrors],
+  props: [],
+  data() {
+    return {
+      form: {
+        content: ""
+      }
+    };
+  },
+  methods: {
+    save() {
+      if (!this.form.content) {
+        alert("You must specify a reason.");
+        return;
+      }
+
+      let vm = this;
+      let modelName = this.targeted.type;
+      let modelId = this.targeted.model.id;
+      this.$store
+        .dispatch("notes/" + noteActions.SAVE, {
+          ...this.form,
+          modelName,
+          modelId
+        })
+        .then(response => {
+          swal("success", "Saved", "success");
+          vm.$emit("saved");
+        })
+        .catch(error => {
+          vm.errors.record(error.response.data.errors);
+        });
+    },
+    deleteNote(id) {
+      this.$store
+        .dispatch("notes/" + noteActions.DELETE, id)
+        .then(response => {
+          alert("deleted");
+        })
+        .catch(error => {
+          console.log(error);
+          alert("error");
+        });
     }
+  },
+  computed: {
+    ...mapState("notes", ["targeted"])
+  }
+};
 </script>
 
 <style>

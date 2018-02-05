@@ -8,6 +8,7 @@ import Router from 'vue-router'
 import mealRoutes from './meal-routes';
 import meatRoutes from './meat-routes';
 import packageRoutes from './package-routes';
+import orderRoutes from './order-routes';
 import petRoutes from './pet-routes';
 import planRoutes from './plan-routes';
 import productRoutes from './product-routes';
@@ -64,11 +65,13 @@ export default new Router({
 
         { ...meatRoutes },
 
-        {
-            path: '/orders',
-            name: 'Orders',
-            component: OrdersDashboard
-        },
+        // {
+        //     path: '/orders',
+        //     name: 'Orders',
+        //     component: OrdersDashboard
+        // },
+
+        { ...orderRoutes },
 
         { ...packageRoutes },
 
