@@ -2,7 +2,10 @@
     <form @keydown="$errors.clear($event.target.name)"
           @submit.prevent=""
     >
+        <h3>$errors</h3>
+        {{ $errors }}
 
+        <h3>errors</h3>
         {{ errors }}
 
         <div class="row">
