@@ -16,7 +16,7 @@ export const loadPetFromData = function (data) {
     pet.daily_meals = data.daily_meals;
 
     pet.owner = data.owner ? loadUserFromData(data.owner) : null;
-    pet.ownerName = (!! this.owner) ? this.owner.name : '';
+    pet.ownerName = (!! data.owner) ? data.owner.name : '';
     pet.plans = data.plans;
 
     return pet;

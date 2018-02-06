@@ -33,7 +33,6 @@ export default {
                 commit(mutations.ADD_TO_COLLECTION, response.data);
                 resolve(response);
             }).catch(error => {
-                console.log(error);
                 reject(error);
             });
         });
@@ -52,7 +51,6 @@ export default {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
                 resolve(response);
             }).catch(error => {
-                console.log(error);
                 reject(error);
             });
         });

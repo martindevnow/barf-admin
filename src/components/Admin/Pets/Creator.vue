@@ -3,6 +3,8 @@
           @submit.prevent=""
     >
 
+        {{ errors }}
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group"
@@ -204,8 +206,8 @@ export default {
             }).then(response => {
                 vm.$emit('saved');
             }).catch(error => {
-                console.log(error);
-                vm.$errors.record(error.response.data.errors);
+                // console.log(error);
+                // vm.$errors.record(error.response.data.errors);
             });
         },
         update() {
@@ -217,7 +219,7 @@ export default {
             }).then(response => {
                 vm.$emit('updated');
             }).catch(error => {
-                vm.$errors.record(error.response.data.errors);
+                // vm.$errors.record(error.response.data.errors);
             });
         },
         fetchAll() {

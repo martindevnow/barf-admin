@@ -14,7 +14,7 @@ class Validator {
             }, (error) => {
                 console.log('== API Error (http.js) ==');
                 console.log({error});
-                if (error && error.status === 422) {
+                if (error && error.response && error.response.status === 422) {
                     console.log('... sending to fill global errors');
                     Errors.fill(error.data)
                 }
