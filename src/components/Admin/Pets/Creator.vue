@@ -6,11 +6,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('owner_id') }"
+                     :class="{ 'has-error': $errors.has('owner_id') }"
                 >
                     <label>Owner</label>
                     <admin-user-selector v-model="form.owner"
-                                         @input="errors.clear('owner_id')"
+                                         @input="$errors.clear('owner_id')"
                     ></admin-user-selector>
                     <error input="owner_id"></error>
                 </div>
@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('name') }"
+                     :class="{ 'has-error': $errors.has('name') }"
                 >
                     <label for="name">Name</label>
                     <input type="text"
@@ -33,7 +33,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('breed') }"
+                     :class="{ 'has-error': $errors.has('breed') }"
                 >
                     <label for="breed">Breed</label>
                     <input type="text"
@@ -50,7 +50,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('species') }"
+                     :class="{ 'has-error': $errors.has('species') }"
                 >
                     <label for="species">Species</label>
                     <input type="text"
@@ -64,7 +64,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('activity_level') }"
+                     :class="{ 'has-error': $errors.has('activity_level') }"
                 >
                     <label for="activity_level">Activity Level</label>
                     <input type="text"
@@ -80,7 +80,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('birthday') }"
+                     :class="{ 'has-error': $errors.has('birthday') }"
                 >
                     <label>Birthday</label>
                     <datepicker v-model="form.birthday"
@@ -95,7 +95,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('weight') }"
+                     :class="{ 'has-error': $errors.has('weight') }"
                 >
                     <label for="weight">Weight</label>
                     <input type="text"
@@ -111,7 +111,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': errors.has('daily_meals') }"
+                     :class="{ 'has-error': $errors.has('daily_meals') }"
                 >
                     <label for="daily_meals">Daily Meals</label>
                     <input type="text"
@@ -130,14 +130,14 @@
             <div class="col-sm-6">
                 <label>&nbsp;</label>
                 <button class="btn btn-success btn-block"
-                        :disabled="errors.any()"
+                        :disabled="$errors.any()"
                         @click="save()"
                         v-if="! mode"
                 >
                     Save
                 </button>
                 <button class="btn btn-primary btn-block"
-                        :disabled="errors.any()"
+                        :disabled="$errors.any()"
                         @click="update()"
                         v-if="mode == 'EDIT'"
                 >
@@ -205,7 +205,7 @@ export default {
                 vm.$emit('saved');
             }).catch(error => {
                 console.log(error);
-                // vm.errors.record(error.response.data.errors);
+                vm.$errors.record(error.response.data.errors);
             });
         },
         update() {
@@ -217,7 +217,7 @@ export default {
             }).then(response => {
                 vm.$emit('updated');
             }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+                vm.$errors.record(error.response.data.errors);
             });
         },
         fetchAll() {

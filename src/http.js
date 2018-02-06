@@ -23,10 +23,12 @@ http.interceptors.request.use(function (config) {
 http.interceptors.response.use(function (response) {
   return response
 }, function (error) {
-  if (error.response.status === 401 && store.state.auth.access_token) {
+  console.log('== API Error ==');
+  // console.log({error});
+  if (error.response && error.response.status === 401 && store.state.auth.access_token) {
     store.dispatch('logout', false)
   }
-  return Promise.reject(error.response)
+  return Promise.reject(error)
 })
 
 export default http

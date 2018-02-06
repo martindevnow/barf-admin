@@ -12,10 +12,10 @@ class Validator {
             http.interceptors.response.use(response => {
                 return response; 
             }, (error) => {
-                console.log('intercepted an API error...');
-                console.log(error);
-                if (error.status === 422) {
-                    console.log('sending to fill');
+                console.log('== API Error (http.js) ==');
+                console.log({error});
+                if (error && error.status === 422) {
+                    console.log('... sending to fill global errors');
                     Errors.fill(error.data)
                 }
                 return Promise.reject(error)
