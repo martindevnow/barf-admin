@@ -4,33 +4,18 @@ import router from './router';
 import store from './vuex/store';
 import VueLocalStorage from 'vue-localstorage';
 import Vuetify from 'vuetify';
-import LaravelVueValidator from './models/ErrorValidator';
+
+import ErrorComponent from './components/Errors/ErrorComponent';
 
 Vue.config.productionTip = false;
 
 // const baseUrl = process.env.BARF_API_BASE + '/';
 // axios.defaults.baseURL = baseUrl;
 
-// axios.interceptors.response.use(
-//     response => {
-//         return response;
-//     },
-//     err => {
-//         if (err.response.status === 401) {
-//             console.log('401 received...');
-//             store.commit('logout', app);
-//             router.push('/auth/login');
-//         } else {
-//             return Promise.reject(err);
-//         }
-//     }
-// );
-
 
 /**
  * Local Storage Stuff
  */
-
 Vue.use(VueLocalStorage, {
     name: 'ls',
     createComputed: true //created computed members from your variable declarations
@@ -57,8 +42,9 @@ Vue.use(Vuetify, {
   }
 });
 
+Vue.component('error', ErrorComponent);
 
-Vue.use(LaravelVueValidator)
+
 
 /* eslint-disable no-new */
 let app = new Vue({

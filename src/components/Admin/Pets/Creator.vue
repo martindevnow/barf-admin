@@ -1,24 +1,24 @@
 <template>
-    <form @keydown="$errors.clear($event.target.name)"
+    <form @keydown="errors.clear($event.target.name)"
           @submit.prevent=""
     >
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('owner_id') }"
+                     :class="{ 'has-error': errors.has('owner_id') }"
                 >
                     <label>Owner</label>
                     <admin-user-selector v-model="form.owner"
-                                         @input="$errors.clear('owner_id')"
+                                         @input="errors.clear('owner_id')"
                     ></admin-user-selector>
-                    <error input="owner_id"></error>
+                    <error input="owner_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('name') }"
+                     :class="{ 'has-error': errors.has('name') }"
                 >
                     <label for="name">Name</label>
                     <input type="text"
@@ -27,12 +27,12 @@
                            name="name"
                            v-model="form.name"
                     >
-                    <error input="name"></error>
+                    <error input="name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('breed') }"
+                     :class="{ 'has-error': errors.has('breed') }"
                 >
                     <label for="breed">Breed</label>
                     <input type="text"
@@ -41,7 +41,7 @@
                            name="breed"
                            v-model="form.breed"
                     >
-                    <error input="breed"></error>
+                    <error input="breed" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('species') }"
+                     :class="{ 'has-error': errors.has('species') }"
                 >
                     <label for="species">Species</label>
                     <input type="text"
@@ -58,12 +58,12 @@
                            name="species"
                            v-model="form.species"
                     >
-                    <error input="species"></error>
+                    <error input="species" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('activity_level') }"
+                     :class="{ 'has-error': errors.has('activity_level') }"
                 >
                     <label for="activity_level">Activity Level</label>
                     <input type="text"
@@ -72,14 +72,14 @@
                            name="activity_level"
                            v-model="form.activity_level"
                     >
-                    <error input="activity_level"></error>
+                    <error input="activity_level" :errors="errors"></error>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('birthday') }"
+                     :class="{ 'has-error': errors.has('birthday') }"
                 >
                     <label>Birthday</label>
                     <datepicker v-model="form.birthday"
@@ -89,12 +89,12 @@
                                 input-class="form-control"
                     >
                     </datepicker>
-                    <error input="birthday"></error>
+                    <error input="birthday" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('weight') }"
+                     :class="{ 'has-error': errors.has('weight') }"
                 >
                     <label for="weight">Weight</label>
                     <input type="text"
@@ -103,14 +103,14 @@
                            name="weight"
                            v-model="form.weight"
                     >
-                    <error input="weight"></error>
+                    <error input="weight" :errors="errors"></error>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group"
-                     :class="{ 'has-error': $errors.has('daily_meals') }"
+                     :class="{ 'has-error': errors.has('daily_meals') }"
                 >
                     <label for="daily_meals">Daily Meals</label>
                     <input type="text"
@@ -119,7 +119,7 @@
                            name="daily_meals"
                            v-model="form.daily_meals"
                     >
-                    <error input="daily_meals"></error>
+                    <error input="daily_meals" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -129,14 +129,14 @@
             <div class="col-sm-6">
                 <label>&nbsp;</label>
                 <button class="btn btn-success btn-block"
-                        :disabled="$errors.any()"
+                        :disabled="errors.any()"
                         @click="save()"
                         v-if="! mode"
                 >
                     Save
                 </button>
                 <button class="btn btn-primary btn-block"
-                        :disabled="$errors.any()"
+                        :disabled="errors.any()"
                         @click="update()"
                         v-if="mode == 'EDIT'"
                 >
@@ -158,9 +158,9 @@
 </template>
 
 <script>
-import hasErrors from '../../../mixins/hasErrors';
-
+import FormErrors from '../../../models/FormErrors';
 import Form from '../../../models/Form';
+
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
@@ -168,11 +168,8 @@ import { BasicSelect } from 'vue-search-select'
 import * as userActions from "../../../vuex/modules/users/actionTypes";
 import * as petActions from "../../../vuex/modules/pets/actionTypes";
 import AdminUserSelector from '../Users/UserSelector.vue';
-import Errors from '../../../models/Errors';
+
 export default {
-    mixins: [
-        hasErrors,
-    ],
     components: {
         Datepicker,
         AdminUserSelector,
@@ -180,7 +177,7 @@ export default {
     data() {
         return {
             // formId: 'petCreator',
-            // errors: Errors,
+            errors: new FormErrors(),
             form: {
                 owner: {},
                 owner_id: null,
@@ -203,11 +200,10 @@ export default {
                 ...this.form, birthday, owner_id,
             }).then(response => {
                 vm.$emit('saved');
-            }).catch(error => {
+            }).catch(failedRequest => {
                 console.log('== Pet Creator ==');
-                console.log(error);
-                // vm.$options.$errors.record(error);
-                // vm.$errors.record(error.response.data.errors);
+                console.log(failedRequest);
+                vm.errors.fill(failedRequest);
             });
         },
         update() {
@@ -218,8 +214,8 @@ export default {
                 ...this.form, birthday, owner_id,
             }).then(response => {
                 vm.$emit('updated');
-            }).catch(error => {
-                // vm.$errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         fetchAll() {

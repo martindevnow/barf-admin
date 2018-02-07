@@ -6,7 +6,6 @@ class Validator {
 
     install(Vue) {
 
-        Vue.component('error', ErrorComponent);
 
         if (http) {
             http.interceptors.response.use(response => {

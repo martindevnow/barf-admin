@@ -1,5 +1,4 @@
-import Vue from 'Vue';
-class Errors {
+class FormErrors {
     constructor() {
         this.errors = {};
     }
@@ -33,7 +32,6 @@ class Errors {
                     this.errors[key] = request.response.data.errors[key];
                 }
             })
-            Vue.$forceUpdate();
     }
 
     // record(errors) {
@@ -45,13 +43,7 @@ class Errors {
     }
 
     any() {
-        if (! this.formId)
-            return !! Object.keys(this.errors)
-                .length > 0;
-
-        return !! Object.keys(this.errors)
-            .filter(key => key.indexOf(this.formId) !== -1)
-            .length > 0;
+        return !! Object.keys(this.errors).length > 0;
     }
 
     flush() {
@@ -59,4 +51,4 @@ class Errors {
     }
 }
 
-export default new Errors();
+export default FormErrors;

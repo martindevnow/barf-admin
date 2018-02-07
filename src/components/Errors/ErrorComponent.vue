@@ -8,7 +8,7 @@
 
     export default {
 
-        props: ['input'],
+        props: ['input', 'errors'],
 
         data(){
             return {}
@@ -16,11 +16,11 @@
 
         methods: {
             has(errorKey) {
-                return this.$errors.has(errorKey);
+                return this.errors.has(errorKey);
             },
             first(errorKey) {
                 console.log('fuck');
-                return this.$errors.first(errorKey);
+                return this.errors.first(errorKey);
             }
         },
  
