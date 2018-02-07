@@ -13,10 +13,10 @@ class Validator {
                 return response; 
             }, (error) => {
                 console.log('== API Error (http.js) ==');
-                console.log({error});
+                // console.log({error});
                 if (error && error.response && error.response.status === 422) {
                     console.log('... sending to fill global errors');
-                    Errors.fill(error.data)
+                    $errors.fill(error.data)
                 }
                 return Promise.reject(error)
             });

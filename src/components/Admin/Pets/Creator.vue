@@ -209,7 +209,9 @@ export default {
             }).then(response => {
                 vm.$emit('saved');
             }).catch(error => {
-                // console.log(error);
+                console.log('== Pet Creator ==');
+                console.log(error);
+                vm.$options.$errors.record(error);
                 // vm.$errors.record(error.response.data.errors);
             });
         },
