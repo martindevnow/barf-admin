@@ -1,6 +1,6 @@
 <template>
-    <div v-if="$errors.has(input)" class="alert-error">
-        <span class="help-block">{{ $errors.first(input) }}</span>
+    <div v-if="has(input)" class="alert-error">
+        <span class="help-block">{{ first(input) }}</span>
     
     </div>
 </template>
@@ -14,15 +14,21 @@
             return {}
         },
 
-        methods: {},
-
+        methods: {
+            has(errorKey) {
+                return this.$errors.has(errorKey);
+            },
+            first(errorKey) {
+                console.log('fuck');
+                return this.$errors.first(errorKey);
+            }
+        },
+ 
         computed: {},
 
         watch: {},
 
-        mounted(){
-
-        }
+        mounted(){}
     }
 
 </script>

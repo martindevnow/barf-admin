@@ -2,12 +2,6 @@
     <form @keydown="$errors.clear($event.target.name)"
           @submit.prevent=""
     >
-        <h3>$errors</h3>
-        {{ $errors }}
-
-        <h3>errors</h3>
-        {{ errors }}
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group"
@@ -185,7 +179,8 @@ export default {
     },
     data() {
         return {
-            errors: Errors,
+            // formId: 'petCreator',
+            // errors: Errors,
             form: {
                 owner: {},
                 owner_id: null,
@@ -211,7 +206,7 @@ export default {
             }).catch(error => {
                 console.log('== Pet Creator ==');
                 console.log(error);
-                vm.$options.$errors.record(error);
+                // vm.$options.$errors.record(error);
                 // vm.$errors.record(error.response.data.errors);
             });
         },
@@ -229,6 +224,8 @@ export default {
         },
         fetchAll() {
             this.$store.dispatch('users/' + userActions.FETCH_ALL);
+                                console.log();
+
         },
         populateFormFromPet(pet) {
             this.form.owner = pet.owner;
@@ -254,6 +251,7 @@ export default {
         }),
     },
     mounted() {
+        console.log('PetCreator Component Mounted');
         this.fetchAll();
         if (this.mode == 'EDIT') {
             this.populateFormFromPet(this.selected);

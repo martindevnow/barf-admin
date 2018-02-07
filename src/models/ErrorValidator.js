@@ -16,7 +16,7 @@ class Validator {
                 // console.log({error});
                 if (error && error.response && error.response.status === 422) {
                     console.log('... sending to fill global errors');
-                    $errors.fill(error.data)
+                    Errors.fill(error)
                 }
                 return Promise.reject(error)
             });
@@ -34,7 +34,6 @@ class Validator {
                     return this.$options.$errors;
                 };
             },
-
         })
 
     }
