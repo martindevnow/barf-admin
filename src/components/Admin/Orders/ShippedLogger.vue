@@ -93,7 +93,6 @@
 
 
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
-import eventBus from '../../../events/eventBus';
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import hasErrors from '../../../mixins/hasErrors';
