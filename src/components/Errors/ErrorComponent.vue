@@ -1,6 +1,6 @@
 <template>
-    <div v-if="has(input)" class="alert-error">
-        <span class="help-block">{{ first(input) }}</span>
+    <div v-if="errors.has(input)" class="alert-error">
+        <span class="help-block">{{ errors.first(input) }}</span>
     
     </div>
 </template>
