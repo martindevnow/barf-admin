@@ -205,6 +205,7 @@ export default {
             this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});   
         },
         openCancellationModal(order) {
+            console.log('== Orders Dashboard ==');
             this.$store.dispatch('orders/' + orderActions.OPEN_CANCELLED_LOGGER, order)
             this.$router.push({name: 'OrderCancellationLogger', params: {id: order.id}});
         },

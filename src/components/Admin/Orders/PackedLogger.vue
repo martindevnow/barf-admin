@@ -92,6 +92,7 @@ export default {
         save() {
             let vm = this;
             let payload = { ... this.form };
+            payload.packed_package_id = this.form.packed_package.id;
             delete payload.packed_package;
 
             this.$store.dispatch('orders/' + orderActions.SAVE_PACKED, payload)

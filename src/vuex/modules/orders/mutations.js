@@ -78,7 +78,7 @@ export default {
         state.show.deliveredModal = false;
     },
 
-    [mutations.HIDE_CANCELLED_LOGGER] (state) {
+    [mutations.SHOW_CANCELLED_LOGGER] (state) {
         state.show.cancellationModal = true;
     },
 
