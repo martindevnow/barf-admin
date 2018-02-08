@@ -19,9 +19,9 @@
                     <input type="text" class="form-control"
                            id="weeks_packed"
                            name="weeks_packed"
-                           v-model="weeks_packed"
+                           v-model="form.weeks_packed"
                     >
-                    <span class="help-block">{{ errors.get('weeks_packed') }}</span>
+                    <error input="weeks_packed" :errors="errors"></error>
                 </div>
 
             </div>
@@ -30,11 +30,11 @@
                      v-bind:class="{'has-error': errors.has('packed_package_id') }"
                 >
                     <label>Package</label>
-                    <admin-package-selector v-model="packed_package"
+                    <admin-package-selector v-model="form.packed_package"
                                             @input="errors.clear('packed_package_id')"
                     >
                     </admin-package-selector>
-                    <span class="help-block">{{ errors.get('packed_package_id') }}</span>
+                    <error input="packed_package_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -60,9 +60,9 @@
 </template>
 
 <script>
+import FormErrors from '../../../models/FormErrors';
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
 import eventBus from '../../../events/eventBus';
-import hasErrors from '../../../mixins/hasErrors';
 import * as packageActions from '../../../vuex/modules/packages/actionTypes';
 import * as orderMutations from "../../../vuex/modules/orders/mutationTypes";
 import * as orderActions from "../../../vuex/modules/orders/actionTypes";
@@ -72,14 +72,17 @@ export default {
     components: {
         AdminPackageSelector
     },
-    mixins: [
-        hasErrors
-    ],
     data() {
-        return {
+        let form = {
             weeks_packed: 0,
             package_id: null,
             packed_package: {},
+            packed_package_id: 0,
+        }
+        let formFields = Object.keys(form);
+        return {
+            errors: new FormErrors(formFields),            
+            form,
         };
     },
     methods: {
@@ -88,13 +91,14 @@ export default {
         },
         save() {
             let vm = this;
-            this.$store.dispatch('orders/' + orderActions.SAVE_PACKED, {
-                weeks_packed:      this.weeks_packed,
-                packed_package_id: this.packed_package.id,
-            }).then(response => {
+            let payload = { ... this.form };
+            delete payload.packed_package;
+
+            this.$store.dispatch('orders/' + orderActions.SAVE_PACKED, payload)
+            .then(response => {
                 vm.close();
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         close() {

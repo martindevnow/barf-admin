@@ -20,7 +20,7 @@
                            name="name"
                            v-model="form.name"
                     >
-                    <span class="help-block">{{ errors.get('name') }}</span>
+                    <error input="amount_paid" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -35,7 +35,7 @@
                            v-model="form.email"
                            autocomplete="off"
                     >
-                    <span class="help-block">{{ errors.get('email') }}</span>
+                    <error input="amount_paid" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                            v-model="form.password"
                            autocomplete="off"
                     >
-                    <span class="help-block">{{ errors.get('password') }}</span>
+                    <error input="amount_paid" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -67,7 +67,7 @@
                            name="phone_number"
                            v-model="form.phone_number"
                     >
-                    <span class="help-block">{{ errors.get('phone_number') }}</span>
+                    <error input="amount_paid" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                            name="first_name"
                            class="form-control"
                     >
-                    <span class="help-block">{{ errors.get('first_name') }}</span>
+                    <error input="amount_paid" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">

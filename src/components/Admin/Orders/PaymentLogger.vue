@@ -15,11 +15,10 @@
                                placeholder="10"
                                id="amount_paid"
                                name="amount_paid"
-                               v-model="amount_paid"
+                               v-model="form.amount_paid"
                         >
                     </div>
-                    <span class="help-block">{{ errors.get('amount_paid') }}</span>
-
+                    <error input="amount_paid" :errors="errors"></error>
                 </div>
             </div>
 
@@ -28,14 +27,14 @@
                      v-bind:class="{'has-error': errors.has('received_at') }"
                 >
                     <label>Received At</label>
-                    <datepicker v-model="received_at"
+                    <datepicker v-model="form.received_at"
                                 id="received_at"
                                 name="received_at"
                                 format="yyyy-MM-dd"
                                 input-class="form-control"
                     >
                     </datepicker>
-                    <span class="help-block">{{ errors.get('received_at') }}</span>
+                    <error input="received_at" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -47,7 +46,7 @@
                      v-bind:class="{'has-error': errors.has('format') }"
                 >
                     <label for="format">Format</label>
-                    <select v-model="format"
+                    <select v-model="form.format"
                             class="form-control"
                             id="format"
                             name="format"
@@ -55,7 +54,7 @@
                     >
                         <option v-for="format in paymentFormats">{{ format }}</option>
                     </select>
-                    <span class="help-block">{{ errors.get('format') }}</span>
+                    <error input="format" :errors="errors"></error>
 
                 </div>
             </div>
@@ -85,24 +84,27 @@
 </template>
 
 <script>
+import FormErrors from '../../../models/FormErrors';
 import { mapState, mapActions, mapMutations } from 'vuex';
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
-import hasErrors from '../../../mixins/hasErrors';
 import * as orderActions from "../../../vuex/modules/orders/actionTypes";
 
 export default {
-    mixins: [
-        hasErrors
-    ],
     components: {
         Datepicker,
     },
     data() {
-        return {
+        let form = {
             amount_paid: null,
             received_at: null,
             format: '',
+        };
+        let formFields = Object.keys(form);
+        
+        return {
+            errors: new FormErrors(formFields),            
+            form,
             paymentFormats: [
                 'cash',
                 'e-transfer',
@@ -116,13 +118,13 @@ export default {
         save() {
             let vm = this;
             this.$store.dispatch('orders/' + orderActions.SAVE_PAYMENT, {
-                format:      this.format,
-                amount_paid: this.amount_paid,
-                received_at: moment(this.received_at).format('YYYY-MM-DD'),
+                format:      this.form.format,
+                amount_paid: this.form.amount_paid,
+                received_at: moment(this.form.received_at).format('YYYY-MM-DD'),
             }).then(response => {
                 vm.close();
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         close() {

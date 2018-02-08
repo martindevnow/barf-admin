@@ -16,7 +16,7 @@
                            v-model="form.code"
                            placeholder="M-CH-BL"
                     >
-                    <span class="help-block">{{ errors.get('code') }}</span>
+                    <error input="code" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -31,7 +31,7 @@
                            v-model="form.label"
                            placeholder="Chicken (Boneless)"
                     >
-                    <span class="help-block">{{ errors.get('label') }}</span>
+                    <error input="label" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                            name="meal_value"
                            v-model="form.meal_value"
                     >
-                    <span class="help-block">{{ errors.get('meal_value') }}</span>
+                    <error input="meal_value" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                     <button class="btn btn-block"
                             @click="form.meats.push({})"
                     >+</button>
-                    <span class="help-block">{{ errors.get('meats') }}</span>
+                    <error input="meats" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -86,7 +86,7 @@
                 <button class="btn btn-block"
                         @click="form.toppings.push({})"
                 >+</button>
-                <span class="help-block">{{ errors.get('toppings') }}</span>
+                <error input="toppings" :errors="errors"></error>
             </div>
         </div>
 
@@ -125,8 +125,9 @@
 </template>
 
 <script>
-import hasErrors from '../../../mixins/hasErrors';
+import FormErrors from '../../../models/FormErrors';
 import Form from '../../../models/Form';
+
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
 import moment from 'moment';
 import * as mealActions from '../../../vuex/modules/meats/actionTypes';
@@ -142,18 +143,18 @@ export default {
         AdminToppingSelector,
         AdminMeatSelector,
     },
-    mixins: [
-        hasErrors
-    ],
     data() {
-        return {
-            form: {
+        let form = {
                 code: '',
                 label: '',
                 meal_value: null,
                 meats: [],
                 toppings: [],
-            },
+            };
+        let formFields = Object.keys(form);
+        return {
+            errors: new FormErrors(formFields),
+            form,
         };
     },
     methods: {
@@ -183,8 +184,8 @@ export default {
                 ...this.form, meats, toppings
             }).then(response => {
                 vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         update() {
@@ -196,8 +197,8 @@ export default {
                 ...this.form, meats, toppings
             }).then(response => {
                 vm.$emit('updated');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         }
     },

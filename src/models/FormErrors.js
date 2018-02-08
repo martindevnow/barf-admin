@@ -40,10 +40,6 @@ class FormErrors {
             })
     }
 
-    // record(errors) {
-    //     this.errors = { ...this.errors, ...errors };
-    // }
-
     clear(key) {
         this.errors[key] = '';
     }

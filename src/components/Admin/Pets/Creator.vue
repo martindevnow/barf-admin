@@ -202,8 +202,6 @@ export default {
             }).then(response => {
                 vm.$emit('saved');
             }).catch(failedRequest => {
-                console.log('== Pet Creator ==');
-                console.log(failedRequest);
                 vm.errors.fill(failedRequest);
             });
         },
@@ -248,7 +246,6 @@ export default {
         }),
     },
     mounted() {
-        console.log('PetCreator Component Mounted');
         this.fetchAll();
         if (this.mode == 'EDIT') {
             this.populateFormFromPet(this.selected);

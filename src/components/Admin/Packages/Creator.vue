@@ -15,7 +15,7 @@
                            name="label"
                            v-model="form.label"
                     >
-                    <span class="help-block">{{ errors.get('label') }}</span>
+                    <error input="label" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -33,7 +33,7 @@
                             <span>Public</span>
                         </label>
                     </div>
-                    <span class="help-block">{{ errors.get('public') }}</span>
+                    <error input="public" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -50,7 +50,7 @@
                            name="code"
                            v-model="form.code"
                     >
-                    <span class="help-block">{{ errors.get('code') }}</span>
+                    <error input="code" :errors="errors"></error>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
                             <span>Customized</span>
                         </label>
                     </div>
-                    <span class="help-block">{{ errors.get('customization') }}</span>
+                    <error input="customization" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
                             name="level"
                             class="form-control"
                     >
-                    <span class="help-block">{{ errors.get('level') }}</span>
+                    <error input="level" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -103,7 +103,7 @@
                             <span>Active</span>
                         </label>
                     </div>
-                    <span class="help-block">{{ errors.get('active') }}</span>
+                    <error input="active" :errors="errors"></error>
                 </div>
             </div>
 
@@ -144,7 +144,7 @@
 </template>
 
 <script>
-    import hasErrors from '../../../mixins/hasErrors';
+import FormErrors from '../../../models/FormErrors';
     import Form from '../../../models/Form';
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import moment from 'moment';
@@ -154,28 +154,29 @@
     import * as mealActions from '../../../vuex/modules/meals/actionTypes';
 
 export default {
-    mixins: [
-        hasErrors
-    ],
     components: {
         Datepicker,
         BasicSelect,
     },
     data() {
-        return {
-            ownerSearchText: '',
-            owner: {
-                value: '',
-                text: '',
-            },
-            form: {
+        let form = {
                 code: '',
                 label: '',
                 customization: false,
                 level: null,
                 active: false,
                 public: false,
-            }
+            };
+        let formFields = Object.keys(form);            
+        return {
+            form,
+            errors: new FormErrors(formFields),            
+            ownerSearchText: '',
+            owner: {
+                value: '',
+                text: '',
+            },
+            
         };
     },
     methods: {
@@ -188,8 +189,8 @@ export default {
                 ...this.form
             }).then(response => {
                 vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         update() {
@@ -198,8 +199,8 @@ export default {
                 this.form
             ).then(response => {
                 vm.$emit('updated');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         populateFormFromPackage(pkg) {
