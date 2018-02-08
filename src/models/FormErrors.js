@@ -1,6 +1,12 @@
 class FormErrors {
-    constructor() {
+    constructor(keys = null) {
         this.errors = {};
+        
+        if (keys) {
+            keys.forEach((key) => {
+                this.errors[key] = '';
+            })
+        }
     }
 
     has(key) {
@@ -39,11 +45,17 @@ class FormErrors {
     // }
 
     clear(key) {
-        delete this.errors[key];
+        this.errors[key] = '';
     }
 
     any() {
-        return !! Object.keys(this.errors).length > 0;
+        let hasErrors = false;
+        Object.keys(this.errors).forEach(key => {
+            if (this.errors[key]) {
+                hasErrors = true;
+            }
+        });
+        return hasErrors;
     }
 
     flush() {

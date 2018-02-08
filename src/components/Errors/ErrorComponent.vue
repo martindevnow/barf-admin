@@ -1,17 +1,20 @@
 <template>
-    <div v-if="errors.has(input)" class="alert-error">
-        <span class="help-block">{{ errors.first(input) }}</span>
+    <div v-if="loadedErrors.has(input)" class="alert-error">
+        <span class="help-block">{{ loadedErrors.first(input) }}</span>
     
     </div>
 </template>
 <script>
+    import FormErrors from '../../models/FormErrors';
 
     export default {
 
         props: ['input', 'errors'],
 
         data(){
-            return {}
+            return {
+                loadedErrors: new FormErrors(),
+            }
         },
 
         methods: {
@@ -21,14 +24,26 @@
             first(errorKey) {
                 console.log('fuck');
                 return this.errors.first(errorKey);
+            },
+            setData() {
+                this.loadedErrors = this.errors;
             }
         },
  
         computed: {},
 
-        watch: {},
+        watch: {
+            errors(newVal) {
+                console.log('field: '+ this.input);
+                console.log('error changed to: ' );
+                console.log(newVal);
+                this.setData();
+            }
+        },
 
-        mounted(){}
+        mounted(){
+            this.setData();
+        },
     }
 
 </script>

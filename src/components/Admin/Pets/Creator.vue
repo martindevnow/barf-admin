@@ -175,10 +175,7 @@ export default {
         AdminUserSelector,
     },
     data() {
-        return {
-            // formId: 'petCreator',
-            errors: new FormErrors(),
-            form: {
+        let form  = {
                 owner: {},
                 owner_id: null,
                 name: '',
@@ -188,7 +185,11 @@ export default {
                 activity_level: null,
                 birthday: null,
                 daily_meals: 2,
-            }
+            };
+        let formFields = Object.keys(form);
+        return {
+            errors: new FormErrors(formFields),
+            form,
         };
     },
     methods: {
