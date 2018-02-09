@@ -173,6 +173,7 @@
 
 <script>
     import FormErrors from '../../../models/FormErrors';
+    import swal from 'sweetalert2';
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as addressMutations from "../../../vuex/modules/addresses/mutationTypes";
     import * as addressActions from "../../../vuex/modules/addresses/actionTypes";
@@ -206,6 +207,7 @@
                 ).then(response => {
                     vm.$emit('saved', response.data);
                 }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
                     vm.errors.fill(failedRequest);
                 });
             },
@@ -216,6 +218,7 @@
                 ).then(response => {
                     vm.$emit('updated', response.data);
                 }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
                     vm.errors.fill(failedRequest);
                 });
             },
