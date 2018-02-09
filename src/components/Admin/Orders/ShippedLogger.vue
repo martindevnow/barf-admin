@@ -95,6 +95,7 @@
 
 
 import FormErrors from '../../../models/FormErrors';
+import swal from "sweetalert2";
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';

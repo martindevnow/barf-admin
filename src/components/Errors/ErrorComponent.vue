@@ -17,32 +17,14 @@
             }
         },
 
-        methods: {
-            has(errorKey) {
-                return this.errors.has(errorKey);
-            },
-            first(errorKey) {
-                console.log('fuck');
-                return this.errors.first(errorKey);
-            },
-            setData() {
-                this.loadedErrors = this.errors;
-            }
-        },
+        methods: {},
  
         computed: {},
 
-        watch: {
-            errors(newVal) {
-                console.log('field: '+ this.input);
-                console.log('error changed to: ' );
-                console.log(newVal);
-                this.setData();
-            }
-        },
+        watch: {},
 
         mounted(){
-            this.setData();
+            this.loadedErrors = this.errors;
         },
     }
 

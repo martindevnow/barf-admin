@@ -105,7 +105,6 @@
             }
         },
         mounted() {
-            console.log('pet dash mounted');
             this.fetchAll();
         },
         methods: {

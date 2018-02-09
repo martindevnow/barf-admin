@@ -77,6 +77,7 @@
 <script>
     import FormErrors from '../../../models/FormErrors';
     import swal from 'sweetalert2';
+    
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
     import * as packageActions from "../../../vuex/modules/packages/actionTypes";
@@ -160,9 +161,9 @@
                     vm.$emit('saved');
                     swal('Done', 'Thank you', 'success');
                 })
-                .catch(error => {
-                    console.log(error);
+                .catch(failedRequest => {
                     swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
         },

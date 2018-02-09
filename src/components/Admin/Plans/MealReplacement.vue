@@ -100,6 +100,8 @@
 
 <script>
     import FormErrors from '../../../models/FormErrors';
+    import swal from "sweetalert2";
+    
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
 
@@ -132,12 +134,11 @@
                     removed_meal_id: vm.form.removed_meal.id,
                     added_meal_id: vm.form.added_meal.id,
                 }).then(response => {
-                    console.log(response);
                     vm.loadCustomMenu();
-
                     vm.$emit('saved');
-                }).catch(error => {
-                    console.log(error);
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             deleteReplacement(meal_replacement) {
@@ -148,12 +149,12 @@
                     vm.loadCustomMenu();
                     alert('Removed');
                 }).catch(error => {
-                    alert('Error');
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             isReplaced(meal) {
                 if (! this.selected.meal_replacements.length) {
-                    console.log('no meal replacements');
                     return false;
                 }
 

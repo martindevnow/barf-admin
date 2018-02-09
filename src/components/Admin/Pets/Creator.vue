@@ -160,6 +160,7 @@
 <script>
 import FormErrors from '../../../models/FormErrors';
 import Form from '../../../models/Form';
+import swal from 'sweetalert2';
 
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
 import moment from 'moment';
@@ -202,6 +203,7 @@ export default {
             }).then(response => {
                 vm.$emit('saved');
             }).catch(failedRequest => {
+                swal('Error', 'Something went wrong...', 'error');
                 vm.errors.fill(failedRequest);
             });
         },
@@ -214,13 +216,12 @@ export default {
             }).then(response => {
                 vm.$emit('updated');
             }).catch(failedRequest => {
+                swal('Error', 'Something went wrong...', 'error');
                 vm.errors.fill(failedRequest);
             });
         },
         fetchAll() {
             this.$store.dispatch('users/' + userActions.FETCH_ALL);
-                                console.log();
-
         },
         populateFormFromPet(pet) {
             this.form.owner = pet.owner;

@@ -61,6 +61,7 @@
 
 <script>
 import FormErrors from '../../../models/FormErrors';
+import swal from "sweetalert2";
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
 import * as packageActions from '../../../vuex/modules/packages/actionTypes';
 import * as orderMutations from "../../../vuex/modules/orders/mutationTypes";

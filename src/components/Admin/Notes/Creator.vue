@@ -53,9 +53,9 @@
 
 <script>
 import FormErrors from '../../../models/FormErrors';
+import swal from "sweetalert2";
 
 import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
-import swal from "sweetalert2";
 import * as noteActions from "../../../vuex/modules/notes/actionTypes";
 
 export default {
@@ -98,11 +98,10 @@ export default {
       this.$store
         .dispatch("notes/" + noteActions.DELETE, id)
         .then(response => {
-          alert("deleted");
+          swal('Success', 'That note was deleted.', 'success');
         })
         .catch(error => {
-          console.log(error);
-          alert("error");
+          swal('Error', 'Something went wrong...', 'error');
         });
     }
   },

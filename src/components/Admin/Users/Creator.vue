@@ -188,6 +188,7 @@
     import FormErrors from '../../../models/FormErrors';
     import Form from '../../../models/Form';
     import swal from 'sweetalert2';
+    
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as userActions from '../../../vuex/modules/users/actionTypes';
     import * as userMutations from '../../../vuex/modules/users/mutationTypes';
@@ -224,6 +225,7 @@
                 ).then(response => {
                     vm.$emit('saved');
                 }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
                     vm.errors.fill(failedRequest);
                 });
             },
@@ -234,6 +236,7 @@
                 ).then(response => {
                     vm.$emit('saved');
                 }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
                     vm.errors.fill(failedRequest);
                 });
             },
@@ -243,8 +246,9 @@
                     address.id
                 ).then(response => {
                     vm.addAddress = false;
-                }).catch(error => {
-                    alert('error');
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest)
                 });
             },
             updateUserAddress(address) {

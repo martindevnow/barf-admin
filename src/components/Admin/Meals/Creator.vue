@@ -125,104 +125,105 @@
 </template>
 
 <script>
-import FormErrors from '../../../models/FormErrors';
-import Form from '../../../models/Form';
+    import FormErrors from '../../../models/FormErrors';
+    import Form from '../../../models/Form';
+    import swal from 'sweetalert2';
 
-import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-import moment from 'moment';
-import * as mealActions from '../../../vuex/modules/meats/actionTypes';
-import * as mutations from '../../../vuex/modules/meats/mutationTypes';
-import * as toppingActions from "../../../vuex/modules/toppings/actionTypes";
+    import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
+    import moment from 'moment';
+    import * as mealActions from '../../../vuex/modules/meats/actionTypes';
+    import * as mutations from '../../../vuex/modules/meats/mutationTypes';
+    import * as toppingActions from "../../../vuex/modules/toppings/actionTypes";
 
-import AdminToppingSelector from '../Toppings/ToppingSelector.vue';
-import AdminMeatSelector from '../Meats/MeatSelector.vue';
+    import AdminToppingSelector from '../Toppings/ToppingSelector.vue';
+    import AdminMeatSelector from '../Meats/MeatSelector.vue';
 
 
-export default {
-    components: {
-        AdminToppingSelector,
-        AdminMeatSelector,
-    },
-    data() {
-        let form = {
-                code: '',
-                label: '',
-                meal_value: null,
-                meats: [],
-                toppings: [],
+    export default {
+        components: {
+            AdminToppingSelector,
+            AdminMeatSelector,
+        },
+        data() {
+            let form = {
+                    code: '',
+                    label: '',
+                    meal_value: null,
+                    meats: [],
+                    toppings: [],
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
             };
-        let formFields = Object.keys(form);
-        return {
-            errors: new FormErrors(formFields),
-            form,
-        };
-    },
-    methods: {
-        fetchAll() {
-            this.$store.dispatch('toppings/' + toppingActions.FETCH_ALL);
-            this.$store.dispatch('meats/' + mealActions.FETCH_ALL);
         },
-        removeTopping(index) {
-            this.form.toppings.splice(index, 1);
-        },
-        removeMeat(index) {
-            this.form.meats.splice(index, 1);
-        },
-        populateFormFromModel(meal) {
-            this.form.code = meal.code;
-            this.form.label = meal.label;
-            this.form.meal_value = meal.meal_value;
-            this.form.meats = meal.meats;
-            this.form.toppings = meal.toppings;
-        },
-        save() {
-            let vm = this;
-            let meats = this.form.meats.map(meat => meat.id);
-            let toppings = this.form.toppings.map(topping => topping.id);
+        methods: {
+            fetchAll() {
+                this.$store.dispatch('toppings/' + toppingActions.FETCH_ALL);
+                this.$store.dispatch('meats/' + mealActions.FETCH_ALL);
+            },
+            removeTopping(index) {
+                this.form.toppings.splice(index, 1);
+            },
+            removeMeat(index) {
+                this.form.meats.splice(index, 1);
+            },
+            populateFormFromModel(meal) {
+                this.form.code = meal.code;
+                this.form.label = meal.label;
+                this.form.meal_value = meal.meal_value;
+                this.form.meats = meal.meats;
+                this.form.toppings = meal.toppings;
+            },
+            save() {
+                let vm = this;
+                let meats = this.form.meats.map(meat => meat.id);
+                let toppings = this.form.toppings.map(topping => topping.id);
 
-            this.$store.dispatch('meals/' + mealActions.SAVE, {
-                ...this.form, meats, toppings
-            }).then(response => {
-                vm.$emit('saved');
-            }).catch(failedRequest => {
-                vm.errors.fill(failedRequest);
-            });
-        },
-        update() {
-            let vm = this;
-            let meats = this.form.meats.filter(item => item.id).map(item => item.id);
-            let toppings = this.form.toppings.filter(item => item.id).map(item => item.id);
+                this.$store.dispatch('meals/' + mealActions.SAVE, {
+                    ...this.form, meats, toppings
+                }).then(response => {
+                    vm.$emit('saved');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            },
+            update() {
+                let vm = this;
+                let meats = this.form.meats.filter(item => item.id).map(item => item.id);
+                let toppings = this.form.toppings.filter(item => item.id).map(item => item.id);
 
-            this.$store.dispatch('meals/' + mealActions.UPDATE, {
-                ...this.form, meats, toppings
-            }).then(response => {
-                vm.$emit('updated');
-            }).catch(failedRequest => {
-                vm.errors.fill(failedRequest);
-            });
-        }
-    },
-    computed: {
-        ...mapState('meals', [
-            'show',
-            'selected',
-            'mode',
-            'collection'
-        ]),
-    },
-    mounted() {
-        this.fetchAll();
-        if (this.mode == 'EDIT') {
-            this.populateFormFromModel(this.selected);
-        }
-    },
-    watch: {
-        selected(newSelected) {
-            if (newSelected)
-                this.populateFormFromModel(newSelected);
+                this.$store.dispatch('meals/' + mealActions.UPDATE, {
+                    ...this.form, meats, toppings
+                }).then(response => {
+                    vm.$emit('updated');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            }
+        },
+        computed: {
+            ...mapState('meals', [
+                'show',
+                'selected',
+                'mode',
+                'collection'
+            ]),
+        },
+        mounted() {
+            this.fetchAll();
+            if (this.mode == 'EDIT') {
+                this.populateFormFromModel(this.selected);
+            }
+        },
+        watch: {
+            selected(newSelected) {
+                if (newSelected)
+                    this.populateFormFromModel(newSelected);
+            }
         }
     }
-}
 </script>
 
 <style>

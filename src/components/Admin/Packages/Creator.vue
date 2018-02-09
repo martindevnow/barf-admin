@@ -144,8 +144,9 @@
 </template>
 
 <script>
-import FormErrors from '../../../models/FormErrors';
+    import FormErrors from '../../../models/FormErrors';
     import Form from '../../../models/Form';
+    import swal from "sweetalert2";
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import moment from 'moment';
     import Datepicker from 'vuejs-datepicker';

@@ -101,42 +101,6 @@
             </tbody>
         </table>
 
-<<<<<<< HEAD
-=======
-
-        <!-- <admin-common-modal v-if="show.paymentModal">
-            <p slot="header">Log a Payment</p>
-            <admin-payment-logger @saved="closePaymentModal()"
-                                  @cancelled="closePaymentModal()"
-                                  slot="body"
-            ></admin-payment-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.packedModal">
-            <p slot="header">Log Packing an Order</p>
-            <admin-packed-logger @saved="closePackedModal()"
-                                 @cancelled="closePackedModal()"
-                                 slot="body"
-            ></admin-packed-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.shippedModal">
-            <p slot="header">Log a Shipment</p>
-            <admin-shipped-logger @saved="closeShippedModal()"
-                                  @cancelled="closeShippedModal()"
-                                  slot="body"
-            ></admin-shipped-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.cancellationModal">
-            <p slot="header">Cancel an Order</p>
-            <p slot="body">Reason:</p>
-            <admin-orders-canceller @saved="closeCancellationModal()"
-                                    @cancelled="closeCancellationModal()"
-                                    slot="body"
-            ></admin-orders-canceller>
-        </admin-common-modal> -->
->>>>>>> ddb21a1cf3a5d9f276bf3f700458ef5a34dece13
     </div>
 </template>
 
@@ -208,7 +172,6 @@ export default {
             this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});   
         },
         openCancellationModal(order) {
-            console.log('== Orders Dashboard ==');
             this.$store.dispatch('orders/' + orderActions.OPEN_CANCELLED_LOGGER, order)
             this.$router.push({name: 'OrderCancellationLogger', params: {id: order.id}});
         },
@@ -260,7 +223,6 @@ export default {
                     });
                 }).catch(function() {
                     vm.orderBeingEdited = null;
-                    console.log('Apply to only this one...');
                     vm.$store.dispatch('orders/' + orderActions.UPDATE_DELIVER_BY, {
                         order,
                         formData: {
