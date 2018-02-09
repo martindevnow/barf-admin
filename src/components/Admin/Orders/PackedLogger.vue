@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <p>Note: if you update the package or # of weeks packed here, it will update their Order for this shipment.</p>
-                <p>It will not change their plan.</p>
+                <p>It will <b>not</b> change their plan.</p>
             </div>
         </div>
 
@@ -90,6 +90,9 @@ export default {
             this.$store.dispatch('packages/' + packageActions.FETCH_ALL);
         },
         save() {
+            if (! this.form.packed_package) {
+                return swal('Error', 'You must specify a package.', 'error');
+            }
             let vm = this;
             let payload = { ... this.form };
             payload.packed_package_id = this.form.packed_package.id;
@@ -121,10 +124,11 @@ export default {
     },
     mounted() {
         this.fetchAll();
-        this.weeks_packed = this.selected.plan.weeks_of_food_per_shipment;
-        this.package_id = this.selected.packed_package_id
+        this.form.weeks_packed = this.selected.plan.weeks_of_food_per_shipment;
+        this.form.package_id = this.selected.packed_package_id;
+        this.form.packed_package_id = this.selected.packed_package_id
             || this.selected.plan.package_id;
-        this.packed_package = this.getPackageById(this.package_id);
+        this.form.packed_package = this.getPackageById(this.form.packed_package_id);
     }
 }
 </script>

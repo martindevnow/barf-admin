@@ -119,78 +119,79 @@
 </template>
 
 <script>
-import FormErrors from '../../../models/FormErrors';
-import Form from '../../../models/Form';
+    import FormErrors from '../../../models/FormErrors';
+    import Form from '../../../models/Form';
+    import swal from 'sweetalert2';
 
-import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-import moment from 'moment';
-import * as meatActions from '../../../vuex/modules/meats/actionTypes';
+    import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
+    import moment from 'moment';
+    import * as meatActions from '../../../vuex/modules/meats/actionTypes';
 
-export default {
-    data() {
-        let form = {
-                code: '',
-                type: '',
-                variety: '',
-                has_bone: '',
-                cost_per_lb: '',
+    export default {
+        data() {
+            let form = {
+                    code: '',
+                    type: '',
+                    variety: '',
+                    has_bone: '',
+                    cost_per_lb: '',
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
             };
-        let formFields = Object.keys(form);
-        return {
-            errors: new FormErrors(formFields),
-            form,
-        };
-    },
-    methods: {
-        populateFormFromModel(meat) {
-            this.form.code = meat.code;
-            this.form.type = meat.type;
-            this.form.variety = meat.variety;
-            this.form.cost_per_lb = meat.cost_per_lb;
-            this.form.has_bone = meat.has_bone;
         },
-        save() {
-            let vm = this;
-            this.$store.dispatch('meats/' + meatActions.SAVE,
-                this.form
-            ).then(response => {
-                vm.$emit('saved');
-            }).catch(failedRequest => {
-                vm.errors.fill(failedRequest);
-            });
+        methods: {
+            populateFormFromModel(meat) {
+                this.form.code = meat.code;
+                this.form.type = meat.type;
+                this.form.variety = meat.variety;
+                this.form.cost_per_lb = meat.cost_per_lb;
+                this.form.has_bone = meat.has_bone;
+            },
+            save() {
+                let vm = this;
+                this.$store.dispatch('meats/' + meatActions.SAVE,
+                    this.form
+                ).then(response => {
+                    vm.$emit('saved');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            },
+            update() {
+                let vm = this;
+                this.$store.dispatch('meats/' + meatActions.UPDATE,
+                    this.form
+                ).then(response => {
+                    vm.$emit('updated');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            },
         },
-        update() {
-            let vm = this;
-            this.$store.dispatch('meats/' + meatActions.UPDATE,
-                this.form
-            ).then(response => {
-                vm.$emit('updated');
-            }).catch(failedRequest => {
-                vm.errors.fill(failedRequest);
-            });
+        computed: {
+            ...mapState('meats', [
+                'show',
+                'selected',
+                'mode',
+                'collection'
+            ]),
         },
-    },
-    computed: {
-        ...mapState('meats', [
-            'show',
-            'selected',
-            'mode',
-            'collection'
-        ]),
-    },
-    mounted() {
-        this.$store.dispatch('meats/' + meatActions.FETCH_ALL);
-        if (this.mode == 'EDIT') {
-            this.populateFormFromModel(this.selected);
-        }
-    },
-    watch: {
-        selected(newSelected) {
-            if (newSelected)
-                this.populateFormFromModel(newSelected);
+        mounted() {
+            this.$store.dispatch('meats/' + meatActions.FETCH_ALL);
+            if (this.mode == 'EDIT') {
+                this.populateFormFromModel(this.selected);
+            }
+        },
+        watch: {
+            selected(newSelected) {
+                if (newSelected)
+                    this.populateFormFromModel(newSelected);
+            }
         }
     }
-}
 </script>
 
 <style>

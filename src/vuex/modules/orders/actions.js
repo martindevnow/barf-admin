@@ -127,8 +127,12 @@ export default {
 
     [actions.OPEN_CANCELLED_LOGGER] ({commit}, order) {
         console.log('== Orders Actions ==');
-        commit('notes/' + noteMutations.SET_TARGET_MODEL, 
-            {model: order, type: 'order'}, { root: true });
+        commit(
+            // 'notes/' + noteMutations.SET_TARGET_MODEL, 
+            'notes/SET_TARGET_MODEL',
+            { model: order, type: 'order' }, 
+            { root: true }
+        );
         commit(mutations.SELECT, order);
         commit(mutations.SHOW_CANCELLED_LOGGER);
     },

@@ -218,7 +218,6 @@
                 ).then(response => {
                     vm.$emit('updated', response.data);
                 }).catch(failedRequest => {
-                    swal('Error', 'Something went wrong...', 'error');
                     vm.errors.fill(failedRequest);
                 });
             },

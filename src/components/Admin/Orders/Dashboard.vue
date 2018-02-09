@@ -40,11 +40,11 @@
 
             <tbody>
             <tr v-for="order in filteredData(collection)" :key="order.id">
-                <td>{{ order.pet_breed_customer }}</td>
-                <td>{{ order.meal_size }} x {{ order.daily_meals }}</td>
                 <td>
-                    {{ order.package_label }}
+                    {{ order.pet_breed_customer }}<br />
+                    <span style="color: red;">{{ order.package_label }}</span>
                 </td>
+                <td>{{ order.meal_size }}g x {{ order.daily_meals }}</td>
                 <td>{{ order.weeks_of_food }}</td>
                 <td v-if="orderBeingEdited != order.id">
                     {{ order.deliver_by }}
@@ -113,29 +113,17 @@ import swal from 'sweetalert2';
 import moment from 'moment';
 import * as orderActions from '../../../vuex/modules/orders/actionTypes';
 
-import AdminCommonModal from '../Common/Modal.vue';
-import AdminPaymentLogger from './PaymentLogger.vue';
-import AdminPackedLogger from './PackedLogger.vue';
-import AdminShippedLogger from './ShippedLogger.vue';
-import AdminOrderCanceller from './OrderCanceller.vue';
-
 export default {
     mixins: [
         isSortable
     ],
     components: {
         Datepicker,
-        AdminCommonModal,
-        AdminPaymentLogger,
-        AdminPackedLogger,
-        AdminShippedLogger,
-        AdminOrderCanceller,
     },
     data() {
         let columns = [
             'pet_breed_customer',
             'meal_size',
-            'package_label',
             '# of Weeks',
             'deliver_by',
         ];
