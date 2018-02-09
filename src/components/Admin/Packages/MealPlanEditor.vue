@@ -19,7 +19,7 @@
                                          @delete="removeMeal(bfast)"
                     >
                     </admin-meal-selector>
-
+                    <error input="received_at" :errors="errors"></error>
                     <span class="help-block">{{ errors.get('meal_id_' + bfast) }}</span>
                 </div>
 
@@ -40,6 +40,7 @@
                                          @delete="removeMeal(dinner)"
                     >
                     </admin-meal-selector>
+                    <error input="received_at" :errors="errors"></error>
                     <span class="help-block">{{ errors.get('meal_id_' + dinner) }}</span>
                 </div>
 
@@ -74,8 +75,8 @@
 </template>
 
 <script>
+    import FormErrors from '../../../models/FormErrors';
     import swal from 'sweetalert2';
-    import hasErrors from '../../../mixins/hasErrors';
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
     import * as packageActions from "../../../vuex/modules/packages/actionTypes";
@@ -86,30 +87,34 @@
         components: {
             AdminMealSelector
         },
-        mixins: [
-            hasErrors
-        ],
         data() {
+            let form = {
+                package_id: null,
+                meals: {
+                    B1: {},
+                    B2: {},
+                    B3: {},
+                    B4: {},
+                    B5: {},
+                    B6: {},
+                    B7: {},
+                    D1: {},
+                    D2: {},
+                    D3: {},
+                    D4: {},
+                    D5: {},
+                    D6: {},
+                    D7: {},
+                    }
+            };
+            let formFields = [ ... Object.keys(form.meals)
+                .map(meal_abbreviation => 'meal_id_' + meal_abbreviation ),
+                'package_id'
+            ];
+                     
             return {
-                form: {
-                    package_id: null,
-                    meals: {
-                        B1: {},
-                        B2: {},
-                        B3: {},
-                        B4: {},
-                        B5: {},
-                        B6: {},
-                        B7: {},
-                        D1: {},
-                        D2: {},
-                        D3: {},
-                        D4: {},
-                        D5: {},
-                        D6: {},
-                        D7: {},
-                     },
-                },
+                errors: new FormErrors(formFields),
+                form,
                 breakfasts: [
                     'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7',
                 ],

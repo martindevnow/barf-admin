@@ -103,7 +103,7 @@ export default {
         let formFields = Object.keys(form);
         
         return {
-            errors: new FormErrors(formFields),            
+            errors: new FormErrors(formFields),
             form,
             paymentFormats: [
                 'cash',

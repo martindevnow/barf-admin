@@ -65,11 +65,13 @@
                 <div class="form-group">
                     <h3>Meal to Remove</h3>
                     <admin-meal-selector v-model="form.removed_meal"></admin-meal-selector>
+                    <error input="removed_meal_id" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
                 <h3>Meal to Add</h3>
                 <admin-meal-selector v-model="form.added_meal"></admin-meal-selector>
+                <error input="added_meal_id" :errors="errors"></error>
             </div>
         </div>
 
@@ -97,8 +99,8 @@
 </template>
 
 <script>
+    import FormErrors from '../../../models/FormErrors';
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-    import hasErrors from '../../../mixins/hasErrors';
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
 
     import AdminMealSelector from '../Meals/MealSelector.vue';
@@ -108,15 +110,15 @@
         components: {
             AdminMealSelector,
         },
-        mixins: [
-            hasErrors
-        ],
         data() {
-            return {
-                form : {
+            let form = {
                     removed_meal: {},
                     added_meal: {},
-                },
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
                 customMeals: null,
             };
         },

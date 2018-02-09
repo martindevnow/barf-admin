@@ -259,7 +259,7 @@ export default {
             }).then(response => {
                 vm.$emit('updated');
             }).catch(failedRequest => {
-                vm.errors.record(failedRequest);
+                vm.errors.fill(failedRequest);
             });
         },
         populateFormFromPlan(plan) {

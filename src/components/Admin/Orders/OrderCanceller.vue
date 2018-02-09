@@ -24,8 +24,8 @@
                 this.$store.dispatch('orders/' + orderActions.SAVE_CANCELLED
                 ).then(response => {
                     vm.close();
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
                 });
             },
             close() {

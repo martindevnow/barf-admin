@@ -9,14 +9,14 @@
                      v-bind:class="{'has-error': errors.has('ordered_at') }"
                 >
                     <label>Ordered At</label>
-                    <datepicker v-model="ordered_at"
+                    <datepicker v-model="form.ordered_at"
                                 id="ordered_at"
                                 name="ordered_at"
                                 format="yyyy-MM-dd"
                                 input-class="form-control"
                     >
                     </datepicker>
-                    <span class="help-block">{{ errors.get('ordered_at') }}</span>
+                    <error input="ordered_at" :errors="errors"></error>
                 </div>
             </div>
 
@@ -47,47 +47,49 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import Datepicker from 'vuejs-datepicker';
-import moment from 'moment';
-import hasErrors from '../../../mixins/hasErrors';
-import * as purchaseOrderActions from "../../../vuex/modules/purchase-orders/actionTypes";
-import * as purchaseOrderMutations from "../../../vuex/modules/purchase-orders/mutationTypes";
+    import FormErrors from '../../../models/FormErrors';
+    import { mapState, mapActions } from 'vuex';
+    import Datepicker from 'vuejs-datepicker';
+    import moment from 'moment';
+    import * as purchaseOrderActions from "../../../vuex/modules/purchase-orders/actionTypes";
+    import * as purchaseOrderMutations from "../../../vuex/modules/purchase-orders/mutationTypes";
 
-export default {
-    mixins: [
-        hasErrors
-    ],
-    components: {
-        Datepicker,
-    },
-    data() {
-        return {
-            ordered_at: null,
-        };
-    },
-    methods: {
-        save() {
-            let vm = this;
-            this.$store.dispatch('purchaseOrders/' + purchaseOrderActions.SAVE_ORDERED, {
-                ordered_at: moment(vm.ordered_at).format('YYYY-MM-DD'),
-            }).then(response => {
-                vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
-            });
+    export default {
+        components: {
+            Datepicker,
         },
-    },
-    computed: {
-        ...mapState([
-            'show',
-            'selected'
-        ]),
-    },
-    mounted() {
-        this.ordered_at = new Date();
+        data() {
+            let form = {
+                ordered_at: null,
+            };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
+            };
+        },
+        methods: {
+            save() {
+                let vm = this;
+                this.$store.dispatch('purchaseOrders/' + purchaseOrderActions.SAVE_ORDERED, {
+                    ordered_at: moment(vm.ordered_at).format('YYYY-MM-DD'),
+                }).then(response => {
+                    vm.$emit('saved');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            },
+        },
+        computed: {
+            ...mapState([
+                'show',
+                'selected'
+            ]),
+        },
+        mounted() {
+            this.form.ordered_at = new Date();
+        }
     }
-}
 </script>
 
 <style>

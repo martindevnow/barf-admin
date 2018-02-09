@@ -26,15 +26,9 @@ class FormErrors {
     }
 
     fill(request) {
-        console.log('filling..');
-        // this.errors = request.response.data.errors;
-        console.log({ errorObj: request.response.data.errors});
-        console.log({ keys: Object.keys(request.response.data.errors)});
         Object.keys(request.response.data.errors)
             .forEach(key => {
-                console.log('checking for key .. ' + key);
                 if (request.response.data.errors.hasOwnProperty(key)) {
-                    console.log('it is a good key');
                     this.errors[key] = request.response.data.errors[key];
                 }
             })

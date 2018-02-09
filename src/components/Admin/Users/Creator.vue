@@ -20,7 +20,7 @@
                            name="name"
                            v-model="form.name"
                     >
-                    <error input="amount_paid" :errors="errors"></error>
+                    <error input="name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -35,7 +35,7 @@
                            v-model="form.email"
                            autocomplete="off"
                     >
-                    <error input="amount_paid" :errors="errors"></error>
+                    <error input="email" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                            v-model="form.password"
                            autocomplete="off"
                     >
-                    <error input="amount_paid" :errors="errors"></error>
+                    <error input="password" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -67,7 +67,7 @@
                            name="phone_number"
                            v-model="form.phone_number"
                     >
-                    <error input="amount_paid" :errors="errors"></error>
+                    <error input="phone_number" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                            name="first_name"
                            class="form-control"
                     >
-                    <error input="amount_paid" :errors="errors"></error>
+                    <error input="first_name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -97,7 +97,7 @@
                            name="last_name"
                            v-model="form.last_name"
                     >
-                    <span class="help-block">{{ errors.get('last_name') }}</span>
+                    <error input="last_name" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -185,7 +185,7 @@
 </template>
 
 <script>
-    import hasErrors from '../../../mixins/hasErrors';
+    import FormErrors from '../../../models/FormErrors';
     import Form from '../../../models/Form';
     import swal from 'sweetalert2';
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
@@ -198,21 +198,22 @@
         components: {
             AdminAddressCreator,
         },
-        mixins: [
-            hasErrors
-        ],
         props: ['showAddresses'],
         data() {
-            return {
-                addAddress: false,
-                form: {
+            let form = {
                     name: '',
                     email: '',
                     password: '',
                     first_name: null,
                     last_name: null,
                     phone_number: null,
-                }
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
+                addAddress: false,
+                
             };
         },
         methods: {
@@ -222,8 +223,8 @@
                     this.form
                 ).then(response => {
                     vm.$emit('saved');
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
                 });
             },
             update() {
@@ -232,8 +233,8 @@
                     this.form
                 ).then(response => {
                     vm.$emit('saved');
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
                 });
             },
             attachAddress(address) {
