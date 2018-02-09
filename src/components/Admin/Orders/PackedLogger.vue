@@ -62,7 +62,6 @@
 <script>
 import FormErrors from '../../../models/FormErrors';
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
-import eventBus from '../../../events/eventBus';
 import * as packageActions from '../../../vuex/modules/packages/actionTypes';
 import * as orderMutations from "../../../vuex/modules/orders/mutationTypes";
 import * as orderActions from "../../../vuex/modules/orders/actionTypes";

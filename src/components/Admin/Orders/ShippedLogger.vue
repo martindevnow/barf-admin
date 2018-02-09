@@ -96,7 +96,6 @@
 
 import FormErrors from '../../../models/FormErrors';
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
-import eventBus from '../../../events/eventBus';
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
 import * as courierActions from "../../../vuex/modules/couriers/actionTypes";

@@ -101,6 +101,8 @@
             </tbody>
         </table>
 
+<<<<<<< HEAD
+=======
 
         <!-- <admin-common-modal v-if="show.paymentModal">
             <p slot="header">Log a Payment</p>
@@ -134,6 +136,7 @@
                                     slot="body"
             ></admin-orders-canceller>
         </admin-common-modal> -->
+>>>>>>> ddb21a1cf3a5d9f276bf3f700458ef5a34dece13
     </div>
 </template>
 

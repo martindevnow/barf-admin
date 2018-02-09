@@ -1,5 +1,3 @@
-import eventBus from './../events/eventBus';
-
 export default {
     data() {
         return {

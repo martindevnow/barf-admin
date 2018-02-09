@@ -108,7 +108,6 @@
 </template>
 
 <script>
-import eventBus from '../../events/eventBus';
 import swal from 'sweetalert2';
 import Subscriptions from '../../mixins/Subscriptions';
 export default {
