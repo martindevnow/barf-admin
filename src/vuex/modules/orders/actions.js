@@ -22,14 +22,12 @@ export default {
         });
     },
 
-    [actions.OPEN_PAYMENT_LOGGER] ({commit}, order) {
+    [actions.SELECT] ({commit}, order) {
         commit(mutations.SELECT, order);
-        commit(mutations.SHOW_PAYMENT_LOGGER);
     },
 
-    [actions.CLOSE_PAYMENT_LOGGER] ({commit}) {
+    [actions.DESELECT] ({commit}) {
         commit(mutations.DESELECT);
-        commit(mutations.HIDE_PAYMENT_LOGGER);
     },
 
     [actions.SAVE_PAYMENT] ({commit, state}, formData) {
@@ -46,16 +44,6 @@ export default {
                 reject(error);
             });
         });
-    },
-
-    [actions.OPEN_PACKED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_PACKED_LOGGER);
-    },
-
-    [actions.CLOSE_PACKED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_PACKED_LOGGER);
     },
 
     [actions.SAVE_PACKED] ({commit, state}, formData) {
@@ -76,26 +64,6 @@ export default {
         });
     },
 
-    [actions.OPEN_PICKED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_PICKED_LOGGER);
-    },
-
-    [actions.CLOSE_PICKED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_PICKED_LOGGER);
-    },
-
-    [actions.OPEN_SHIPPED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_SHIPPED_LOGGER);
-    },
-
-    [actions.CLOSE_SHIPPED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_SHIPPED_LOGGER);
-    },
-
     [actions.SAVE_SHIPPED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
             http.post('/admin/api/orders/' + state.selected.id + '/shipped',
@@ -113,16 +81,6 @@ export default {
                 reject(error);
             });
         });
-    },
-
-    [actions.OPEN_DELIVERED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_DELIVERED_LOGGER);
-    },
-
-    [actions.CLOSE_DELIVERED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_DELIVERED_LOGGER);
     },
 
     [actions.OPEN_CANCELLED_LOGGER] ({commit}, order) {

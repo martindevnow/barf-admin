@@ -8,7 +8,8 @@ const state = {
     show: {
         mealReplacementModal: false,
         creator: false,
-    }
+    },
+    mode: null,
 };
 
 const plansModule = {

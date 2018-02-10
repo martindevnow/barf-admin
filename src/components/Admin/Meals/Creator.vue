@@ -205,7 +205,6 @@
         },
         computed: {
             ...mapState('meals', [
-                'show',
                 'selected',
                 'mode',
                 'collection'

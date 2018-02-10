@@ -106,13 +106,12 @@ export default {
             });
         },
         close() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_PACKED_LOGGER)
+            this.$store.dispatch('orders/' + orderActions.DESELECT)
             this.$router.push({name: 'Orders'});
         }
     },
     computed: {
         ...mapState('orders', [
-            'show',
             'selected',
         ]),
         ...mapState('packages', {

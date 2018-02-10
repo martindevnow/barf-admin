@@ -5,9 +5,7 @@ import * as getters from './getters';
 const state = {
     collection: [],
     selected: null,
-    show: {
-        creator: false,
-    }
+    mode: null,
 };
 
 const petsModule = {

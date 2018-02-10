@@ -240,7 +240,6 @@ export default {
             'collection',
             'mode',
             'selected',
-            'show',
         ]),
         ...mapState('users', {
             'users': 'collection'

@@ -154,7 +154,7 @@
             save() {
                 let vm = this;
                 let meals = this.buildMealPlan();
-                this.$store.dispatch(packageActions.SAVE_MEAL_PLAN, {
+                this.$store.dispatch('packages/' + packageActions.SAVE_MEAL_PLAN, {
                     ...this.form,
                     meals
                 }).then(response => {
@@ -169,7 +169,6 @@
         },
         computed: {
             ...mapState('packages', [
-                'show',
                 'selected'
             ]),
             ...mapState('meals', {

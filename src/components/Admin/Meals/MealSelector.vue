@@ -60,7 +60,7 @@
                 });
             },
             selectedItem() {
-                if ( ! this.value.id) {
+                if ( ! this.value || ! this.value.id) {
                     return { text: 'Select ...' };
                 }
 

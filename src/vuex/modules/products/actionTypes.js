@@ -5,3 +5,5 @@ export const EDIT = 'EDIT';
 export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
 export const CANCEL = 'CANCEL';
+export const SELECT = 'SELECT';
+export const DESELECT = 'DESELECT';

@@ -151,7 +151,7 @@ export default {
             });
         },
         close() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_SHIPPED_LOGGER)
+            this.$store.dispatch('orders/' + orderActions.DESELECT)
             this.$router.push({name: 'Orders'});
             }
     },

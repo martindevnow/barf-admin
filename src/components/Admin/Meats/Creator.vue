@@ -173,7 +173,6 @@
         },
         computed: {
             ...mapState('meats', [
-                'show',
                 'selected',
                 'mode',
                 'collection'

@@ -4,9 +4,19 @@ import * as planMutations from "../plans/mutationTypes";
 import http from '../../../http';
 
 export default {
+    // FETCH_ALL ??
+
     [actions.CREATE] ({commit}, targetModel) {
         commit(mutations.CREATE_MODE, targetModel);
         // commit(mutations.SET_TARGET_MODEL, targetModel);
+    },
+
+    [actions.SELECT]({ commit }, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT]({ commit }) {
+        commit(mutations.DESELECT);
     },
 
     [actions.SAVE] ({commit}, formData) {

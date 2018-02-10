@@ -126,7 +126,6 @@
         computed: {
             ...mapState( 'pets', [
                 'collection',
-                'show',
                 'selected',
                 'mode',
             ])

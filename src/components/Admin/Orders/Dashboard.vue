@@ -148,19 +148,19 @@ export default {
             this.$store.dispatch('orders/' + orderActions.FETCH_ALL);
         },
         openPaymentModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_PAYMENT_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderPaymentLogger', params: {id: order.id}});
         },
         openPackedModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_PACKED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderPackedLogger', params: {id: order.id}});        
         },
         openShippedModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_SHIPPED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});   
         },
         openCancellationModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_CANCELLED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderCancellationLogger', params: {id: order.id}});
         },
         closeCancellationModal() {
@@ -240,7 +240,6 @@ export default {
     computed: {
         ...mapState('orders', [
             'collection',
-            'show',
             'selected'
         ])
     },

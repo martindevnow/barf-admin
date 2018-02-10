@@ -1,12 +1,15 @@
 import actions from './actions';
 import mutations from './mutations';
+import * as getters from './getters';
+
 const state = {
     collection: [],
     selected: null,
     show: {
         receivedModal: false,
         orderedModal: false,
-    }
+    },
+    mode: null,
 }
 
 const purchaseOrdersModule = {
@@ -14,6 +17,7 @@ const purchaseOrdersModule = {
     state,
     mutations,
     actions,
+    getters,
 };
 
 export default purchaseOrdersModule;
