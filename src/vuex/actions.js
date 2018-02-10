@@ -46,5 +46,12 @@ export default {
   },
   loadUserFromLocalStorage(context) {
     context.commit('loadUser');
+  },
+  ping(context) {
+      console.log('ping?')
+      if (context.state.auth.access_token) {
+          console.log('sending ping..');
+          http.get('/admin/api/ping');
+      }
   }
 }

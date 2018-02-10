@@ -15,7 +15,7 @@
                            name="name"
                            v-model="form.name"
                     >
-                    <span class="help-block">{{ errors.get('name') }}</span>
+                    <error input="name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -29,7 +29,7 @@
                            name="description"
                            v-model="form.description"
                     >
-                    <span class="help-block">{{ errors.get('description') }}</span>
+                    <error input="description" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                            name="description_long"
                            v-model="form.description_long"
                     >
-                    <span class="help-block">{{ errors.get('description_long') }}</span>
+                    <error input="description_long" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -60,7 +60,7 @@
                            name="size"
                            v-model="form.size"
                     >
-                    <span class="help-block">{{ errors.get('size') }}</span>
+                    <error input="size" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                            name="sku"
                            v-model="form.sku"
                     >
-                    <span class="help-block">{{ errors.get('sku') }}</span>
+                    <error input="sku" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -91,7 +91,7 @@
                            name="price"
                            v-model="form.price"
                     >
-                    <span class="help-block">{{ errors.get('price') }}</span>
+                    <error input="price" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                            name="ingredients"
                            v-model="form.ingredients"
                     >
-                    <span class="help-block">{{ errors.get('ingredients') }}</span>
+                    <error input="ingredients" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -126,7 +126,7 @@
                   <span>Active</span>
                 </label>
               </div>
-              <span class="help-block">{{ errors.get('active') }}</span>
+              <error input="active" :errors="errors"></error>
             </div>
             </div>
         </div>
@@ -164,20 +164,18 @@
 </template>
 
 <script>
-import hasErrors from '../../../mixins/hasErrors';
+import FormErrors from '../../../models/FormErrors';
 import Form from '../../../models/Form';
+import swal from "sweetalert2";
+
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
 import moment from 'moment';
 import * as productActions from "../../../vuex/modules/products/actionTypes";
 import * as toppingActions from "../../../vuex/modules/toppings/actionTypes";
 
 export default {
-    mixins: [
-        hasErrors
-    ],
     data() {
-        return {
-            form: {
+        let form = {
                 name: '',
                 description: '',
                 description_long: '',
@@ -186,7 +184,12 @@ export default {
                 ingredients: '',
                 price: '',
                 active: '',
-            },
+            };
+        let formFields = Object.keys(form);
+            
+        return {
+            errors: new FormErrors(formFields),            
+            form,
         };
     },
     methods: {
@@ -200,8 +203,8 @@ export default {
                 ...this.form,
             }).then(response => {
                 vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequests => {
+                vm.errors.fill(failedRequests);
             });
         },
         update() {
@@ -209,8 +212,8 @@ export default {
             this.$store.dispatch('products/' + productActions.UPDATE, this.form
             ).then(response => {
                 vm.$emit('updated');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequests => {
+                vm.errors.fill(failedRequests);
             });
         },
         populateFormFromProduct(product) {

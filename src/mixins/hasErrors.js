@@ -1,13 +1,7 @@
-import Errors from '../models/Errors';
-
 export default {
-    data() {
-        return {
-            errors: new Errors()
+    methods: {
+        clearError(key) {
+            this.$errors.clear(key);
         }
-    },
-    mounted() {
-        console.log('mounted the hasErrors mixin');
-        this.errors = new Errors();
     }
 }

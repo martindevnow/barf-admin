@@ -40,11 +40,11 @@
 
             <tbody>
             <tr v-for="order in filteredData(collection)" :key="order.id">
-                <td>{{ order.pet_breed_customer }}</td>
-                <td>{{ order.meal_size }} x {{ order.daily_meals }}</td>
                 <td>
-                    {{ order.package_label }}
+                    {{ order.pet_breed_customer }}<br />
+                    <span style="color: red;">{{ order.package_label }}</span>
                 </td>
+                <td>{{ order.meal_size }}g x {{ order.daily_meals }}</td>
                 <td>{{ order.weeks_of_food }}</td>
                 <td v-if="orderBeingEdited != order.id">
                     {{ order.deliver_by }}
@@ -101,42 +101,6 @@
             </tbody>
         </table>
 
-<<<<<<< HEAD
-=======
-
-        <!-- <admin-common-modal v-if="show.paymentModal">
-            <p slot="header">Log a Payment</p>
-            <admin-payment-logger @saved="closePaymentModal()"
-                                  @cancelled="closePaymentModal()"
-                                  slot="body"
-            ></admin-payment-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.packedModal">
-            <p slot="header">Log Packing an Order</p>
-            <admin-packed-logger @saved="closePackedModal()"
-                                 @cancelled="closePackedModal()"
-                                 slot="body"
-            ></admin-packed-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.shippedModal">
-            <p slot="header">Log a Shipment</p>
-            <admin-shipped-logger @saved="closeShippedModal()"
-                                  @cancelled="closeShippedModal()"
-                                  slot="body"
-            ></admin-shipped-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.cancellationModal">
-            <p slot="header">Cancel an Order</p>
-            <p slot="body">Reason:</p>
-            <admin-orders-canceller @saved="closeCancellationModal()"
-                                    @cancelled="closeCancellationModal()"
-                                    slot="body"
-            ></admin-orders-canceller>
-        </admin-common-modal> -->
->>>>>>> ddb21a1cf3a5d9f276bf3f700458ef5a34dece13
     </div>
 </template>
 
@@ -149,29 +113,17 @@ import swal from 'sweetalert2';
 import moment from 'moment';
 import * as orderActions from '../../../vuex/modules/orders/actionTypes';
 
-import AdminCommonModal from '../Common/Modal.vue';
-import AdminPaymentLogger from './PaymentLogger.vue';
-import AdminPackedLogger from './PackedLogger.vue';
-import AdminShippedLogger from './ShippedLogger.vue';
-import AdminOrderCanceller from './OrderCanceller.vue';
-
 export default {
     mixins: [
         isSortable
     ],
     components: {
         Datepicker,
-        AdminCommonModal,
-        AdminPaymentLogger,
-        AdminPackedLogger,
-        AdminShippedLogger,
-        AdminOrderCanceller,
     },
     data() {
         let columns = [
             'pet_breed_customer',
             'meal_size',
-            'package_label',
             '# of Weeks',
             'deliver_by',
         ];
@@ -196,19 +148,19 @@ export default {
             this.$store.dispatch('orders/' + orderActions.FETCH_ALL);
         },
         openPaymentModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_PAYMENT_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderPaymentLogger', params: {id: order.id}});
         },
         openPackedModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_PACKED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderPackedLogger', params: {id: order.id}});        
         },
         openShippedModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_SHIPPED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});   
         },
         openCancellationModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_CANCELLED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
             this.$router.push({name: 'OrderCancellationLogger', params: {id: order.id}});
         },
         closeCancellationModal() {
@@ -259,7 +211,6 @@ export default {
                     });
                 }).catch(function() {
                     vm.orderBeingEdited = null;
-                    console.log('Apply to only this one...');
                     vm.$store.dispatch('orders/' + orderActions.UPDATE_DELIVER_BY, {
                         order,
                         formData: {
@@ -289,7 +240,6 @@ export default {
     computed: {
         ...mapState('orders', [
             'collection',
-            'show',
             'selected'
         ])
     },

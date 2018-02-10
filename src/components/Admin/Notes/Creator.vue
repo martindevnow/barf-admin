@@ -25,7 +25,7 @@
                               name="content"
                               v-model="form.content"
                     ></textarea>
-                    <span class="help-block">{{ errors.get('content') }}</span>
+                    <error input="content" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -52,19 +52,22 @@
 </template>
 
 <script>
-import hasErrors from "../../../mixins/hasErrors";
-import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import FormErrors from '../../../models/FormErrors';
 import swal from "sweetalert2";
+
+import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
 import * as noteActions from "../../../vuex/modules/notes/actionTypes";
 
 export default {
-  mixins: [hasErrors],
   props: [],
   data() {
-    return {
-      form: {
+    let form = {
         content: ""
-      }
+      };
+    let formFields = Object.keys(form);
+    return {
+      errors: new FormErrors(formFields),
+      form,
     };
   },
   methods: {
@@ -87,19 +90,18 @@ export default {
           swal("success", "Saved", "success");
           vm.$emit("saved");
         })
-        .catch(error => {
-          vm.errors.record(error.response.data.errors);
+        .catch(failedRequest => {
+          vm.errors.fill(failedRequest);
         });
     },
     deleteNote(id) {
       this.$store
         .dispatch("notes/" + noteActions.DELETE, id)
         .then(response => {
-          alert("deleted");
+          swal('Success', 'That note was deleted.', 'success');
         })
         .catch(error => {
-          console.log(error);
-          alert("error");
+          swal('Error', 'Something went wrong...', 'error');
         });
     }
   },

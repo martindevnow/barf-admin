@@ -1,6 +1,6 @@
 import actions from './actions';
-import * as getters from './getters';
 import mutations from './mutations';
+import * as getters from './getters';
 
 const state = {
     collection: [],
@@ -8,7 +8,8 @@ const state = {
     show: {
         mealReplacementModal: false,
         creator: false,
-    }
+    },
+    mode: null,
 };
 
 const plansModule = {

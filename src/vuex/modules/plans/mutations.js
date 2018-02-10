@@ -69,6 +69,7 @@ export default {
 
   [mutations.CREATE_MODE] (state) {
     state.show.creator = true;
+    state.mode = null;
   },
 
   [mutations.CLEAR_MODE] (state) {

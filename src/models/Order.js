@@ -52,9 +52,10 @@ export const loadOrderFromData = function(data) {
     // Calculated
     order.meal_size             = (data.plan.pet_weight * data.plan.pet_activity_level / data.plan.pet.daily_meals * 454 / 100).toFixed(0);
     order.daily_meals           = data.plan.pet.daily_meals;
-    order.package_label         = data.package_label;
+    order.package_label         = data.plan.package.label;
     order.pet_breed_customer    = data.plan.pet.name + ' (' + data.plan.pet.breed + ') - ' + data.customer.name;
     order.deliver_by            = data.deliver_by.slice(0,10);
+    order.weeks_of_food         = data.plan.weeks_of_food_per_shipment;
 
     return order;
 };

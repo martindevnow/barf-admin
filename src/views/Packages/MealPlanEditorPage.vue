@@ -21,7 +21,7 @@
         },
         methods: {
             cancel() {
-                this.$store.dispatch('packages/' + packageActions.CLOSE_MEAL_PLAN_EDITOR);
+                this.$store.dispatch('packages/' + packageActions.DESELECT);
                 this.$router.go(-1);
             },
         }

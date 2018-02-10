@@ -13,7 +13,7 @@
                            v-model="form.name"
                            placeholder="Home / Office / Cottage ..."
                     >
-                    <span class="help-block">{{ errors.get('name') }}</span>
+                    <error input="name" :errors="errors"></error>
                 </div>
             </div>
 
@@ -26,7 +26,7 @@
                            name="description"
                            v-model="form.description"
                     >
-                    <span class="help-block">{{ errors.get('description') }}</span>
+                    <error input="description" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
                            name="street_1"
                            v-model="form.street_1"
                     >
-                    <span class="help-block">{{ errors.get('street_1') }}</span>
+                    <error input="street_1" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -53,7 +53,7 @@
                            name="street_2"
                            v-model="form.street_2"
                     >
-                    <span class="help-block">{{ errors.get('street_2') }}</span>
+                    <error input="street_2" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                            name="city"
                            v-model="form.city"
                     >
-                    <span class="help-block">{{ errors.get('city') }}</span>
+                    <error input="city" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -80,7 +80,7 @@
                            name="province"
                            v-model="form.province"
                     >
-                    <span class="help-block">{{ errors.get('province') }}</span>
+                    <error input="province" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
                            name="postal_code"
                            v-model="form.postal_code"
                     >
-                    <span class="help-block">{{ errors.get('postal_code') }}</span>
+                    <error input="postal_code" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -107,7 +107,7 @@
                            name="country"
                            v-model="form.country"
                     >
-                    <span class="help-block">{{ errors.get('country') }}</span>
+                    <error input="country" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
                            name="phone"
                            v-model="form.phone"
                     >
-                    <span class="help-block">{{ errors.get('phone') }}</span>
+                    <error input="phone" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -134,7 +134,7 @@
                            name="buzzer"
                            v-model="form.buzzer"
                     >
-                    <span class="help-block">{{ errors.get('buzzer') }}</span>
+                    <error input="buzzer" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -172,18 +172,15 @@
 </template>
 
 <script>
-    import hasErrors from '../../../mixins/hasErrors';
+    import FormErrors from '../../../models/FormErrors';
+    import swal from 'sweetalert2';
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as addressMutations from "../../../vuex/modules/addresses/mutationTypes";
     import * as addressActions from "../../../vuex/modules/addresses/actionTypes";
 
     export default {
-        mixins: [
-            hasErrors,
-        ],
         data() {
-            return {
-                form: {
+            let form = {
                     name: '',
                     description: '',
                     company: '',
@@ -195,7 +192,11 @@
                     postal_code: '',
                     phone: '',
                     buzzer: '',
-                },
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
             };
         },
         methods: {
@@ -205,8 +206,9 @@
                 this.$store.dispatch('addresses/' + addressActions.SAVE, this.form
                 ).then(response => {
                     vm.$emit('saved', response.data);
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             update() {
@@ -215,8 +217,8 @@
                 this.$store.dispatch('addresses/' + addressActions.UPDATE, this.form
                 ).then(response => {
                     vm.$emit('updated', response.data);
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
                 });
             },
 

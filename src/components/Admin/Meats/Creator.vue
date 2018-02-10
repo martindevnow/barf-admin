@@ -15,7 +15,7 @@
                            name="code"
                            v-model="form.code"
                     >
-                    <span class="help-block">{{ errors.get('code') }}</span>
+                    <error input="code" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -29,7 +29,7 @@
                            name="type"
                            v-model="form.type"
                     >
-                    <span class="help-block">{{ errors.get('type') }}</span>
+                    <error input="type" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                            name="variety"
                            v-model="form.variety"
                     >
-                    <span class="help-block">{{ errors.get('variety') }}</span>
+                    <error input="variety" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -60,7 +60,7 @@
                            name="cost_per_lb"
                            v-model="form.cost_per_lb"
                     >
-                    <span class="help-block">{{ errors.get('cost_per_lb') }}</span>
+                    <error input="cost_per_lb" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@
                             <span>Has Bone?</span>
                         </label>
                     </div>
-                    <span class="help-block">{{ errors.get('has_bone') }}</span>
+                    <error input="has_bone" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -119,77 +119,78 @@
 </template>
 
 <script>
-import hasErrors from '../../../mixins/hasErrors';
-import Form from '../../../models/Form';
-import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-import moment from 'moment';
-import * as meatActions from '../../../vuex/modules/meats/actionTypes';
+    import FormErrors from '../../../models/FormErrors';
+    import Form from '../../../models/Form';
+    import swal from 'sweetalert2';
 
-export default {
-    mixins: [
-        hasErrors
-    ],
-    data() {
-        return {
-            form: {
-                code: '',
-                type: '',
-                variety: '',
-                has_bone: '',
-                cost_per_lb: '',
+    import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
+    import moment from 'moment';
+    import * as meatActions from '../../../vuex/modules/meats/actionTypes';
+
+    export default {
+        data() {
+            let form = {
+                    code: '',
+                    type: '',
+                    variety: '',
+                    has_bone: '',
+                    cost_per_lb: '',
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
+            };
+        },
+        methods: {
+            populateFormFromModel(meat) {
+                this.form.code = meat.code;
+                this.form.type = meat.type;
+                this.form.variety = meat.variety;
+                this.form.cost_per_lb = meat.cost_per_lb;
+                this.form.has_bone = meat.has_bone;
             },
-        };
-    },
-    methods: {
-        populateFormFromModel(meat) {
-            this.form.code = meat.code;
-            this.form.type = meat.type;
-            this.form.variety = meat.variety;
-            this.form.cost_per_lb = meat.cost_per_lb;
-            this.form.has_bone = meat.has_bone;
+            save() {
+                let vm = this;
+                this.$store.dispatch('meats/' + meatActions.SAVE,
+                    this.form
+                ).then(response => {
+                    vm.$emit('saved');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            },
+            update() {
+                let vm = this;
+                this.$store.dispatch('meats/' + meatActions.UPDATE,
+                    this.form
+                ).then(response => {
+                    vm.$emit('updated');
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
+                });
+            },
         },
-        save() {
-            let vm = this;
-            this.$store.dispatch('meats/' + meatActions.SAVE,
-                this.form
-            ).then(response => {
-                vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
-            });
+        computed: {
+            ...mapState('meats', [
+                'selected',
+                'mode',
+                'collection'
+            ]),
         },
-        update() {
-            let vm = this;
-            this.$store.dispatch('meats/' + meatActions.UPDATE,
-                this.form
-            ).then(response => {
-                vm.$emit('updated');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
-            });
+        mounted() {
+            this.$store.dispatch('meats/' + meatActions.FETCH_ALL);
+            if (this.mode == 'EDIT') {
+                this.populateFormFromModel(this.selected);
+            }
         },
-    },
-    computed: {
-        ...mapState('meats', [
-            'show',
-            'selected',
-            'mode',
-            'collection'
-        ]),
-    },
-    mounted() {
-        this.$store.dispatch('meats/' + meatActions.FETCH_ALL);
-        if (this.mode == 'EDIT') {
-            this.populateFormFromModel(this.selected);
-        }
-    },
-    watch: {
-        selected(newSelected) {
-            if (newSelected)
-                this.populateFormFromModel(newSelected);
+        watch: {
+            selected(newSelected) {
+                if (newSelected)
+                    this.populateFormFromModel(newSelected);
+            }
         }
     }
-}
 </script>
 
 <style>

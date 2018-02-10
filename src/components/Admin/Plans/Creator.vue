@@ -12,7 +12,7 @@
                                         @input="errors.clear('pet_id')"
                     >
                     </admin-pet-selector>
-                    <span class="help-block">{{ errors.get('pet_id') }}</span>
+                    <error input="pet_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
                                             @input="errors.clear('package_id')"
                     >
                     </admin-package-selector>
-                    <span class="help-block">{{ errors.get('package_id') }}</span>
+                    <error input="package_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                            name="shipping_cost"
                            v-model="form.shipping_cost"
                     >
-                    <span class="help-block">{{ errors.get('shipping_cost') }}</span>
+                    <error input="shipping_cost" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -56,7 +56,7 @@
                            name="weekly_cost"
                            v-model="form.weekly_cost"
                     >
-                    <span class="help-block">{{ errors.get('weekly_cost') }}</span>
+                    <error input="weekly_cost" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
                            name="weeks_of_food_per_shipment"
                            v-model="form.weeks_of_food_per_shipment"
                     >
-                    <span class="help-block">{{ errors.get('weeks_of_food_per_shipment') }}</span>
+                    <error input="weeks_of_food_per_shipment" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -87,7 +87,7 @@
                            name="ships_every_x_weeks"
                            v-model="form.ships_every_x_weeks"
                     >
-                    <span class="help-block">{{ errors.get('ships_every_x_weeks') }}</span>
+                    <error input="ships_every_x_weeks" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -105,7 +105,7 @@
                                 @selected="errors.clear('first_delivery_at')"
                     >
                     </datepicker>
-                    <span class="help-block">{{ errors.get('first_delivery_at') }}</span>
+                    <error input="first_delivery_at" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -121,7 +121,7 @@
                     >
                         <option v-for="format in paymentFormats">{{ format }}</option>
                     </select>
-                    <span class="help-block">{{ errors.get('payment_method') }}</span>
+                    <error input="payment_method" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -133,11 +133,11 @@
                 >
                     <label>Delivery Address</label>
                     <admin-address-selector v-model="form.delivery_address"
-                                        :userId="form.pet.owner ? form.pet.owner.id : 0"
+                                        :userId="form.pet ? form.pet.owner_id : 0"
                                         @input="errors.clear('delivery_address_id')"
                     >
                     </admin-address-selector>
-                    <span class="help-block">{{ errors.get('delivery_address_id') }}</span>
+                    <error input="delivery_address_id" :errors="errors"></error>
                 </div>
             </div>
             </div>
@@ -174,8 +174,10 @@
 </template>
 
 <script>
-import hasErrors from '../../../mixins/hasErrors';
+import FormErrors from '../../../models/FormErrors';
 import Form from '../../../models/Form';
+import swal from "sweetalert2";
+
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
@@ -190,9 +192,6 @@ import AdminPackageSelector from '../Packages/PackageSelector.vue';
 import AdminPetSelector from '../Pets/PetSelector.vue';
 
 export default {
-    mixins: [
-        hasErrors
-    ],
     components: {
         Datepicker,
         AdminAddressSelector,
@@ -200,8 +199,7 @@ export default {
         AdminPetSelector,
     },
     data() {
-        return {
-            form: {
+        let form = {
                 delivery_address_id: 0,
                 delivery_address: {},
                 shipping_cost: 0,
@@ -214,7 +212,12 @@ export default {
                 ships_every_x_weeks: null,
                 first_delivery_at: null,
                 payment_method: 'cash',
-            },
+            };
+        let formFields = Object.keys(form);
+            
+        return {
+            errors: new FormErrors(formFields),            
+            form,
             paymentFormats: [
                 'cash',
                 'e-transfer',
@@ -241,8 +244,8 @@ export default {
                 delivery_address_id: this.form.delivery_address.id,
             }).then(response => {
                 vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         update() {
@@ -257,14 +260,14 @@ export default {
                 delivery_address_id: this.form.delivery_address.id,
             }).then(response => {
                 vm.$emit('updated');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
         populateFormFromPlan(plan) {
-            this.form.pet = plan.pet;
-            this.form.pkg = plan.package;
-            this.form.delivery_address = plan.delivery_address;
+            this.form.pet = this.getPetById(plan.pet_id);
+            this.form.pkg = this.getPackageById(plan.package_id);
+            this.form.delivery_address = this.getAddressById(plan.delivery_address_id);
 
             this.form.shipping_cost = plan.shipping_cost;
             this.form.weekly_cost = plan.weekly_cost;
@@ -283,11 +286,25 @@ export default {
             'show',
         ]),
         ...mapState('pets', {
-            'pets': 'collection'
+            'pets': 'collection',
         }),
         ...mapState('packages', {
-            'packages': 'collection'
+            'packages': 'collection',
         }),
+
+        // Getters
+        ...mapGetters('users', [
+            'getUserById',
+        ]),
+        ...mapGetters('addresses', [
+            'getAddressById',
+        ]),
+        ...mapGetters('packages', [
+            'getPackageById',
+        ]),
+        ...mapGetters('pets', [
+            'getPetById',
+        ]),
     },
     mounted() {
         this.fetchAll();

@@ -28,7 +28,7 @@
     name: 'app',
     computed: {},
     created() {
-      console.log('App created');
+      this.$store.dispatch('ping');
     },
   }
 </script>

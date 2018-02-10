@@ -138,12 +138,11 @@ export default {
             let vm = this;
             axios.post('/api/user/pets', vm.newPetData)
                 .then(function(response) {
-                    console.log(response.data);
                     vm.pets = response.data;
-                    swal('You list of pets has been updated.');
+                    swal('Your list of pets has been updated.');
                 })
                 .catch(function(error) {
-                    swal('There was an error....');
+                    swal('Error', 'Something went wrong...', 'error');
                 });
         }
     },

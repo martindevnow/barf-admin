@@ -15,7 +15,9 @@ export default {
   },
 
   [mutations.SET_TARGET_MODEL] (state, payload) {
-    // state.targeted = payload;
+    console.log('== Inside Notes Mutations ==');
+    console.log('setting payload to targeted');
+    state.targeted = { ...payload };
   },
 
   [mutations.UNSET_TARGET_MODEL] (state) {

@@ -115,7 +115,6 @@
     computed: {
       ...mapState('meats', [
         'collection',
-        'show',
         'selected',
         'mode'
       ])
