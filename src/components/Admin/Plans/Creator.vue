@@ -133,7 +133,7 @@
                 >
                     <label>Delivery Address</label>
                     <admin-address-selector v-model="form.delivery_address"
-                                        :userId="form.pet.owner ? form.pet.owner.id : 0"
+                                        :userId="form.pet ? form.pet.owner_id : 0"
                                         @input="errors.clear('delivery_address_id')"
                     >
                     </admin-address-selector>
@@ -265,9 +265,9 @@ export default {
             });
         },
         populateFormFromPlan(plan) {
-            this.form.pet = plan.pet;
-            this.form.pkg = plan.package;
-            this.form.delivery_address = plan.delivery_address;
+            this.form.pet = this.getPetById(plan.pet_id);
+            this.form.pkg = this.getPackageById(plan.package_id);
+            this.form.delivery_address = this.getAddressById(plan.delivery_address_id);
 
             this.form.shipping_cost = plan.shipping_cost;
             this.form.weekly_cost = plan.weekly_cost;
@@ -286,11 +286,25 @@ export default {
             'show',
         ]),
         ...mapState('pets', {
-            'pets': 'collection'
+            'pets': 'collection',
         }),
         ...mapState('packages', {
-            'packages': 'collection'
+            'packages': 'collection',
         }),
+
+        // Getters
+        ...mapGetters('users', [
+            'getUserById',
+        ]),
+        ...mapGetters('addresses', [
+            'getAddressById',
+        ]),
+        ...mapGetters('packages', [
+            'getPackageById',
+        ]),
+        ...mapGetters('pets', [
+            'getPetById',
+        ]),
     },
     mounted() {
         this.fetchAll();
