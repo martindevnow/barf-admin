@@ -229,8 +229,10 @@ export default {
     },
     methods: {
         fetchAll() {
-            this.$store.dispatch('pets/' + petActions.FETCH_ALL);
-            this.$store.dispatch('packages/' + packageActions.FETCH_ALL);
+            return Promise.all([
+                this.$store.dispatch('pets/' + petActions.FETCH_ALL),
+                this.$store.dispatch('packages/' + packageActions.FETCH_ALL)
+            ]);
         },
         save() {
             let vm = this;
@@ -307,10 +309,11 @@ export default {
         ]),
     },
     mounted() {
-        this.fetchAll();
-        if (this.mode == 'EDIT') {
-            this.populateFormFromPlan(this.selected);
-        }
+        this.fetchAll().then(() => {
+            if (this.mode == 'EDIT') {
+                this.populateFormFromPlan(this.selected);
+            }
+        });
     },
     watch: {
         selected(newSelected) {
