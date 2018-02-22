@@ -18,7 +18,7 @@ export const loadPlanFromData = function (data) {
 
     plan.customer_id = data.customer_id;
     plan.customer = data.customer ? loadUserFromData(data.customer) : null;
-    plan.customer_name = data.customer.first_name + ' ' + data.customer.last_name;
+    plan.customer_name = data.customer ? data.customer.first_name + ' ' + data.customer.last_name : "NA";
 
     plan.pet_id = data.pet_id;
     plan.pet = data.pet ? loadPetFromData(data.pet) : null;

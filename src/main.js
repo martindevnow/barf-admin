@@ -6,12 +6,7 @@ import VueLocalStorage from 'vue-localstorage';
 import Vuetify from 'vuetify';
 
 import ErrorComponent from './components/Errors/ErrorComponent';
-
 Vue.config.productionTip = false;
-
-// const baseUrl = process.env.BARF_API_BASE + '/';
-// axios.defaults.baseURL = baseUrl;
-
 
 /**
  * Local Storage Stuff

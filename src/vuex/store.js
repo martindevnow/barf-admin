@@ -49,6 +49,9 @@ export default new Vuex.Store({
         getItem: key => Vue.localStorage.get(key),
         setItem: (key, value) => Vue.localStorage.set(key, value),
         removeItem: key => Vue.localStorage.remove(key),
-      }
+      },
+      paths: [
+        'auth'
+      ],
     })]
 })

@@ -6,8 +6,7 @@ const baseUrl = process.env.BARF_API_BASE + '/';
 // Instance
 let http = axios.create({
   baseURL: baseUrl,
-  headers: {
-  }
+  headers: {},
 });
 
 // Add a request interceptor
@@ -17,18 +16,18 @@ http.interceptors.request.use(function (config) {
 }, function (error) {
   // Do something with request error
   return Promise.reject(error)
-})
+});
 
 // Add a response interceptor
 http.interceptors.response.use(function (response) {
   return response
 }, function (error) {
-  console.log('== API Error ==');
+  // console.log('== API Error ==');
   // console.log({error});
-  if (error.response && error.response.status === 401 && store.state.auth.access_token) {
-    store.dispatch('logout', false)
+  if (error.response && error.response.status === 401) {
+    store.dispatch('logout')
   }
   return Promise.reject(error)
-})
+});
 
-export default http
+export default http;

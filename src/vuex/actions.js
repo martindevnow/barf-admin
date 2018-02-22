@@ -20,12 +20,16 @@ export default {
     });
   },
   fetchAuthenticatedUser (context) {
-    http.get('/admin/api/user').then(response => {
-      context.commit('authUser', response.data);
-      context.commit('persistUser');
-    }).catch(error => {
-      console.log(errorr);
-    })
+    return new Promise((resolve, reject) => {
+      http.get('/admin/api/user').then(response => {
+        context.commit('authUser', response.data);
+        context.commit('persistUser');
+        resolve(response);
+      }).catch(error => {
+        console.log(errorr);
+        reject(error);
+      })
+    });
   },
   logout (context) {
     return new Promise((resolve, reject) => {
@@ -48,9 +52,7 @@ export default {
     context.commit('loadUser');
   },
   ping(context) {
-      console.log('ping?')
       if (context.state.auth.access_token) {
-          console.log('sending ping..');
           http.get('/admin/api/ping');
       }
   }
