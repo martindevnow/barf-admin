@@ -152,7 +152,8 @@
         this.$router.push({name: 'PlanMealReplacements', params: {id: plan.id}});
       },
       openNoteCreatorModal(dto) {
-        this.$store.dispatch('notes/' + noteActions.CREATE, dto)
+        this.$store.dispatch('notes/' + noteActions.CREATE, dto);
+        this.$router.push({name: 'PlanNotes', params: {id: dto.model.id}});
       },
       closeNoteCreatorModal() {
         this.$store.dispatch('notes/' + noteActions.CANCEL)

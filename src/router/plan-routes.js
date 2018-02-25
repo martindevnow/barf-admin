@@ -1,5 +1,6 @@
 import PlansPage from '../views/Plans.vue'
 import PlansCreateEditPage from '../views/Plans/CreateEditPage.vue';
+import NotesPage from '../views/Notes/CreateEditPage.vue';
 import PlansMealReplacementPage from '../views/Plans/MealReplacementsPage.vue';
 
 import PlansDashboard from '../components/Admin/Plans/Dashboard.vue';
@@ -24,9 +25,14 @@ export default {
             component: PlansCreateEditPage,
         },
         {
+            path: ':id/notes',
+            name: 'PlanNotes',
+            component: NotesPage,
+        },
+        {
             path: ':id/mealReplacements',
             name: 'PlanMealReplacements',
             component: PlansMealReplacementPage,
-        }
+        },
     ]
 };

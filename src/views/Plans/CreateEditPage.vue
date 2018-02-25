@@ -20,7 +20,7 @@
         methods: {
             cancel() {
                 this.$store.dispatch('plans/' + planActions.CANCEL);
-                this.$router.push({ name: 'Plans' });
+                this.$router.go(-1);
             }
         }
     }

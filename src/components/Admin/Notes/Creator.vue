@@ -103,11 +103,11 @@ export default {
         .catch(error => {
           swal('Error', 'Something went wrong...', 'error');
         });
-    }
+    },
   },
   computed: {
     ...mapState("notes", ["targeted"])
-  }
+  },
 };
 </script>
 

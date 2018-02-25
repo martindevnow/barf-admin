@@ -87,5 +87,17 @@ export default {
       }
       return plan;
     })
-  }
+  },
+
+  [mutations.SET_NOTES_FOR_PLAN] (state, {plan_id, notes}) {
+    state.collection = state.collection.map(plan => {
+      if (plan.id === plan_id) {
+        plan.notes = notes.map(note => {
+          // TODO: Mutate to a Note object??
+          return note;
+        })
+      }
+      return plan;      
+    })
+  },
 };
