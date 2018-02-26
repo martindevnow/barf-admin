@@ -16,7 +16,7 @@
                 </li>
             </ul>
             <ul v-if="auth.isAuthenticated"
-                class="navbar-nav navbar-sidenav" id="exampleAccordion">
+                class="navbar-nav navbar-sidenav" id="navigationAccordion">
                 <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
                     <router-link class="nav-link" :to="'/'">
                         <i class="fa fa-fw fa-dashboard"></i>
