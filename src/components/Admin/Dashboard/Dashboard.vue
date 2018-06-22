@@ -1,9 +1,14 @@
 <template>
     <div>
         <h1>BARFBento Admin Area</h1>
-        <p>use one of the links to view the respective areas you're interested in...</p>
         <hr>
-        <p>Welcome back, {{ auth.user.name }}</p>
+        <p v-if="auth.user.name">Welcome back, {{ auth.user.name }}</p>
+        <router-link
+          tag="button"
+          to="/login"
+          class="btn btn-block btn-primary" v-if="!auth.user.name"
+        >
+          Login</router-link>
     </div>
 </template>
 

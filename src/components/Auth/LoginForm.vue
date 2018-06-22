@@ -6,8 +6,13 @@
               <!--<v-toolbar-title>Login</v-toolbar-title>-->
             <!--</v-toolbar>-->
             <v-card-text>
+              <div class="loading-component" v-if="loading">
+                <div class="backdrop"></div>
+                <v-progress-circular
+                  indeterminate color="primary"
 
-              <v-progress-circular indeterminate color="primary" v-if="loading"></v-progress-circular>
+                ></v-progress-circular>
+              </div>
 
               <form @submit.prevent="login()" :disabled="loading">
                 <span class="title">Login Info</span>
@@ -92,13 +97,26 @@ export default {
   z-index: 20;
 }
 
-.overlay {
+.backdrop {
   background: #e9e9e9;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
-  bottom: 0;
-  left: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0.5;
+  z-index: 1;
 }
+.progress-circular {
+  height: 64px;
+  width: 64px;
+  z-index: 2;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-top: -32px;
+  margin-left: -32px;
+}
+
+
 </style>

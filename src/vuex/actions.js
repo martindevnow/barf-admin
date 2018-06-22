@@ -1,6 +1,7 @@
 import http from '../http';
 import {vueAuth, vueAuthTokenBody} from '../auth/vue-auth';
 import * as mutations from "./modules/products/mutationTypes";
+import router from '../router';
 
 export default {
   login (context, payload) {
@@ -33,6 +34,7 @@ export default {
   },
   logout (context) {
     return new Promise((resolve, reject) => {
+      router.push({path: '/'});
       context.commit('logout');
       context.commit('addresses/' + mutations.CLEAR_COLLECTION, null, {root: true});
       context.commit('couriers/' + mutations.CLEAR_COLLECTION, null, {root: true});
