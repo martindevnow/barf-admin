@@ -193,11 +193,11 @@
     import * as userActions from '../../../vuex/modules/users/actionTypes';
     import * as userMutations from '../../../vuex/modules/users/mutationTypes';
     import * as addressActions from "../../../vuex/modules/addresses/actionTypes";
-    import AdminAddressCreator from '../Addresses/Creator.vue';
+    import AdminAddressesCreator from '../Addresses/Creator.vue';
 
     export default {
         components: {
-            AdminAddressCreator,
+            AdminAddressesCreator,
         },
         props: ['showAddresses'],
         data() {
