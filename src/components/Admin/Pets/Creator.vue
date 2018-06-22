@@ -2,7 +2,6 @@
     <form @keydown="errors.clear($event.target.name)"
           @submit.prevent=""
     >
-
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-group"
@@ -12,7 +11,7 @@
                     <admin-user-selector v-model="form.owner"
                                          @input="errors.clear('owner_id')"
                     ></admin-user-selector>
-                    <span class="help-block">{{ errors.get('owner_id') }}</span>
+                    <error input="owner_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -28,7 +27,7 @@
                            name="name"
                            v-model="form.name"
                     >
-                    <span class="help-block">{{ errors.get('name') }}</span>
+                    <error input="name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -42,7 +41,7 @@
                            name="breed"
                            v-model="form.breed"
                     >
-                    <span class="help-block">{{ errors.get('breed') }}</span>
+                    <error input="breed" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -59,7 +58,7 @@
                            name="species"
                            v-model="form.species"
                     >
-                    <span class="help-block">{{ errors.get('species') }}</span>
+                    <error input="species" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -73,7 +72,7 @@
                            name="activity_level"
                            v-model="form.activity_level"
                     >
-                    <span class="help-block">{{ errors.get('activity_level') }}</span>
+                    <error input="activity_level" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -90,7 +89,7 @@
                                 input-class="form-control"
                     >
                     </datepicker>
-                    <span class="help-block">{{ errors.get('birthday') }}</span>
+                    <error input="birthday" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -104,7 +103,7 @@
                            name="weight"
                            v-model="form.weight"
                     >
-                    <span class="help-block">{{ errors.get('weight') }}</span>
+                    <error input="weight" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -120,7 +119,7 @@
                            name="daily_meals"
                            v-model="form.daily_meals"
                     >
-                    <span class="help-block">{{ errors.get('daily_meals') }}</span>
+                    <error input="daily_meals" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -159,8 +158,10 @@
 </template>
 
 <script>
-import hasErrors from '../../../mixins/hasErrors';
+import FormErrors from '../../../models/FormErrors';
 import Form from '../../../models/Form';
+import swal from 'sweetalert2';
+
 import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
 import moment from 'moment';
 import Datepicker from 'vuejs-datepicker';
@@ -170,16 +171,12 @@ import * as petActions from "../../../vuex/modules/pets/actionTypes";
 import AdminUserSelector from '../Users/UserSelector.vue';
 
 export default {
-    mixins: [
-        hasErrors
-    ],
     components: {
         Datepicker,
         AdminUserSelector,
     },
     data() {
-        return {
-            form: {
+        let form  = {
                 owner: {},
                 owner_id: null,
                 name: '',
@@ -189,7 +186,11 @@ export default {
                 activity_level: null,
                 birthday: null,
                 daily_meals: 2,
-            }
+            };
+        let formFields = Object.keys(form);
+        return {
+            errors: new FormErrors(formFields),
+            form,
         };
     },
     methods: {
@@ -201,8 +202,9 @@ export default {
                 ...this.form, birthday, owner_id,
             }).then(response => {
                 vm.$emit('saved');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                swal('Error', 'Something went wrong...', 'error');
+                vm.errors.fill(failedRequest);
             });
         },
         update() {
@@ -213,8 +215,9 @@ export default {
                 ...this.form, birthday, owner_id,
             }).then(response => {
                 vm.$emit('updated');
-            }).catch(error => {
-                vm.errors.record(error.response.data.errors);
+            }).catch(failedRequest => {
+                swal('Error', 'Something went wrong...', 'error');
+                vm.errors.fill(failedRequest);
             });
         },
         fetchAll() {
@@ -237,7 +240,6 @@ export default {
             'collection',
             'mode',
             'selected',
-            'show',
         ]),
         ...mapState('users', {
             'users': 'collection'

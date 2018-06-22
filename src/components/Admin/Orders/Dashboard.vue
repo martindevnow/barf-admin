@@ -1,5 +1,6 @@
 <template>
     <div>
+      <page-loading v-if="loading"></page-loading>
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
@@ -29,7 +30,9 @@
             <tr>
                 <th v-for="key in columns"
                     @click="sortBy(key)"
-                    :class="{ active: sortable.sortKey == key }">
+                    :class="{ active: sortable.sortKey == key }"
+                    :key="key"
+                >
                     {{ key | capitalize }}
                     <span class="fa" :class="sortOrders[key] > 0 ? 'fa-sort-asc' : 'fa-sort-desc'">
                   </span>
@@ -40,11 +43,11 @@
 
             <tbody>
             <tr v-for="order in filteredData(collection)" :key="order.id">
-                <td>{{ order.pet_breed_customer }}</td>
-                <td>{{ order.meal_size }} x {{ order.daily_meals }}</td>
                 <td>
-                    {{ order.package_label }}
+                    {{ order.pet_breed_customer }}<br />
+                    <span style="color: red;">{{ order.package_label }}</span>
                 </td>
+                <td>{{ order.meal_size }}g x {{ order.daily_meals }}</td>
                 <td>{{ order.weeks_of_food }}</td>
                 <td v-if="orderBeingEdited != order.id">
                     {{ order.deliver_by }}
@@ -68,39 +71,31 @@
                     </button>
                 </td>
                 <td v-if="! order.cancelled">
-                    <button @click="openPaymentModal(order)"
-                            class="btn btn-sm"
-                            :class="{
-                        'btn-danger': ! order.paid,
-                        'btn-success': order.paid
-                    }"
+                    <v-btn @click="openPaymentModal(order)"
+                           small
+                           :color="order.paid ? 'success' : 'error'"
                     >
                         Paid
-                    </button>
-                    <button @click="openPackedModal(order)"
-                            class="btn btn-sm"
-                            :class="{
-                        'btn-danger': ! order.packed,
-                        'btn-success': order.packed
-                    }"
+                    </v-btn>
+                    <v-btn @click="openPackedModal(order)"
+                            small
+                            :color="order.packed ? 'success' : 'error'"
                     >
                         Packed
-                    </button>
-                    <button @click="openShippedModal(order)"
-                            class="btn btn-sm"
-                            :class="{
-                        'btn-danger': ! order.shipped,
-                        'btn-success': order.shipped
-                    }"
+                    </v-btn>
+                    <v-btn @click="openShippedModal(order)"
+                           small
+                           :color="order.shipped ? 'success' : 'error'"
                     >
                         Shipped
-                    </button>
-                    <button v-if="! order.shipped"
+                    </v-btn>
+                    <v-btn v-if="! order.cancelled"
                             @click="openCancellationModal(order)"
-                            class="btn btn-sm btn-warning"
+                            color="warning"
+                            small
                     >
                         Cancel
-                    </button>
+                    </v-btn>
                 </td>
                 <td v-if="order.cancelled">
                     Cancelled
@@ -109,39 +104,6 @@
             </tbody>
         </table>
 
-
-        <admin-common-modal v-if="show.paymentModal">
-            <p slot="header">Log a Payment</p>
-            <admin-payment-logger @saved="closePaymentModal()"
-                                  @cancelled="closePaymentModal()"
-                                  slot="body"
-            ></admin-payment-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.packedModal">
-            <p slot="header">Log Packing an Order</p>
-            <admin-packed-logger @saved="closePackedModal()"
-                                 @cancelled="closePackedModal()"
-                                 slot="body"
-            ></admin-packed-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.shippedModal">
-            <p slot="header">Log a Shipment</p>
-            <admin-shipped-logger @saved="closeShippedModal()"
-                                  @cancelled="closeShippedModal()"
-                                  slot="body"
-            ></admin-shipped-logger>
-        </admin-common-modal>
-
-        <admin-common-modal v-if="show.cancellationModal">
-            <p slot="header">Cancel an Order</p>
-            <p slot="body">Reason:</p>
-            <admin-orders-canceller @saved="closeCancellationModal()"
-                                    @cancelled="closeCancellationModal()"
-                                    slot="body"
-            ></admin-orders-canceller>
-        </admin-common-modal>
     </div>
 </template>
 
@@ -154,29 +116,17 @@ import swal from 'sweetalert2';
 import moment from 'moment';
 import * as orderActions from '../../../vuex/modules/orders/actionTypes';
 
-import AdminCommonModal from '../Common/Modal.vue';
-import AdminPaymentLogger from './PaymentLogger.vue';
-import AdminPackedLogger from './PackedLogger.vue';
-import AdminShippedLogger from './ShippedLogger.vue';
-import AdminOrderCanceller from './OrderCanceller.vue';
-
 export default {
     mixins: [
         isSortable
     ],
     components: {
         Datepicker,
-        AdminCommonModal,
-        AdminPaymentLogger,
-        AdminPackedLogger,
-        AdminShippedLogger,
-        AdminOrderCanceller,
     },
     data() {
         let columns = [
             'pet_breed_customer',
             'meal_size',
-            'package_label',
             '# of Weeks',
             'deliver_by',
         ];
@@ -187,6 +137,7 @@ export default {
         });
 
         return {
+          loading: false,
             columns: columns,
             numColumns: numColumns,
             sortOrders: sortOrders,
@@ -198,28 +149,26 @@ export default {
     },
     methods: {
         fetchAll() {
-            this.$store.dispatch('orders/' + orderActions.FETCH_ALL);
+          const vm = this;
+          this.loading = true;
+            this.$store.dispatch('orders/' + orderActions.FETCH_ALL)
+            .then((orders) => vm.loading = false);
         },
         openPaymentModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_PAYMENT_LOGGER, order)
-        },
-        closePaymentModal() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_PAYMENT_LOGGER)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
+            this.$router.push({name: 'OrderPaymentLogger', params: {id: order.id}});
         },
         openPackedModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_PACKED_LOGGER, order)
-        },
-        closePackedModal() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_PACKED_LOGGER)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
+            this.$router.push({name: 'OrderPackedLogger', params: {id: order.id}});
         },
         openShippedModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_SHIPPED_LOGGER, order)
-        },
-        closeShippedModal() {
-            this.$store.dispatch('orders/' + orderActions.CLOSE_SHIPPED_LOGGER)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
+            this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});
         },
         openCancellationModal(order) {
-            this.$store.dispatch('orders/' + orderActions.OPEN_CANCELLED_LOGGER, order)
+            this.$store.dispatch('orders/' + orderActions.SELECT, order)
+            this.$router.push({name: 'OrderCancellationLogger', params: {id: order.id}});
         },
         closeCancellationModal() {
             this.$store.dispatch('orders/' + orderActions.CLOSE_CANCELLED_LOGGER)
@@ -269,7 +218,6 @@ export default {
                     });
                 }).catch(function() {
                     vm.orderBeingEdited = null;
-                    console.log('Apply to only this one...');
                     vm.$store.dispatch('orders/' + orderActions.UPDATE_DELIVER_BY, {
                         order,
                         formData: {
@@ -299,7 +247,6 @@ export default {
     computed: {
         ...mapState('orders', [
             'collection',
-            'show',
             'selected'
         ])
     },

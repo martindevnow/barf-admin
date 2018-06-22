@@ -19,5 +19,13 @@ export default {
               });
       });
   },
+
+    [actions.SELECT]({ commit }, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT]({ commit }) {
+        commit(mutations.DESELECT);
+    },
 };
 

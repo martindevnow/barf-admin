@@ -21,6 +21,14 @@ export default {
         });
     },
 
+    [actions.SELECT] ({commit}, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT] ({commit}) {
+        commit(mutations.DESELECT);
+    },
+
     [actions.CREATE] ({commit}) {
         commit(mutations.DESELECT);
         commit(mutations.CREATE_MODE);
@@ -115,6 +123,18 @@ export default {
             }).catch(error => {
                 reject(error);
             });
+        });
+    },
+
+    [actions.FETCH_PLAN_NOTES] ({commit}, plan_id) {
+        return new Promise((resolve, reject) => {
+            http.get('/admin/api/plans/' + plan_id + '/notes')
+            .then(response => {
+                commit(mutations.SET_NOTES_FOR_PLAN, {plan_id: plan_id, notes: response.data});
+                resolve(response);
+            }).catch(error => {
+                reject(error);
+            })
         });
     }
 };

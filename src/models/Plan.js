@@ -18,14 +18,18 @@ export const loadPlanFromData = function (data) {
 
     plan.customer_id = data.customer_id;
     plan.customer = data.customer ? loadUserFromData(data.customer) : null;
+    plan.customer_name = data.customer ? data.customer.first_name + ' ' + data.customer.last_name : "NA";
 
     plan.pet_id = data.pet_id;
     plan.pet = data.pet ? loadPetFromData(data.pet) : null;
     plan.pet_weight = data.pet_weight;
     plan.pet_activity_level = data.pet_activity_level;
+    plan.pet_name = data.pet.name + ' (' + data.pet_weight + ' lb)';
 
     plan.package_id = data.package_id;
     plan.package = data.package;
+    plan.package_label = data.package.label;
+    
     // plan.package = data.package ? loadPackageFromData(data.package) : null;
 
     plan.shipping_cost = data.shipping_cost;
@@ -41,5 +45,9 @@ export const loadPlanFromData = function (data) {
     plan.payment_method = data.payment_method;
 
     plan.delivery_address_id = data.delivery_address_id;
+
+    plan.weeks_of_food = data.weeks_of_food_per_shipment;
+    plan.weeks_per_shipment = data.ships_every_x_weeks;
+    plan.meals = data.meals;
     return plan;
 };

@@ -18,10 +18,11 @@
                     <label for="weeks_shipped">Weeks Shipped</label>
                     <input type="text" class="form-control"
                            id="weeks_shipped"
+                           name="weeks_shipped"
                            v-model="form.weeks_shipped"
                     >
                 </div>
-
+                <error input="weeks_shipped" :errors="errors"></error>
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
@@ -32,7 +33,7 @@
                                             @input="errors.clear('shipped_package_id')"
                     >
                     </admin-package-selector>
-                    <span class="help-block">{{ errors.get('shipped_package_id') }}</span>
+                    <error input="shipped_package_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -50,6 +51,7 @@
                     >
                     </datepicker>
                 </div>
+                <error input="shipped_at" :errors="errors"></error>
             </div>
             <div class="col-sm-6">
                 <div class="form-group"
@@ -65,7 +67,7 @@
                                 :value="courier.id"
                         >{{ courier.label }}</option>
                     </select>
-                    <span class="help-block">{{ errors.get('courier_id') }}</span>
+                    <error input="courier_id" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -80,7 +82,7 @@
             </div>
             <div class="col-sm-6">
                 <button class="btn btn-outline-danger btn-block"
-                        @click="$emit('cancelled')"
+                        @click="close()"
                 >
                     Cancel
                 </button>
@@ -92,11 +94,11 @@
 <script>
 
 
+import FormErrors from '../../../models/FormErrors';
+import swal from "sweetalert2";
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex';
-import eventBus from '../../../events/eventBus';
 import Datepicker from 'vuejs-datepicker';
 import moment from 'moment';
-import hasErrors from '../../../mixins/hasErrors';
 import * as courierActions from "../../../vuex/modules/couriers/actionTypes";
 import * as packageActions from "../../../vuex/modules/packages/actionTypes";
 import * as orderActions from "../../../vuex/modules/orders/actionTypes";
@@ -104,23 +106,23 @@ import AdminPackageSelector from '../Packages/PackageSelector.vue';
 
 export default {
     components: {
-        AdminPackageSelector
-    },
-    mixins: [
-        hasErrors
-    ],
-    components: {
+        AdminPackageSelector,
         Datepicker,
     },
     data() {
-        return {
-            form: {
+        let form = {
                 weeks_shipped: null,
                 package_id: null,
                 shipped_package: {},
+                shipped_package_id: null,
                 shipped_at: null,
                 courier_id: null,
-            }
+            };
+        let formFields = Object.keys(form);
+            
+        return {
+            errors: new FormErrors(formFields),            
+            form,
         };
     },
     methods: {
@@ -135,18 +137,23 @@ export default {
             let vm = this;
             let requestBody = {
                 ...this.form,
-                shipped_at:      moment(this.form.shipped_at).format('YYYY-MM-DD'),
+                shipped_at:             moment(this.form.shipped_at).format('YYYY-MM-DD'),
                 weeks_shipped:          this.form.weeks_shipped,
                 shipped_package_id:     this.form.shipped_package.id,
             };
+            delete requestBody.shipped_package;
             this.$store.dispatch('orders/' + orderActions.SAVE_SHIPPED,
                 requestBody
             ).then(response => {
-                vm.$emit('saved');
-            }).catch(function(error) {
-                vm.errors.record(error.response.data.errors);
+                vm.close();
+            }).catch(failedRequest => {
+                vm.errors.fill(failedRequest);
             });
         },
+        close() {
+            this.$store.dispatch('orders/' + orderActions.DESELECT)
+            this.$router.push({name: 'Orders'});
+            }
     },
     computed: {
         ...mapState('orders', [

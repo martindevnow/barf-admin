@@ -5,12 +5,14 @@ import store from './vuex/store';
 import VueLocalStorage from 'vue-localstorage';
 import Vuetify from 'vuetify';
 
+import ErrorComponent from './components/Errors/ErrorComponent';
+import PageLoading from './components/Shared/PageLoading';
+
 Vue.config.productionTip = false;
-window.axios = require('axios');
 
-// const baseUrl = process.env.BARF_API_BASE + '/';
-// axios.defaults.baseURL = baseUrl;
-
+/**
+ * Local Storage Stuff
+ */
 Vue.use(VueLocalStorage, {
     name: 'ls',
     createComputed: true //created computed members from your variable declarations
@@ -37,8 +39,13 @@ Vue.use(Vuetify, {
   }
 });
 
+Vue.component('error', ErrorComponent);
+Vue.component('page-loading', PageLoading);
+
+
+
 /* eslint-disable no-new */
-new Vue({
+let app = new Vue({
     el: '#app',
     ls: {
         auth: {
@@ -50,4 +57,3 @@ new Vue({
     store,
     render: h => h(App)
 });
-

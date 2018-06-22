@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import VContent from "vuetify/src/components/VGrid/VContent";
+  import VContent from "vuetify/es5/components/VGrid/VContent";
   import Navigation from './components/Layout/Navigation.vue';
 
   export default {
@@ -28,7 +28,7 @@
     name: 'app',
     computed: {},
     created() {
-      console.log('App created');
+      this.$store.dispatch('ping');
     },
   }
 </script>

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-  import VToolbar from "vuetify/src/components/VToolbar/VToolbar";
+  import VToolbar from "vuetify/es5/components/VToolbar/VToolbar";
   import {mapState} from "vuex";
 
   export default {

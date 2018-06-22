@@ -21,6 +21,14 @@ export default {
         });
     },
 
+    [actions.SELECT]({ commit }, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT]({ commit }) {
+        commit(mutations.DESELECT);
+    },
+
     [actions.OPEN_ORDERED_LOGGER] ({commit}, model) {
         commit(mutations.SELECT, model);
         commit(mutations.SHOW_ORDERED_LOGGER);

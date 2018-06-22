@@ -65,11 +65,13 @@
                 <div class="form-group">
                     <h3>Meal to Remove</h3>
                     <admin-meal-selector v-model="form.removed_meal"></admin-meal-selector>
+                    <error input="removed_meal_id" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
                 <h3>Meal to Add</h3>
                 <admin-meal-selector v-model="form.added_meal"></admin-meal-selector>
+                <error input="added_meal_id" :errors="errors"></error>
             </div>
         </div>
 
@@ -97,8 +99,10 @@
 </template>
 
 <script>
+    import FormErrors from '../../../models/FormErrors';
+    import swal from "sweetalert2";
+    
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
-    import hasErrors from '../../../mixins/hasErrors';
     import * as mealActions from "../../../vuex/modules/meals/actionTypes";
 
     import AdminMealSelector from '../Meals/MealSelector.vue';
@@ -108,15 +112,15 @@
         components: {
             AdminMealSelector,
         },
-        mixins: [
-            hasErrors
-        ],
         data() {
-            return {
-                form : {
+            let form = {
                     removed_meal: {},
                     added_meal: {},
-                },
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
                 customMeals: null,
             };
         },
@@ -130,12 +134,11 @@
                     removed_meal_id: vm.form.removed_meal.id,
                     added_meal_id: vm.form.added_meal.id,
                 }).then(response => {
-                    console.log(response);
                     vm.loadCustomMenu();
-
                     vm.$emit('saved');
-                }).catch(error => {
-                    console.log(error);
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             deleteReplacement(meal_replacement) {
@@ -146,12 +149,12 @@
                     vm.loadCustomMenu();
                     alert('Removed');
                 }).catch(error => {
-                    alert('Error');
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             isReplaced(meal) {
                 if (! this.selected.meal_replacements.length) {
-                    console.log('no meal replacements');
                     return false;
                 }
 

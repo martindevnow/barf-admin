@@ -20,7 +20,7 @@
                            name="name"
                            v-model="form.name"
                     >
-                    <span class="help-block">{{ errors.get('name') }}</span>
+                    <error input="name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -35,7 +35,7 @@
                            v-model="form.email"
                            autocomplete="off"
                     >
-                    <span class="help-block">{{ errors.get('email') }}</span>
+                    <error input="email" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                            v-model="form.password"
                            autocomplete="off"
                     >
-                    <span class="help-block">{{ errors.get('password') }}</span>
+                    <error input="password" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -67,7 +67,7 @@
                            name="phone_number"
                            v-model="form.phone_number"
                     >
-                    <span class="help-block">{{ errors.get('phone_number') }}</span>
+                    <error input="phone_number" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                            name="first_name"
                            class="form-control"
                     >
-                    <span class="help-block">{{ errors.get('first_name') }}</span>
+                    <error input="first_name" :errors="errors"></error>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -97,7 +97,7 @@
                            name="last_name"
                            v-model="form.last_name"
                     >
-                    <span class="help-block">{{ errors.get('last_name') }}</span>
+                    <error input="last_name" :errors="errors"></error>
                 </div>
             </div>
         </div>
@@ -185,34 +185,36 @@
 </template>
 
 <script>
-    import hasErrors from '../../../mixins/hasErrors';
+    import FormErrors from '../../../models/FormErrors';
     import Form from '../../../models/Form';
     import swal from 'sweetalert2';
+    
     import { mapGetters, mapState, mapActions, mapMutations } from 'vuex';
     import * as userActions from '../../../vuex/modules/users/actionTypes';
     import * as userMutations from '../../../vuex/modules/users/mutationTypes';
     import * as addressActions from "../../../vuex/modules/addresses/actionTypes";
-    import AdminAddressCreator from '../Addresses/Creator.vue';
+    import AdminAddressesCreator from '../Addresses/Creator.vue';
 
     export default {
         components: {
-            AdminAddressCreator,
+            AdminAddressesCreator,
         },
-        mixins: [
-            hasErrors
-        ],
         props: ['showAddresses'],
         data() {
-            return {
-                addAddress: false,
-                form: {
+            let form = {
                     name: '',
                     email: '',
                     password: '',
                     first_name: null,
                     last_name: null,
                     phone_number: null,
-                }
+                };
+            let formFields = Object.keys(form);
+            return {
+                errors: new FormErrors(formFields),
+                form,
+                addAddress: false,
+                
             };
         },
         methods: {
@@ -222,8 +224,9 @@
                     this.form
                 ).then(response => {
                     vm.$emit('saved');
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             update() {
@@ -232,8 +235,9 @@
                     this.form
                 ).then(response => {
                     vm.$emit('saved');
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest);
                 });
             },
             attachAddress(address) {
@@ -242,8 +246,9 @@
                     address.id
                 ).then(response => {
                     vm.addAddress = false;
-                }).catch(error => {
-                    alert('error');
+                }).catch(failedRequest => {
+                    swal('Error', 'Something went wrong...', 'error');
+                    vm.errors.fill(failedRequest)
                 });
             },
             updateUserAddress(address) {

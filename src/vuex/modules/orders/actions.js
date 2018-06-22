@@ -22,14 +22,12 @@ export default {
         });
     },
 
-    [actions.OPEN_PAYMENT_LOGGER] ({commit}, order) {
+    [actions.SELECT] ({commit}, order) {
         commit(mutations.SELECT, order);
-        commit(mutations.SHOW_PAYMENT_LOGGER);
     },
 
-    [actions.CLOSE_PAYMENT_LOGGER] ({commit}) {
+    [actions.DESELECT] ({commit}) {
         commit(mutations.DESELECT);
-        commit(mutations.HIDE_PAYMENT_LOGGER);
     },
 
     [actions.SAVE_PAYMENT] ({commit, state}, formData) {
@@ -37,22 +35,15 @@ export default {
             http.post('/admin/api/orders/' + state.selected.id + '/paid',
                 formData
             ).then(response => {
-                commit(mutations.UPDATE_IN_COLLECTION, { paid: true });
+                commit(mutations.UPDATE_IN_COLLECTION, { 
+                    id: state.selected.id,
+                    paid: true 
+                });
                 resolve(response);
             }).catch(error => {
                 reject(error);
             });
         });
-    },
-
-    [actions.OPEN_PACKED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_PACKED_LOGGER);
-    },
-
-    [actions.CLOSE_PACKED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_PACKED_LOGGER);
     },
 
     [actions.SAVE_PACKED] ({commit, state}, formData) {
@@ -61,6 +52,7 @@ export default {
                 formData,
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {
+                    id: state.selected.id,
                     packed: true,
                     weeks_packed: formData.weeks_packed,
                     packed_package_id: formData.packed_package_id,
@@ -72,32 +64,13 @@ export default {
         });
     },
 
-    [actions.OPEN_PICKED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_PICKED_LOGGER);
-    },
-
-    [actions.CLOSE_PICKED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_PICKED_LOGGER);
-    },
-
-    [actions.OPEN_SHIPPED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_SHIPPED_LOGGER);
-    },
-
-    [actions.CLOSE_SHIPPED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_SHIPPED_LOGGER);
-    },
-
     [actions.SAVE_SHIPPED] ({commit, state}, formData) {
         return new Promise((resolve, reject) => {
             http.post('/admin/api/orders/' + state.selected.id + '/shipped',
                 formData
             ).then(response => {
                 commit(mutations.UPDATE_IN_COLLECTION, {
+                    id: state.selected.id,
                     shipped: true,
                     shipped_at: formData.shipped_at,
                     weeks_shipped: formData.weeks_shipped,
@@ -110,18 +83,14 @@ export default {
         });
     },
 
-    [actions.OPEN_DELIVERED_LOGGER] ({commit}, order) {
-        commit(mutations.SELECT, order);
-        commit(mutations.SHOW_DELIVERED_LOGGER);
-    },
-
-    [actions.CLOSE_DELIVERED_LOGGER] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_DELIVERED_LOGGER);
-    },
-
     [actions.OPEN_CANCELLED_LOGGER] ({commit}, order) {
-        commit('notes/' + noteMutations.SET_TARGET_MODEL, {model: order, type: 'order'}, { root: true });
+        console.log('== Orders Actions ==');
+        commit(
+            // 'notes/' + noteMutations.SET_TARGET_MODEL, 
+            'notes/SET_TARGET_MODEL',
+            { model: order, type: 'order' }, 
+            { root: true }
+        );
         commit(mutations.SELECT, order);
         commit(mutations.SHOW_CANCELLED_LOGGER);
     },
@@ -136,7 +105,10 @@ export default {
         return new Promise((resolve, reject) => {
             http.post('/admin/api/orders/' + state.selected.id + '/cancel'
             ).then(response => {
-                commit(mutations.UPDATE_IN_COLLECTION, {cancelled: true});
+                commit(mutations.UPDATE_IN_COLLECTION, {
+                    id: state.selected.id,
+                    cancelled: true
+                });
                 resolve(response);
             }).catch(error => {
                 reject(error);

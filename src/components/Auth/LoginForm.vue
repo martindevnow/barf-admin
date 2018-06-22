@@ -7,7 +7,7 @@
             <!--</v-toolbar>-->
             <v-card-text>
 
-              <v-progress-circular indeterminate color="primary" v-if="loading"></v-progress-circular>
+              <page-loading v-if="loading"></page-loading>
 
               <form @submit.prevent="login()" :disabled="loading">
                 <span class="title">Login Info</span>
@@ -25,6 +25,7 @@
                   v-model="password"
                   :rules="[() => password.length > 0 || 'This field is required']"
                   required
+                  @keyup.13="login()"
                 ></v-text-field>
                 <small>* indicates required field</small>
                 <div>
@@ -41,62 +42,50 @@
 </template>
 
 <script>
-import eventBus from '../../events/eventBus';
-import swal from 'sweetalert2'
-import {mapState} from "vuex";
+import swal from "sweetalert2";
+import { mapState } from "vuex";
 
-  export default {
-    props: ['cart_hash'],
-    data() {
-      return {
-        user: {},
-        loading: false,
-        name: "",
-        email: "",
-        password: "",
-      }
+export default {
+  props: ["cart_hash"],
+  data() {
+    return {
+      user: {},
+      loading: false,
+      name: "",
+      email: "",
+      password: ""
+    };
+  },
+  computed: {
+    ...mapState(["auth"])
+  },
+  methods: {
+    loadUser(user) {
+      this.user = user;
     },
-    computed: {
-      ...mapState([
-        'auth'
-      ]),
-    },
-    methods: {
-      loadUser(user) {
-        this.user = user;
-      },
-      login() {
-        this.loading = true;
-        let vm = this;
-        let user = {
-          username: this.email,
-          password: this.password,
-        };
-        this.$store.dispatch('login', {user, app: this}).then(response => {
-          vm.$router.push('/');
+    login() {
+      this.loading = true;
+      let vm = this;
+      let user = {
+        username: this.email,
+        password: this.password
+      };
+      this.$store
+        .dispatch("login", { user, app: this })
+        .then(response => {
+          vm.$router.push("/");
           vm.loading = false;
-        }).catch(error => {
+        })
+        .catch(error => {
           vm.loading = false;
         });
-      },
-    },
+    }
   }
+};
 </script>
 
 <style>
-    #loading-img {
-        background: url(http://preloaders.net/preloaders/360/Velocity.gif) center center no-repeat;
-        height: 100%;
-        z-index: 20;
-    }
 
-    .overlay {
-        background: #e9e9e9;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        opacity: 0.5;
-    }
+
+
 </style>

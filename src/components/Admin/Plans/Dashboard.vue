@@ -44,15 +44,21 @@
           :key="plan.id"
           :class="{ 'danger': ! plan.active }"
       >
-        <td>{{ plan.id }}</td>
-        <td>{{ plan.customer_name }}</td>
-        <td>{{ plan.pet_name }}</td>
-        <td>
-          {{ plan.package_label }}
-
+        <td class="np">
+          <table>
+            <u>Plan:</u> {{ plan.id }} <br />
+            <u>Owner:</u> {{ plan.customer_name }} <br />
+            <u>Pet:</u> {{ plan.pet_name }} <br />
+          </table>
         </td>
-        <td>{{ plan.weeks_of_food }} / {{ plan.weeks_per_shipment }}</td>
-        <td>${{ plan.weekly_cost }}</td>
+        <td class="np">
+          <table>
+            <u>Package:</u> {{ plan.package_label }}<br />
+            <u>Food:</u> {{ plan.weeks_of_food }} wks of food <br />
+            <u>Delivery:</u> every {{ plan.weeks_per_shipment }} week(s) <br />
+            <u>Cost:</u> ${{ plan.weekly_cost }}<br />
+          </table>
+        </td>
         <td>
           <button class="btn btn-outline-danger btn-sm"
                   @click="openNoteCreatorModal({ model: plan, type: 'plan' })"
@@ -110,12 +116,8 @@
     ],
     data() {
       let columns = [
-        'id',
-        'customer_name',
-        'pet_name',
+        'plan_id',
         'package_label',
-        'X wks food every X wks',
-        'cost',
       ];
       let numColumns = columns.length;
       let sortOrders = {};
@@ -150,7 +152,8 @@
         this.$router.push({name: 'PlanMealReplacements', params: {id: plan.id}});
       },
       openNoteCreatorModal(dto) {
-        this.$store.dispatch('notes/' + noteActions.CREATE, dto)
+        this.$store.dispatch('notes/' + noteActions.CREATE, dto);
+        this.$router.push({name: 'PlanNotes', params: {id: dto.model.id}});
       },
       closeNoteCreatorModal() {
         this.$store.dispatch('notes/' + noteActions.CANCEL)
@@ -210,5 +213,7 @@
 </script>
 
 <style>
-
+td.np {
+  padding: 0 !important;
+}
 </style>

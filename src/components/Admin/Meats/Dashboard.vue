@@ -1,31 +1,6 @@
 <template>
   <div>
 
-    <!--<v-data-table :items="collection"-->
-                  <!--:headers="columns"-->
-                  <!--class="elevation-1"-->
-                  <!--&gt;-->
-      <!--<template slot="items" slot-scope="props">-->
-        <!--<td class="text-xs-right">{{ meat.type }}</td>-->
-        <!--<td class="text-xs-right">{{ meat.variety }}</td>-->
-        <!--<td class="text-xs-right">{{ meat.code }}</td>-->
-        <!--<td class="text-xs-right">${{ meat.cost_per_lb.toFixed(2) }}</td>-->
-        <!--<td class="text-xs-right">-->
-          <!--<button class="btn btn-primary btn-sm"-->
-                  <!--@click="edit(meat)"-->
-          <!--&gt;-->
-            <!--<i class="fa fa-pencil"></i>-->
-          <!--</button>-->
-          <!--<button class="btn btn-danger btn-sm">-->
-            <!--<i class="fa fa-trash"></i>-->
-          <!--</button>-->
-        <!--</td>-->
-      <!--</template>-->
-    <!--</v-data-table>-->
-
-
-
-
     <table class="table table-bordered table-responsive table-striped">
       <thead>
       <tr>
@@ -140,7 +115,6 @@
     computed: {
       ...mapState('meats', [
         'collection',
-        'show',
         'selected',
         'mode'
       ])

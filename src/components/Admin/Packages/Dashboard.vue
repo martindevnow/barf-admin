@@ -145,7 +145,7 @@
             },
 
             editMealPlan(model) {
-                this.$store.dispatch('packages/' + packageActions.OPEN_MEAL_PLAN_EDITOR, model);
+                this.$store.dispatch('packages/' + packageActions.SELECT, model);
                 this.$router.push({ name: 'PackageMealPlanEdit', params: {id: model.id} });
             },
 

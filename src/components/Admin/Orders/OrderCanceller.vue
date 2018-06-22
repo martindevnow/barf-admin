@@ -1,5 +1,5 @@
 <template>
-    <admin-notes-creator @cancelled="$emit('cancelled')"
+    <admin-notes-creator @cancelled="close()"
                          @saved="cancelOrder()"
     >
     </admin-notes-creator>
@@ -12,7 +12,7 @@
 
     export default {
         components: {
-
+            AdminNotesCreator,
         },
         data() {
             return {};
@@ -23,10 +23,14 @@
 
                 this.$store.dispatch('orders/' + orderActions.SAVE_CANCELLED
                 ).then(response => {
-                    vm.$emit('saved');
-                }).catch(error => {
-                    vm.errors.record(error.response.data.errors);
+                    vm.close();
+                }).catch(failedRequest => {
+                    vm.errors.fill(failedRequest);
                 });
+            },
+            close() {
+                this.$store.dispatch('orders/' + orderActions.CLOSE_CANCELLED_LOGGER);
+                this.$router.push({name: 'Orders'});
             }
         },
         computed: {

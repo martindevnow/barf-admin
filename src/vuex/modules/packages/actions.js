@@ -3,19 +3,9 @@ import * as mutations from './mutationTypes';
 import http from '../../../http';
 
 export default {
-    [actions.CREATE] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.CREATE_MODE);
-    },
-
-    [actions.EDIT] ({commit}, model) {
-        commit(mutations.SELECT, model);
-        commit(mutations.EDIT_MODE);
-    },
-
-    [actions.FETCH_ALL] ({commit, state}, force = false) {
+    [actions.FETCH_ALL]({ commit, state }, force = false) {
         return new Promise((resolve, reject) => {
-            if (! force && state.collection.length)
+            if (!force && state.collection.length)
                 return resolve(state.collection);
 
             http.get('/admin/api/packages')
@@ -28,6 +18,24 @@ export default {
                     reject(error);
                 });
         });
+    },
+
+    [actions.SELECT]({ commit }, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT]({ commit }) {
+        commit(mutations.DESELECT);
+    },
+
+    [actions.CREATE] ({commit}) {
+        commit(mutations.DESELECT);
+        commit(mutations.CREATE_MODE);
+    },
+
+    [actions.EDIT] ({commit}, model) {
+        commit(mutations.SELECT, model);
+        commit(mutations.EDIT_MODE);
     },
 
     [actions.SAVE] ({commit}, formData) {
@@ -63,19 +71,8 @@ export default {
         commit(mutations.CLEAR_MODE);
     },
 
-    [actions.OPEN_MEAL_PLAN_EDITOR] ({commit}, model) {
-        commit(mutations.SELECT, model);
-        commit(mutations.SHOW_MEAL_PLAN_EDITOR);
-    },
-
-    [actions.CLOSE_MEAL_PLAN_EDITOR] ({commit}) {
-        commit(mutations.DESELECT);
-        commit(mutations.HIDE_MEAL_PLAN_EDITOR);
-    },
-
     [actions.SAVE_MEAL_PLAN] ({commit}, formData) {
         return new Promise((resolve, reject) => {
-
             http.patch('/admin/api/packages/' + formData.package_id + '/mealPlan',
                 formData
             ).then(response => {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content-body">
         <table class="table table-bordered table-responsive table-striped">
             <thead>
             <tr>
@@ -39,17 +39,15 @@
             </thead>
             <tbody>
             <tr v-for="meal in filteredData(collection)">
-                <td>{{ meal.id }}</td>
-                <td>{{ meal.label }}</td>
-                <td>{{ meal.code }}</td>
+                <td>({{ meal.id }}) {{ meal.label }} <br />
+                    {{ meal.code }}</td>
                 <td>
-                    {{ meal.meats.length ? meal.meats.map(meat => meat.type + ' (' + meat.variety + ')').join(', ') : '' }}
+                    <ul>
+                        <li v-for='meat in meal.meats'  style="color: red">{{ meat.type + ' (' + meat.variety + ')'}}</li>
+                        <li v-for='topping in meal.toppings' style="color: blue">{{ topping.label }}</li>
+                    </ul>
                 </td>
-                <td>
-                    {{ meal.toppings.length ? meal.toppings.map(topping => topping.label).join(', ') : '' }}
-                </td>
-                <td>{{ meal.meal_value }}</td>
-                <td>${{ meal.costPerLb().toFixed(2) }}</td>
+                <td>${{ meal.cost_per_lb }}</td>
 
                 <td>
                     <button class="btn btn-primary btn-sm"
@@ -86,12 +84,8 @@
         ],
         data() {
             let columns = [
-                'id',
                 'label',
-                'code',
-                'meats',
-                'toppings',
-                'meal_value',
+                'contents',
                 'costPerLb',
             ];
             let numColumns = columns.length;
@@ -125,7 +119,6 @@
         computed: {
             ...mapState('meals', [
                 'collection',
-                'show',
                 'selected',
                 'mode'
             ])
@@ -134,5 +127,7 @@
 </script>
 
 <style>
-
+.content-body {
+    padding: 1rem;
+}
 </style>

@@ -43,7 +43,7 @@
             >
                 <td>{{ pet.name }}</td>
                 <td>{{ pet.breed }}</td>
-                <td>{{ pet.ownerName() }}</td>
+                <td>{{ pet.ownerName }}</td>
                 <td>{{ pet.weight }} lb</td>
                 <td>{{ pet.activity_level }} %</td>
                 <td>{{ pet.birthday }}</td>
@@ -105,7 +105,6 @@
             }
         },
         mounted() {
-            console.log('pet dash mounted');
             this.fetchAll();
         },
         methods: {
@@ -127,7 +126,6 @@
         computed: {
             ...mapState( 'pets', [
                 'collection',
-                'show',
                 'selected',
                 'mode',
             ])

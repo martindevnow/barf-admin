@@ -111,9 +111,8 @@ export default {
                         eventBus.$emit('user-logged-in', response.data.user);
                         window.location = ('/quote/details/' + vm.cart_hash);
 
-                    }, function(error) {
-                        console.log(error);
-                        swal('Could not register.');
+                    }, function(failedRequest) {
+                        swal('Error', 'Something went wrong...', 'error');
                     });
             }, function(dismiss) {
                 swal('You must either register or login to subscribe to BARF Bento');

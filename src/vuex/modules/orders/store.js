@@ -1,5 +1,6 @@
 import actions from './actions';
 import mutations from './mutations';
+import * as getters from './getters';
 
 const state = {
     collection: [],
@@ -11,7 +12,8 @@ const state = {
         shippedModal: false,
         deliveredModal: false,
         cancellationModal: false,
-    }
+    },
+    mode: null,
 };
 
 const ordersModule = {
@@ -19,6 +21,7 @@ const ordersModule = {
     state,
     mutations,
     actions,
+    getters,
 };
 
 export default ordersModule;

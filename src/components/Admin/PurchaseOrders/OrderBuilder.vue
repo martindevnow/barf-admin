@@ -173,7 +173,6 @@
                 });
             },
             addMeatToOrder(meat_id, meat_weight_g, num_weeks = 1) {
-                console.log({meat_id, meat_weight_g, num_weeks});
                 this.meatsToOrder = this.meatsToOrder.map(meat => {
                     if (meat.id === meat_id) {
                         meat.weightToOrder = (meat.weightToOrder ? meat.weightToOrder : 0)
@@ -197,15 +196,9 @@
                 let vm = this;
                 let orderingPlans = this.plansToOrder.filter(plan => plan.weeksToOrder);
                 orderingPlans.forEach(plan => {
-                    // console.log('### PLan for: ' + plan.pet.name);
-                    // console.log(' Weight: ' + plan.pet_weight);
-                    // console.log(' Activity: ' + plan.pet_activity_level + '%');
                     plan.meals.forEach(meal => {
-                        // console.log ("## Meal: " + meal.label);
                         meal.meats.forEach(meat => {
-                            // console.log('# Meat: '+ meat.type + ' ' + meat.variety);
                             let meal_weight = vm.getMealSize(plan.pet_weight, plan.pet_activity_level);
-                            // console.log(' Meal weight: ' + meal_weight + ' lb');
                             if (plan.pet.daily_meals == 3) {
                                 if (vm.isBreakfast(meal)) {
                                     meal_weight = meal_weight * 2 / 3 * 2; //
@@ -214,7 +207,6 @@
                                 }
                             }
                             let meat_weight = meal_weight / meal.meats.length;
-                            // console.log( meat_weight + ' of meat added ...');
                             vm.addMeatToOrder(meat.id, meat_weight, plan.weeksToOrder);
                         });
                     });

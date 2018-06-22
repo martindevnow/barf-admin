@@ -20,6 +20,14 @@ export default {
         });
     },
 
+    [actions.SELECT]({ commit }, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT]({ commit }) {
+        commit(mutations.DESELECT);
+    },
+
     [actions.CREATE] ({commit}) {
         commit(mutations.DESELECT);
         commit(mutations.CREATE_MODE);

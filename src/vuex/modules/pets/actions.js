@@ -20,6 +20,14 @@ export default {
         });
     },
 
+    [actions.SELECT]({ commit }, model) {
+        commit(mutations.SELECT, model);
+    },
+
+    [actions.DESELECT]({ commit }) {
+        commit(mutations.DESELECT);
+    },
+
     [actions.CREATE] ({commit}) {
         commit(mutations.DESELECT);
         commit(mutations.CREATE_MODE);
@@ -33,7 +41,6 @@ export default {
                 commit(mutations.ADD_TO_COLLECTION, response.data);
                 resolve(response);
             }).catch(error => {
-                console.log(error);
                 reject(error);
             });
         });
@@ -52,7 +59,6 @@ export default {
                 commit(mutations.UPDATE_IN_COLLECTION, response.data);
                 resolve(response);
             }).catch(error => {
-                console.log(error);
                 reject(error);
             });
         });
