@@ -1,5 +1,6 @@
 <template>
     <div>
+      <page-loading v-if="loading"></page-loading>
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
@@ -29,7 +30,9 @@
             <tr>
                 <th v-for="key in columns"
                     @click="sortBy(key)"
-                    :class="{ active: sortable.sortKey == key }">
+                    :class="{ active: sortable.sortKey == key }"
+                    :key="key"
+                >
                     {{ key | capitalize }}
                     <span class="fa" :class="sortOrders[key] > 0 ? 'fa-sort-asc' : 'fa-sort-desc'">
                   </span>
@@ -134,6 +137,7 @@ export default {
         });
 
         return {
+          loading: false,
             columns: columns,
             numColumns: numColumns,
             sortOrders: sortOrders,
@@ -145,7 +149,10 @@ export default {
     },
     methods: {
         fetchAll() {
-            this.$store.dispatch('orders/' + orderActions.FETCH_ALL);
+          const vm = this;
+          this.loading = true;
+            this.$store.dispatch('orders/' + orderActions.FETCH_ALL)
+            .then((orders) => vm.loading = false);
         },
         openPaymentModal(order) {
             this.$store.dispatch('orders/' + orderActions.SELECT, order)
@@ -153,11 +160,11 @@ export default {
         },
         openPackedModal(order) {
             this.$store.dispatch('orders/' + orderActions.SELECT, order)
-            this.$router.push({name: 'OrderPackedLogger', params: {id: order.id}});        
+            this.$router.push({name: 'OrderPackedLogger', params: {id: order.id}});
         },
         openShippedModal(order) {
             this.$store.dispatch('orders/' + orderActions.SELECT, order)
-            this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});   
+            this.$router.push({name: 'OrderShippedLogger', params: {id: order.id}});
         },
         openCancellationModal(order) {
             this.$store.dispatch('orders/' + orderActions.SELECT, order)

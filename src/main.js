@@ -6,6 +6,8 @@ import VueLocalStorage from 'vue-localstorage';
 import Vuetify from 'vuetify';
 
 import ErrorComponent from './components/Errors/ErrorComponent';
+import PageLoading from './components/Shared/PageLoading';
+
 Vue.config.productionTip = false;
 
 /**
@@ -38,6 +40,7 @@ Vue.use(Vuetify, {
 });
 
 Vue.component('error', ErrorComponent);
+Vue.component('page-loading', PageLoading);
 
 
 

@@ -34,7 +34,7 @@
                             ${{ cost.toFixed(2) }} / week
                         </button>
                     </div>
-                    <div class="col-sm-3" v-for="sub_package in sub_packages">
+                    <div class="col-sm-3" v-for="(sub_package, index) in sub_packages" :key="index">
                         <button class="btn btn-raised btn-block btn-label"
                                 :class="[isSelected(sub_package) ? selectedClass : defaultClass]"
                                 @click.prevent="form.cart.sub_package_id = sub_package.id">

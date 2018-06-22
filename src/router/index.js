@@ -65,12 +65,6 @@ export default new Router({
 
         { ...meatRoutes },
 
-        // {
-        //     path: '/orders',
-        //     name: 'Orders',
-        //     component: OrdersDashboard
-        // },
-
         { ...orderRoutes },
 
         { ...packageRoutes },

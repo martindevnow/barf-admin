@@ -1,5 +1,6 @@
 <template>
     <div>
+      <page-loading v-if="loading"></page-loading>
         <h1>BARFBento Admin Area</h1>
         <hr>
         <p v-if="auth.user.name">Welcome back, {{ auth.user.name }}</p>
@@ -17,6 +18,7 @@
     export default {
         data() {
             return {
+              loading: false,
             };
         },
         computed: {
